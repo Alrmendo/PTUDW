@@ -130,3 +130,71 @@
 .header_menu-item:last-child {
     border-bottom: none;
 }
+
+.header_bottom {
+    display: none;
+}
+
+@media screen and (max-width: 672px) {
+    .header {
+        height: 60px;
+    }
+
+    .header_container {
+        padding: 0px;
+    }
+
+    .header_control {
+        display: none;
+    }
+
+    .header_link {
+        flex: 1;
+    }
+
+    .header_padding {
+        display: block;
+        width: 60px;
+        height: 100%;
+        visibility: hidden;
+    }
+
+    .header_bottom {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 68px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        z-index: 1000;
+    }
+
+    .header_bottom .header_control-button-container {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .header_bottom .header_control-button {
+        font-size: 28px;
+        transition: color 0.2s ease;
+    }
+
+    .header_control-link-selected i {
+        color: black;
+    }
+}
+
+.header__control--button-active {
+    color: black;
+}
+
+.header__control--link-selected i {
+    color: black;
+}
