@@ -304,20 +304,20 @@
         height: 60px;
     }
 
-    .header__container {
+    .header_container {
         padding: 0 10px;
     }
 
-    .header__control {
+    .header_control {
         display: none;
     }
 
-    .header__link {
+    .header_link {
         flex: 1;
     }
 
     /* Bottom Header Bar for Small Screens */
-    .header__bottom {
+    .header_bottom {
         position: fixed;
         bottom: 0px;
         left: 0px;
@@ -330,7 +330,7 @@
         z-index: 1000;
     }
 
-    .header__bottom .header__control--button-container {
+    .header_bottom .header_control-button-container {
         padding: 0;
         margin: 0;
         display: flex;
