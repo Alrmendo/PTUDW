@@ -185,16 +185,20 @@
         font-size: 28px;
         transition: color 0.2s ease;
     }
+    
+    .header_control-button-active {
+        color: black;
+    }
 
     .header_control-link-selected i {
         color: black;
     }
 }
 
-.header__control--button-active {
+.header_control-button-active {
     color: black;
 }
 
-.header__control--link-selected i {
+.header_control-link-selected i {
     color: black;
 }
