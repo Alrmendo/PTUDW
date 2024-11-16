@@ -90,17 +90,17 @@
 
         <div class="header__bottom">
             <div class="header__control--button-container">
-                <a href="#" class="header__control--link" data-active-icon="bx-home-alt-2" data-default-icon="bx-home-alt-2">
+                <a href="home.html" class="header__control--link" data-active-icon="bx-home-alt-2" data-default-icon="bx-home-alt-2">
                     <i class="bx bx-home-alt-2 header__control--button"></i>
                 </a>
             </div>
             <div class="header__control--button-container">
-                <a href="#" class="header__control--link" data-active-icon="bxs-search" data-default-icon="bx-search">
+                <a href="search.html" class="header__control--link" data-active-icon="bxs-search" data-default-icon="bx-search">
                     <i class="bx bx-search header__control--button"></i>
                 </a>
             </div>
             <div class="header__control--button-container">
-                <a href="#" class="header__control--link" data-active-icon="bxs-edit-alt"
+                <a href="post.html" class="header__control--link" data-active-icon="bxs-edit-alt"
                     data-default-icon="bx-edit-alt">
                     <i class="bx bx-edit-alt header__control--button"></i>
                 </a>
@@ -120,30 +120,6 @@
     </header>
 
 
-    <!-- <div class="modal-overlay" id="modalOverlay" style="display: none;"> 
-        <div class="modal-content">
-            <div class="modal-avatar">
-                <i class="bi bi-person-circle"></i>
-            </div>
-            <div class="name">123</div>
-            <input type="text" id="text-post" placeholder="Start a Threads..." onclick="openModal()">
-            <div class="files">
-                <div class="image"></div>
-                <div class="tags"></div>
-                <div class="votes"></div>
-            </div>
-            <div class="add_threads">
-                <div class="modal-avatar">
-                    <i class="bi bi-person-circle"></i>
-                </div>
-                <input type="text" placeholder="Add a threads" class="add_threads">
-            </div>
-            <div class="post_bar_small">
-                <p>Your followers can reply</p>
-                <button class="post-button" onclick="postContent">Post</button>
-            </div>
-        </div>
-    </div>-->
     <div class="modal-overlay" id="modalOverlay" style="display: none;  border-radius: 18px;">
         <div class="modal-content">
             <div class="main-part">
@@ -216,7 +192,7 @@
         });
 
         // Mặc định cho icon User có màu đen khi tải trang
-        const userLink = document.querySelector('.header__control--link[href="profile.html"]');
+        const userLink = document.querySelector('.header__control--link[href="home.html"]');
         if (userLink) {
             const userIcon = userLink.querySelector('i');
             userLink.classList.add('header__control--link-selected');
