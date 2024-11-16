@@ -242,8 +242,10 @@
 
         iconLinks.forEach(link => {
             link.addEventListener('click', (event) => {
-                event.preventDefault();
+                // Lấy URL của link hiện tại
+                const targetURL = link.getAttribute('href');
 
+                // Thay đổi trạng thái các icon
                 iconLinks.forEach(l => {
                     const icon = l.querySelector('i');
                     icon.className = `bx ${l.dataset.defaultIcon} header_control-button`;
@@ -253,6 +255,11 @@
                 const icon = link.querySelector('i');
                 icon.className = `bx ${link.dataset.activeIcon} header_control-button`;
                 link.classList.add('header_control-link-selected');
+
+                // Điều hướng đến trang được chỉ định
+                if (targetURL && targetURL !== '#') {
+                    window.location.href = targetURL;
+                }
             });
         });
 
