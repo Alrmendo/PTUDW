@@ -53,7 +53,7 @@
                     </a>
                 </div>
                 <div class="header_control-button-container">
-                    <a href="#" class="header_control--link" data-active-icon="bxs-user" data-default-icon="bx-user">
+                    <a href="#" class="header_control-link" data-active-icon="bxs-user" data-default-icon="bx-user">
                         <i class="bx bx-user header_control-button"></i>
                     </a>
                 </div>
@@ -83,8 +83,7 @@
                 </a>
             </div>
             <div class="header_control-button-container">
-                <a href="#" class="header_control-link" data-active-icon="bxs-edit-alt"
-                    data-default-icon="bx-edit-alt">
+                <a href="#" class="header_control-link" data-active-icon="bxs-edit-alt" data-default-icon="bx-edit-alt">
                     <i class="bx bx-edit-alt header_control-button"></i>
                 </a>
             </div>
@@ -100,6 +99,23 @@
             </div>
         </div>
     </header>
+    <script>
+        const iconLinks = document.querySelectorAll('.header_control-link');
+
+        iconLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                iconLinks.forEach(l => {
+                    const icon = l.querySelector('i');
+                    icon.className = `bx ${l.dataset.defaultIcon} header_control-button`;
+                    l.classList.remove('header_control-link-selected');
+                });
+
+                const icon = link.querySelector('i');
+                icon.className = `bx ${link.dataset.activeIcon} header_control-button`;
+                link.classList.add('header_control-link-selected');
+            });
+        });
+    </script>
 </body>
 
 </html>
