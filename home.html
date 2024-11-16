@@ -248,8 +248,20 @@
         
         function openModal() {
             const modal = document.getElementById('modalOverlay');
-            modal.style.display = 'flex'; // Show the modal
+            modal.style.display = 'flex';
         }
+
+        // Close modal when clicking outside
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Prevent modal from closing when clicking inside modal-content
+        document.querySelector('.modal-content').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
 
         document.getElementById('text-post-popup').addEventListener('input', function() {
             const addThreadInput = document.querySelector('.add-thread-input');
