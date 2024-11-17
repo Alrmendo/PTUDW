@@ -279,3 +279,94 @@
 .main_status-button-follow:hover {
     transform: scale(1.05);
 }
+
+.main_status-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.main_status-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    gap: 8px;
+}
+
+.main_status-username {
+    font-size: 15px;
+    font-weight: bold;
+    flex: 1;
+    cursor: pointer;
+}
+
+.main_status-time {
+    color: #999;
+    cursor: pointer;
+}
+
+.main_status-text {
+    margin-bottom: 10px;
+}
+
+.main_status-image-contain {
+    width: 100%;
+}
+
+.main_status-image {
+    max-height: 430px;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.main_status-2-image-contain {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main_status-2-image {
+    height: 352px;
+    width: 252px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.main__status--action,
+.main__status--statistic {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 4px;
+    padding-left: 2px;
+    cursor: pointer;
+}
+
+.main_status-action-icon {
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.main_status-statistic {
+    margin-top: 4px;
+}
+
+.main_status-statistic span {
+    color: #999;
+    font-size: 15px;
+}
+
+.main_status-heart {
+    font-size: 20px;
+}
+
+.main_status-heart-count {
+    font-size: 15px;
+    color: black;
+}
