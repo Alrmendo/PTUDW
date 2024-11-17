@@ -229,7 +229,8 @@
     border: none;
     outline: none;
     background: transparent;
-    color: #999;
+    /* color: #999; */
+    color: black;
     flex: 1;
     cursor: text;
     font-size: 15px;
@@ -455,3 +456,193 @@
 }
 
 @media screen and (min-width: 673px) and (max-width: 990px) {}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-content {
+    position: relative;
+    background: white !important;
+    width: 620px !important;
+    max-width: 620px;
+    max-height: 80vh;
+    border-radius: 18px !important;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.main-part {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: calc(80vh - 140px);
+    padding-right: 10px;
+}
+
+.main-part::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-part::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.main-part::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.main-part::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.part {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+}
+
+#text-post-popup {
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+/* Đường thẳng dọc dưới modal-avatar */
+.modal-avatar {
+    position: relative;
+    padding-top: 1rem;
+    /* Để đường thẳng dọc được đặt tương đối với avatar */
+}
+
+.modal-avatar::after {
+    content: "";
+    position: absolute;
+    top: 115%;
+    /* Đặt đường thẳng ở phần trên của modal-avatar */
+    left: 50%;
+    /* Đặt giữa chiều ngang của modal-avatar */
+    height: 60px;
+    /* Chiều cao của đường thẳng dọc theo chiều cao của modal-avatar */
+    width: 2px;
+    /* Độ dày của đường thẳng */
+    background-color: #ddd;
+    /* Màu của đường thẳng */
+    transform: translateX(-50%);
+    /* Đưa đường thẳng dọc vào trung tâm của modal-avatar */
+}
+
+.modal-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.small-modal-avatar i {
+    font-size: 24px;
+    color: rgba(160, 174, 192, 1);
+    display: flex;
+    justify-content: center;
+    /* Căn giữa */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+textarea {
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.modal-body textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body textarea::placeholder {
+    color: rgba(153, 153, 153, 1);
+}
+
+.attachments {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.attachments div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+}
+
+.attachments div i {
+    font-size: 18px;
+    color: #999;
+}
+
+.add-threads {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.thread-avatar i {
+    font-size: 36px;
+    color: rgba(160, 174, 192, 1);
+}
+
+.add-thread-input {
+    flex: 1;
+    border: none;
+    background-color: #ffffff;
+    padding: 8px 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    outline: none;
+    color: #333;
+}
+
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+}
+
+.reply-info {
+    font-size: 15px;
+    color: rgba(153, 153, 153, 1);
+}
