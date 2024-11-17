@@ -224,15 +224,32 @@ body {
     color: black;
 }
 
-/* Responsive */
+/* Responsive: Cho màn hình nhỏ (điện thoại) */
 @media screen and (max-width: 768px) {
-    .container {
-        height: 100%;
-    }
     body {
-        background-image: none;
+        padding: 10px;
     }
-    .qr_section {
-        display: none;
+
+    .container {
+        margin-top: 0;
+        height: auto;
+        width: 100%;
+    }
+
+    .container p {
+        font-size: 16px;
+        margin-top: 1rem;
+    }
+
+    .toggle-password {
+        right: 10px;
+    }
+
+    .footer {
+        font-size: 10px;
+    }
+
+    .footer-link {
+        margin: 0 3px;
     }
 }
