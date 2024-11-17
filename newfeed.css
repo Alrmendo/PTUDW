@@ -244,6 +244,19 @@
     border: none;
     outline: none;
     border-radius: 20px;
+    cursor: pointer;
+}
+
+.main_post-button:hover {
+    font-size: 15px;
+    padding: 7.5px 16px;
+    color: #fff;
+    font-weight: bold;
+    background: black;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .main_status {
