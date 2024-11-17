@@ -609,6 +609,7 @@ textarea {
 }
 
 .attachments div i {
+    padding-top: 3rem;
     font-size: 18px;
     color: #999;
 }
