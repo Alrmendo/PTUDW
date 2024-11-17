@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    background-image: url("assets/background.png");
+    background-position: top;
+    background-size: 117%;
+    background-repeat: no-repeat;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Logo styling */
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+/* Header styling */
+.header {
+    margin-top: 2rem;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(16, 16, 16);
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.input-row {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.input-field {
+    padding: 15px;
+    background-color: rgb(245, 245, 245);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    transition: border 0.3s;
+    width: 100%;
+}
+
+.input-field::placeholder {
+    color: #aaa;
+}
+
+/* Add gray border on focus */
+.input-field:focus {
+    border: 0.01rem solid gray;
+    outline: none;
+}
+
+/* Full-width input */
+.full {
+    width: 100%;
+}
+
+/* Half-width input */
+.half {
+    width: calc(50% - 5px);
+    margin-right: 10px;
+}
+
+/* Sign Up button styling */
+.signup-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: rgb(16, 16, 16);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.signup-btn:hover {
+    background-color: rgb(32, 32, 32);
+}
+
+/* OR divider styling */
+.or {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: rgba(0, 0, 0, 0.48);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.or::before,
+.or::after {
+    content: "";
+    display: inline-block;
+    width: 40%;
+    height: 0.01rem;
+    background-color: rgb(58, 58, 58);
+}
+
+/* Log In button styling */
+.login-toggle-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: white;
+    color: rgb(16, 16, 16);
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid rgb(16, 16, 16);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
