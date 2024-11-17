@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification and Header</title>
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css”rel=”nofollow”
+        integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,700;1,100;1,300;1,400&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header_container">
+                <div class="header_padding"></div>
+                <div class="header_link">
+                    <a class="header_link-logo" href="#">
+                        <img class="header_link-logo-img" src="Threads Black Icon Logo Vector.svg" alt="Thread Logo" />
+                    </a>
+                </div>
+                <div class="header_control">
+                    <div class="header_control-button-container">
+                        <a href="index.html" class="header_control-link" data-active-icon="bxs-home-alt-2"
+                            data-default-icon="bx-home-alt-2">
+                            <i class="bx bx-home-alt-2 header_control-button"></i>
+                        </a>
+                    </div>
+                    <div class="header_control-button-container">
+                        <a href="search.html" class="header_control-link" data-active-icon="bxs-search"
+                            data-default-icon="bx-search">
+                            <i class="bx bx-search header_control-button"></i>
+                        </a>
+                    </div>
+                    <div class="header_control-button-container">
+                        <a href="post.html" class="header_control-link" data-active-icon="bxs-edit-alt"
+                            data-default-icon="bx-edit-alt">
+                            <i class="bx bx-edit-alt header_control-button"></i>
+                        </a>
+                    </div>
+                    <div class="header_control-button-container">
+                        <a href="notification.html" class="header_control-link" data-active-icon="bxs-heart"
+                            data-default-icon="bx-heart">
+                            <i class="bx bx-heart header_control-button"></i>
+                        </a>
+                    </div>
+                    <div class="header_control-button-container">
+                        <a href="profile.html" class="header_control-link" data-active-icon="bxs-user"
+                            data-default-icon="bx-user">
+                            <i class="bx bx-user header_control-button"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="header_menu">
+                    <input hidden id="header_menu-toggle" type="checkbox" />
+                    <label class="header_menu-label" for="header_menu-toggle">
+                        <i class="bx bx-menu-alt-right header_menu-button"></i>
+                    </label>
+                    <div class="header_menu-list">
+                        <div class="header_menu-item">Log out</div>
+                        <div class="header_menu-item">Settings</div>
+                        <div class="header_menu-item">Support</div>
+                    </div>
+                </div>
+            </div>
+            <div class="header_bottom">
+                <div class="header_control-button-container">
+                    <a href="index.html" class="header_control-link" data-active-icon="bx-home-alt-2"
+                        data-default-icon="bx-home-alt-2">
+                        <i class="bx bx-home-alt-2 header_control-button"></i>
+                    </a>
+                </div>
+                <div class="header_control-button-container">
+                    <a href="search.html" class="header_control-link" data-active-icon="bxs-search"
+                        data-default-icon="bx-search">
+                        <i class="bx bx-search header_control-button"></i>
+                    </a>
+                </div>
+                <div class="header_control-button-container">
+                    <a href="post.html" class="header_control-link" data-active-icon="bxs-edit-alt"
+                        data-default-icon="bx-edit-alt">
+                        <i class="bx bx-edit-alt header_control-button"></i>
+                    </a>
+                </div>
+                <div class="header_control-button-container">
+                    <a href="notification.html" class="header_control-link" data-active-icon="bxs-heart"
+                        data-default-icon="bx-heart">
+                        <i class="bx bx-heart header_control-button"></i>
+                    </a>
+                </div>
+                <div class="header_control-button-container">
+                    <a href="profile.html" class="header_control-link" data-active-icon="bxs-user"
+                        data-default-icon="bx-user">
+                        <i class="bx bx-user header_control-button"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Notification Section -->
+        <div class="notification">
+            <div class="notification_control-container">
+                <div class="notification_control">
+                    <button class="notification_control-button notification_control-button-active" data-tab="tat-ca">
+                        All
+                    </button>
+                </div>
+                <div class="notification_control">
+                    <button class="notification_control-button" data-tab="yeu-cau">Requests</button>
+                </div>
+                <div class="notification_control">
+                    <button class="notification_control-button" data-tab="thread-tra-loi">Replies</button>
+                </div>
+                <div class="notification_control">
+                    <button class="notification_control-button" data-tab="luot-nhac">Mentions</button>
+                </div>
+                <div class="notification_control">
+                    <button class="notification_control-button" data-tab="trich-dan">Quotes</button>
+                </div>
+                <div class="notification_control">
+                    <button class="notification_control-button" data-tab="xac-minh">Verified</button>
+                </div>
+            </div>
+
+            <!-- Notification List for each tab -->
+            <div class="notification_list" data-tab-content="tat-ca">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava1.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">rmuhm_</span>
+                            <span class="notification_item-time"> 1 week </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">rmuhm_ has joined thread</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification_list" data-tab-content="yeu-cau" style="display: none;">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava2.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">lamnhu.10th</span>
+                            <span class="notification_item-time"> 2 days </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">Have requested you to join a group</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification_list" data-tab-content="thread-tra-loi" style="display: none;">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava3.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">dhty123</span>
+                            <span class="notification_item-time"> 3 hours </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">Has answered your Threads</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification_list" data-tab-content="luot-nhac" style="display: none;">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava4.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">ntm_ngy</span>
+                            <span class="notification_item-time"> 5 minutes </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">Has mentioned you in a post</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification_list" data-tab-content="trich-dan" style="display: none;">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava5.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">dhy_audrey</span>
+                            <span class="notification_item-time"> 5 minutes </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">Has quotes your post</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification_list" data-tab-content="xac-minh" style="display: none;">
+                <div class="notification_item">
+                    <div class="notification_item-avatar">
+                        <img class="notification_item-img" src="/image/ava6.png" alt="" />
+                    </div>
+                    <div class="notification_item-infor">
+                        <div class="notification_item-title">
+                            <span class="notification_item-username">trietngy_</span>
+                            <span class="notification_item-time"> 10 minutes </span>
+                        </div>
+                        <div class="notification_item-content">
+                            <span class="notification_item-detail">You have been verified to a group</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const iconLinks = document.querySelectorAll('.header_control-link');
+
+        iconLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                // Lấy URL của link hiện tại
+                const targetURL = link.getAttribute('href');
+
+                // Thay đổi trạng thái các icon
+                iconLinks.forEach(l => {
+                    const icon = l.querySelector('i');
+                    icon.className = `bx ${l.dataset.defaultIcon} header_control-button`;
+                    l.classList.remove('header_control-link-selected');
+                });
+
+                const icon = link.querySelector('i');
+                icon.className = `bx ${link.dataset.activeIcon} header_control-button`;
+                link.classList.add('header_control-link-selected');
+
+                // Điều hướng đến trang được chỉ định
+                if (targetURL && targetURL !== '#') {
+                    window.location.href = targetURL;
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttons = document.querySelectorAll(".notification_control-button");
+            const contentBlocks = document.querySelectorAll(".notification_list");
+
+            buttons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    // Xóa lớp 'active' khỏi tất cả các nút và thêm vào nút đã nhấn
+                    buttons.forEach((btn) => btn.classList.remove("notification_control-button-active"));
+                    button.classList.add("notification_control-button-active");
+
+                    // Ẩn tất cả các nội dung và hiển thị nội dung được chọn
+                    const targetTab = button.getAttribute("data-tab");
+                    contentBlocks.forEach((content) => {
+                        content.style.display = content.getAttribute("data-tab-content") === targetTab ? "block" : "none";
+                    });
+                });
+            });
+        });
+
+        const userLink = document.querySelector('.header_control-link[href="notification.html"]');
+        if (userLink) {
+            const userIcon = userLink.querySelector('i');
+            userLink.classList.add('header_control-link-selected');
+            userIcon.className = `bx ${userLink.dataset.activeIcon} header_control-button`;
+            userIcon.style.color = 'black';
+        }
+    </script>
+</body>
+
+</html>
