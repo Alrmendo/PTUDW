@@ -265,7 +265,7 @@
 }
 
 /* Định dạng modal overlay và nội dung */
-.modal-overlay {
+.modal-overlay_1 {
   display: none;
   position: relative;
   top: 0;
@@ -279,7 +279,7 @@
   z-index: 1001;
 }
 
-.modal-content {
+.modal-content_1 {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
@@ -302,12 +302,12 @@
 }
 
 /* Định dạng phần nhãn và input */
-.profile-section {
+.profile-section_1 {
   margin-bottom: 20px;
   font-size: 15px;
 }
 
-.profile-label {
+.profile-label_1 {
   font-weight: 630;
   display: block;
   margin-bottom: 5px;
@@ -381,7 +381,7 @@
   justify-content: space-between; /* Căn đều giữa nhãn và công tắc */
 }
 
-.profile-label {
+.profile-label_1 {
   flex: 1; /* Đảm bảo nhãn chiếm hết khoảng trống bên trái */
 }
 
@@ -414,7 +414,7 @@ input:checked+.slider:before {
 }
 
 /* Khối ảnh đại diện */
-.modal-avatar {
+.modal-avatar_1 {
   position: absolute;
   top: 27px;
   right: 27px;
@@ -425,7 +425,7 @@ input:checked+.slider:before {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-.modal-avatar-image {
+.modal-avatar_1-image-1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
