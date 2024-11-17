@@ -85,7 +85,7 @@
     color: black;
 }
 
-.header__menu--label {
+.header_menu-label {
     cursor: pointer;
 }
 
@@ -336,8 +336,8 @@
     object-fit: cover;
 }
 
-.main__status--action,
-.main__status--statistic {
+.main_status-action,
+.main_status-statistic {
     display: flex;
     align-items: center;
     gap: 10px;
