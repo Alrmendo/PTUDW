@@ -253,3 +253,29 @@
     padding: 20px 0;
     border-bottom: 1px solid #ccc;
 }
+
+.main_status-ava-contain {
+    position: relative;
+    padding-top: 4px;
+}
+
+.main_status-button-follow {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    line-height: 13px;
+    color: white;
+    background: black;
+    border-radius: 50%;
+    border: 2px solid white;
+    top: 25px;
+    left: 23px;
+    cursor: pointer;
+    transition: all 0.1 ease;
+}
+
+.main_status-button-follow:hover {
+    transform: scale(1.05);
+}
