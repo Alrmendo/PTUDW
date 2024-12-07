@@ -64,11 +64,11 @@ svg.nonactive {
     transition: color 0.2s ease;
 }
 
-.nav-item.active {
+.nav-item.switch {
     color: black; 
 }
 
-.nav-item:not(.active) {
+.nav-item:not(.switch) {
     color: #BEC3C9; 
 }
 
