@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image" href="thread.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div class="w-screen h-screen relative overflow-x-hidden">
+        <nav id="nav-bar"
+            class="h-[76px] w-full p-0 bottom-0 fixed flex justify-between items-center sm:w-[76px] sm:h-full sm:flex-col bg-[rgb(250,250,250)]">
+            <ul class="w-full flex flex-row justify-around items-center sm:justify-center sm:flex-col p-0 m-0 gap-0">
+                <li class="flex items-center justify-center">
+                    <a href="#" onclick="window.location.reload()"
+                        class="hidden sm:flex sm:transition-transform sm:duration-300 sm:hover:scale-110 sm:ease-in-out sm:py-3 sm:px-3 sm:mt-3 p-0 m-0 w-full">
+                        <svg class="mt-[-7px]" height="34" viewBox="0 0 192 192" width="34">
+                            <path
+                                d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.834 117.143 138.28 106.366C144.217 109.949 148.617 114.664 151.047 120.332C155.179 129.967 155.42 145.8 142.501 158.708C131.182 170.016 117.576 174.908 97.0135 175.059C74.2042 174.89 56.9538 167.575 45.7381 153.317C35.2355 139.966 29.8077 120.682 29.6052 96C29.8077 71.3178 35.2355 52.0336 45.7381 38.6827C56.9538 24.4249 74.2039 17.11 97.0132 16.9405C119.988 17.1113 137.539 24.4614 149.184 38.788C154.894 45.8136 159.199 54.6488 162.037 64.9503L178.184 60.6422C174.744 47.9622 169.331 37.0357 161.965 27.974C147.036 9.60668 125.202 0.195148 97.0695 0H96.9569C68.8816 0.19447 47.2921 9.6418 32.7883 28.0793C19.8819 44.4864 13.2244 67.3157 13.0007 95.9325L13 96L13.0007 96.0675C13.2244 124.684 19.8819 147.514 32.7883 163.921C47.2921 182.358 68.8816 191.806 96.9569 192H97.0695C122.03 191.827 139.624 185.292 154.118 170.811C173.081 151.866 172.51 128.119 166.26 113.541C161.776 103.087 153.227 94.5962 141.537 88.9883ZM98.4405 129.507C88.0005 130.095 77.1544 125.409 76.6196 115.372C76.2232 107.93 81.9158 99.626 99.0812 98.6368C101.047 98.5234 102.976 98.468 104.871 98.468C111.106 98.468 116.939 99.0737 122.242 100.233C120.264 124.935 108.662 128.946 98.4405 129.507Z"
+                                fill="black" stroke-width="2.5">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+
+                <div
+                    class="w-full p-0 flex items-center justify-between sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 sm:absolute sm:top-[45%] sm:left-1/2 sm:flex-col sm:justify-center">
+
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="feed"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-3 sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="25" height="25">
+                                <path
+                                    d="M2.25 12.8855V20.7497C2.25 21.8543 3.14543 22.7497 4.25 22.7497H8.25C8.52614 22.7497 8.75 22.5259 8.75 22.2497V17.6822V17.4997C8.75 15.1525 10.6528 13.2497 13 13.2497C15.3472 13.2497 17.25 15.1525 17.25 17.4997V17.6822V22.2497C17.25 22.5259 17.4739 22.7497 17.75 22.7497H21.75C22.8546 22.7497 23.75 21.8543 23.75 20.7497V12.8855C23.75 11.3765 23.0685 9.94815 21.8954 8.99883L16.1454 4.3454C14.3112 2.86095 11.6888 2.86095 9.85455 4.3454L4.10455 8.99883C2.93153 9.94815 2.25 11.3765 2.25 12.8855Z"
+                                    stroke-linecap="round" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="search"
+                            class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="24" height="24">
+                                <path clipRule="evenodd"
+                                    d="M3.5 11.5C3.5 7.08172 7.08172 3.5 11.5 3.5C15.9183 3.5 19.5 7.08172 19.5 11.5C19.5 15.9183 15.9183 19.5 11.5 19.5C7.08172 19.5 3.5 15.9183 3.5 11.5ZM11.5 1C5.70101 1 1 5.70101 1 11.5C1 17.299 5.70101 22 11.5 22C13.949 22 16.2023 21.1615 17.9883 19.756L22.3661 24.1339C22.8543 24.622 23.6457 24.622 24.1339 24.1339C24.622 23.6457 24.622 22.8543 24.1339 22.3661L19.756 17.9883C21.1615 16.2023 22 13.949 22 11.5C22 5.70101 17.299 1 11.5 1Z"
+                                    fill-rule="evenodd" fill="currentColor" stroke="currentColor" stroke-width="0.05">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="newpost"
+                            class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="24" height="24">
+                                <path
+                                    d="M22.75 13L22.75 13.15C22.75 16.5103 22.75 18.1905 22.096 19.4739C21.5208 20.6029 20.6029 21.5208 19.4739 22.096C18.1905 22.75 16.5103 22.75 13.15 22.75L12.85 22.75C9.48969 22.75 7.80953 22.75 6.52606 22.096C5.39708 21.5208 4.4792 20.6029 3.90396 19.4739C3.25 18.1905 3.25 16.5103 3.25 13.15L3.25 12.85C3.25 9.48968 3.25 7.80953 3.90396 6.52606C4.4792 5.39708 5.39708 4.4792 6.52606 3.90396C7.80953 3.25 9.48968 3.25 12.85 3.25L13 3.25"
+                                    stroke="currentColor" stroke-linecap="round" stroke-width="2.6" fill="none"></path>
+                                <path d="M21.75 4.25L13.75 12.25" stroke="currentColor" stroke-linecap="round"
+                                    stroke-width="2.6" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="notification"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 32 32" width="27" height="27">
+                                <path
+                                    d="M5.5 12.8568C5.5 17.224 9.22178 21.5299 15.0332 25.2032C15.3554 25.397 15.7401 25.5909 16 25.5909C16.2703 25.5909 16.655 25.397 16.9668 25.2032C22.7782 21.5299 26.5 17.224 26.5 12.8568C26.5 9.11212 23.8698 6.5 20.4599 6.5C18.4847 6.5 16.9356 7.39792 16 8.74479C15.0851 7.40812 13.5257 6.5 11.5401 6.5C8.14059 6.5 5.5 9.11212 5.5 12.8568Z"
+                                    stroke="currentColor" stroke-width="2.5" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="profile"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="26" height="26">
+                                <circle cx="13" cy="7.25" r="4" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </circle>
+                                <path
+                                    d="M6.26678 23.75H19.744C21.603 23.75 22.5 23.2186 22.5 22.0673C22.5 19.3712 18.8038 15.75 13 15.75C7.19625 15.75 3.5 19.3712 3.5 22.0673C3.5 23.2186 4.39704 23.75 6.26678 23.75Z"
+                                    stroke-linecap="round" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+
+            <ul class="flex items-center justify-center mt-auto mb-7">
+                <a href="#" id="setting"
+                    class="text-[#BEC3C9] sm:flex w-full mr-5 ml-5 sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 sm:mr-0 hover:bg-[rgba(0,0,0,0.04)] rounded-xl hidden">
+                    <svg viewBox="0 0 24 24" width="25" height="25">
+                        <rect rx="1.25" x="3" y="7" width="18" height="2" fill="currentColor" stroke="currentColor"
+                            stroke-width="0.5"></rect>
+                        <rect rx="1.25" x="3" y="15" width="12" height="2" fill="currentColor" stroke="currentColor"
+                            stroke-width="0.5"></rect>
+                    </svg>
+                </a>
+            </ul>
+        </nav>
+
+        <div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
+            <div
+                class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
+                <span onclick="toggleTextAndRotate(this)">Profile</span>
+
+                <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
+                    <span class="bg-black py-[6px] px-5 border rounded-xl">
+                        <a href="#" class="text-white no-underline font-normal text-[15px]">Log in</a>
+                    </span>
+                </div>
+            </div>
+
+            <div
+                class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
+                <div class="h-full overflow-y-scroll hide-scrollbar">
+                    <!-- PROFILE START -->
+                    <div class="profile">
+                        <div class="flex justify-between px-7 pt-6 pb-3">
+                            <div class="flex flex-col justify-center">
+                                <div class="name__username">
+                                    <h1 class="text-black text-xl font-bold leading-8 cursor-pointer">
+                                        nhmum
+                                    </h1>
+                                </div>
+                                <div class="name__nickname">
+                                    <span class="text-black font-normal leading-[20px]">nhmum__</span>
+                                </div>
+                            </div>
+                            <div class="profile-avatar">
+                                <img src="av1.jpg" alt="Avatar"
+                                    class="h-auto max-w-20 object-cover rounded-full outline outline-[0.5px] outline-[#CCD0D5] cursor-pointer" />
+                            </div>
+                        </div>
+                        <div class="px-7 pt-3">
+                            <span>profile note here</span>
+                        </div>
+
+                        <!-- FOLLOWER BANNER -->
+                        <div class="follower-banner flex px-6 pt-4 justify-between">
+                            <div class="number-follow cursor-pointer">
+                                <span
+                                    class="text-[14px] font-normal text-[#BEC3C9] leading-[20px] hover:border-b-[1.5px] hover:border-[#BEC3C9]"
+                                    onclick="displayFollowsPanel()">12 followers</span>
+
+                                <div
+                                    class="wrap-panel w-[90%] absolute z-10 top-[20%] bg-[rgb(250,250,250)] rounded-lg border border-[#CCD0D5] hidden sm:w-[80%] md:w-[80%] lg:w-[33.33%] sm:left-[15%] md:left-[10%] lg:top-[25%] lg:left-[32.5%]">
+                                    <div
+                                        class="column-line flex flex-row text-center border-b-[1.5px] border-[#BEC3C9] text-[#BEC3C9]">
+                                        <div class="list-follower flex-1 text-[#BEC3C9] activated cursor-pointer "
+                                            onclick="chooseFollower()">
+                                            <span class="text-lg font-semibold leading-8">Follower</span>
+                                            <br />
+                                            <span class="text-sm font-normal leading-4 font-sans">12</span>
+                                        </div>
+                                        <div class="list-following flex-1 text-[#BEC3C9] cursor-pointer"
+                                            onclick="chooseFollowing()">
+                                            <span class="text-lg font-semibold leading-8">Following</span>
+                                            <br />
+                                            <span class="text-sm font-normal leading-4 font-sans">10</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="list-of-follower relative max-h-[30vh] custom-scrollbar overflow-y-auto"
+                                        style="display: block;">
+                                        <ul>
+                                            <li>Follower 1</li>
+                                            <li>Follower 2</li>
+                                            <li>Follower 3</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="list-of-following relative max-h-[30vh] custom-scrollbar overflow-y-auto"
+                                        style="display: none;">
+                                        <ul>
+                                            <li>Follower 4</li>
+                                            <li>Follower 5</li>
+                                            <li>Follower 6</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center">
+                                <svg viewBox="0 0 24 24" class="svg-icon" width="24" height="24">
+                                    <rect fill="white" height="20" rx="5" stroke="black" stroke-width="2" width="20"
+                                        x="2" y="2"></rect>
+                                    <rect fill="black" height="12" rx="1" width="2" x="11" y="6"></rect>
+                                    <rect fill="black" height="9" rx="1" width="2" x="15" y="9"></rect>
+                                    <rect fill="black" height="5" rx="1" width="2" x="7" y="13"></rect>
+                                </svg>
+                                <svg viewBox="0 0 24 24" class="insta-icon ml-2.5" width="24" height="24">
+                                    <path fill="black"
+                                        d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- EDIT BUTTON -->
+                        <div class="edit-btn px-7 py-3 relative">
+                            <div
+                                class="edit-profile border border-[#BEC3C9] px-4 py-[2px] text-center rounded-xl cursor-pointer">
+                                <span class="font-normal leading-[2rem]">Edit Profile</span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="nav-profile-bar h-[48px] flex items-center justify-around text-[15px] font-normal border-b-[0.8px] border-[#BEC3C9] relative">
+                            <div class="nav-item threads active cursor-pointer text-black"
+                                onclick="switchTab('threads')">
+                                <span>Threads</span>
+                            </div>
+                            <div class="nav-item replies cursor-pointer text-[#BEC3C9]" onclick="switchTab('replies')">
+                                <span>Replies</span>
+                            </div>
+                            <div class="nav-item repost cursor-pointer text-[#BEC3C9]" onclick="switchTab('repost')">
+                                <span>Repost</span>
+                            </div>
+                            <!-- Thanh border di chuyển -->
+                            <div
+                                class="nav-active-indicator absolute bottom-0 h-[0.8px] bg-black transition-all duration-300">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="h-[50px] sm:hidden"></div>
+                    <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5]">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                        <span class="mr-auto text-[#777777]">What's new?</span>
+                        <button
+                            class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg hover:bg-black hover:text-white hover:border-[#CCD0D5]">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const displayFollowsPanel = () => {
+            const followsPanel = document.querySelector(
+                ".profile .follower-banner .wrap-panel"
+            );
+            followsPanel.style.display = "block";
+
+            setTimeout(() => {
+                document.addEventListener("click", handleClickOutsideFollowsPanel);
+            }, 0);
+        };
+
+        function handleClickOutsideFollowsPanel(event) {
+            const numberFollower = document.querySelector(
+                ".profile .follower-banner .number-follow"
+            );
+            const followsPanel = document.querySelector(
+                ".profile .follower-banner .wrap-panel"
+            );
+
+            if (!numberFollower.contains(event.target)) {
+                followsPanel.style.display = "none";
+                document.removeEventListener("click", handleClickOutsideFollowsPanel);
+            }
+        }
+
+        const chooseFollower = () => {
+            const listFollowerBtn = document.querySelector(
+                ".column-line .list-follower"
+            );
+            const listFollowingBtn = document.querySelector(
+                ".column-line .list-following"
+            );
+            const followers = document.querySelector(".wrap-panel .list-of-follower");
+            const followings = document.querySelector(".wrap-panel .list-of-following");
+
+            followers.style.display = "block";
+            followings.style.display = "none";
+
+            listFollowerBtn.classList.add("activated");
+            listFollowingBtn.classList.remove("activated");
+        };
+
+        const chooseFollowing = () => {
+            const listFollowing = document.querySelector(
+                ".column-line .list-following"
+            );
+            const listFollower = document.querySelector(
+                ".column-line .list-follower"
+            );
+            const followers = document.querySelector(".wrap-panel .list-of-follower");
+            const followings = document.querySelector(".wrap-panel .list-of-following");
+
+            followers.style.display = "none";
+            followings.style.display = "block";
+
+            listFollower.classList.remove("activated");
+            listFollowing.classList.add("activated");
+        };
+
+        const switchTab = (tabName) => {
+            const tabs = document.querySelectorAll(".nav-item");
+            const indicator = document.querySelector(".nav-active-indicator");
+
+            tabs.forEach((tab, index) => {
+                if (tab.classList.contains(tabName)) {
+                    tab.classList.add("active");
+                    tab.style.color = "black";
+
+                    // Di chuyển thanh border dưới
+                    indicator.style.left = `${index * 33.33}%`;
+                } else {
+                    tab.classList.remove("active");
+                    tab.style.color = "#BEC3C9"; 
+                }
+            });
+        };
+
+
+    </script>
+
+</body>
+
+</html>
