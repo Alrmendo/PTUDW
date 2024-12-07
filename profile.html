@@ -221,7 +221,7 @@
 
                         <div
                             class="nav-profile-bar h-[48px] flex items-center justify-around text-[15px] font-normal border-b-[0.8px] border-[#BEC3C9] relative">
-                            <div class="nav-item threads active cursor-pointer text-black"
+                            <div class="nav-item threads switch cursor-pointer text-black"
                                 onclick="switchTab('threads')">
                                 <span>Threads</span>
                             </div>
@@ -317,19 +317,17 @@
 
             tabs.forEach((tab, index) => {
                 if (tab.classList.contains(tabName)) {
-                    tab.classList.add("active");
+                    tab.classList.add("switch");
                     tab.style.color = "black";
 
                     // Di chuyển thanh border dưới
                     indicator.style.left = `${index * 33.33}%`;
                 } else {
-                    tab.classList.remove("active");
+                    tab.classList.remove("switch");
                     tab.style.color = "#BEC3C9";
                 }
             });
         };
-
-
     </script>
 
 </body>
