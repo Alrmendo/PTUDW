@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    /* #EBEDF0; */
+    background-color: rgb(250,250,250);
+    color: black;
+    box-sizing: border-box;
+}
+
+.activated {
+    color: black;
+    border-bottom: 0.8px solid rgb(243, 245, 247);
+}
+
+.thread-content {
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.mainpage__selected svg {
+    color: white;
+    fill: white;
+}
+
+svg.active {
+    fill: red;
+    stroke: red;
+}
+
+svg.nonactive {
+    stroke: #cccccc;
+    fill: transparent;
+}
+
+.nav-profile-bar {
+    position: relative;
+}
+
+.nav-active-indicator {
+    width: 33.33%; 
+    left: 0; 
+}
+
+.nav-item {
+    flex: 1; 
+    text-align: center;
+    padding-bottom: 4px;
+    transition: color 0.2s ease;
+}
+
+.nav-item.active {
+    color: black; 
+}
+
+.nav-item:not(.active) {
+    color: #BEC3C9; 
+}
+
+@media (min-width: 640px) {
+    .login-background{
+        background-image: url("/Users/nguyentriet/Desktop/Workspace/KHTN/Third_Year/Web/Thread/Template/layout/background_thread.webp");
+        background-size: 140% auto;
+        background-repeat: no-repeat;
+        background-position: -480px -57px;
+    }
+}
