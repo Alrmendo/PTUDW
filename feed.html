@@ -152,9 +152,50 @@
                 </div>
             </div>
         </div>
+
+        <div id="settingsModal"
+            class="flex fixed inset-0 bg-opacity-50 bg-gray-500 items-end justify-start z-50 opacity-0 pointer-events-none transition-opacity">
+            <div class="bg-white w-72 rounded-3xl shadow-lg border-gray-300 mb-5 ml-4 p-3">
+                <ul class="divide-y divide-gray-200">
+                    <li
+                        class="py-5 px-6 rounded-lg hover:bg-gray-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Settings
+                    </li>
+                    <div class="flex border-b border-[#CCD0D5] my-2"></div>
+                    <li
+                        class="py-5 px-6 rounded-lg hover:bg-gray-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Report a problem
+                    </li>
+                    <li
+                        class="py-5 px-6 text-red-600 rounded-lg hover:bg-red-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Log out
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Get elements
+        const settingButton = document.getElementById("setting");
+        const settingsModal = document.getElementById("settingsModal");
+
+        // Toggle modal visibility
+        settingButton.addEventListener("click", () => {
+            const isHidden = settingsModal.classList.contains("opacity-0");
+            if (isHidden) {
+                settingsModal.classList.remove("opacity-0", "pointer-events-none");
+            } else {
+                settingsModal.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        // Close modal when clicking outside
+        settingsModal.addEventListener("click", (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
     </script>
 </body>
 
