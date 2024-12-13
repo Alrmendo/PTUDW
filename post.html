@@ -134,7 +134,7 @@
 
                 <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6">
                     <span class="bg-black py-[6px] px-5 border rounded-xl">
-                        <a href="#" class="text-white no-underline font-normal text-[15px]">Log in</a>
+                        <a href="login.html" class="text-white no-underline font-normal text-[15px]">Log in</a>
                     </span>
                 </div>
             </div>
@@ -154,61 +154,45 @@
         </div>
 
 
-        <!-- <div id="post-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-            <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6">
-                <h2 class="text-lg font-semibold mb-4">Create a New Post</h2>
-                <textarea class="w-full border rounded-lg p-2 mb-4" rows="4" placeholder="What's on your mind?"></textarea>
-                <div class="flex justify-end gap-2">
-                    <button onclick="toggleModal()" class="px-4 py-2 text-gray-500 bg-gray-200 rounded-lg">Cancel</button>
-                    <button class="px-4 py-2 text-white bg-blue-500 rounded-lg">Post</button>
+        <div id="post-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50">
+            <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[50vh] md:rounded-xl">
+                <!-- Header -->
+                <div class="flex justify-between items-center px-6 pt-4">
+                    <a href="#" onclick="toggleModal()">Cancel</a>
+                    <h1 class="font-bold text-lg">New Thread</h1>
+                    <div class="w-6"></div>
                 </div>
-            </div>
-        </div> -->
-
-        <div id="post-modal" class="hidden pl-6 h-screen bg-gray-100 fixed inset-0 flex flex-col justify-between">
-            <!-- main post  -->
-            <div class="flex justify-between pt-4">
-                <a href="#">Cancel</a>
-                <h1>New Thread</h1>
-                <div class="w-6"></div>
-            </div>
-            <div class="pt-8 flex-1 main-container ">
-                <div class="flex main-part">
+                <!-- Main Content -->
+                <div class="pt-8 flex flex-grow px-6">
                     <div class="pr-3">
                         <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
                     </div>
-                    <div>
-                        <p>rmuhm_</p>
-                        <textarea name="" id="text-post-popup" class="w-full resize-none border-none focus:outline-none" placeholder="Create a threads"></textarea>
-                        <div class="attachments ">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2px" height="2px" viewBox="0 0 48 48">
+                    <div class="flex-grow">
+                        <p class="font-semibold">rmuhm_</p>
+                        <textarea
+                            class="w-full rounded-xl pr-4 py-3 resize-none overflow-auto border-none focus:outline-none"
+                            id="text-post-popup" placeholder="Create a thread..." required rows="4" oninput="adjustHeight(this)"
+                        ></textarea>
+                        <div class="flex items-center pt-4">
+                            <!-- Image -->
+                            <label for="image-upload" class="cursor-pointer flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-black" viewBox="0 0 48 48">
                                     <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
                                 </svg>
-                            </div>
-                            <div class="attachment-item">
-                            </div>
-                            <div class="attachment-item">
-                                <i class="bi bi-bar-chart"></i>
-                            </div>
-    
+                            </label>
+                            <input id="image-upload" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)" />
                         </div>
                     </div>
                 </div>
-                
-                <div class="flex items-center pl-1 add-threads">
-                    <div class="pr-3">
-                        <img src="av1.jpg" alt="" class="w-[24px] h-[24px] rounded-full">
-                    </div>
-                    <input type="text" placeholder="Add to Threads..." class="add-thread-input" disabled>
+                <!-- Footer -->
+                <div class="flex justify-between items-center px-5 pb-5">
+                    <p class="reply-info text-[#BEC3C9]">Your followers can reply</p>
+                    <button onclick="toggleModal()" class="px-4 py-2 text-white bg-[#BEC3C9] rounded-full">Post</button>
                 </div>
             </div>
-            <!-- footer -->
-            <div class="flex justify-between items-center">
-                <p class="reply-info">Your followers can reply</p>
-                <button onclick="toggleModal()" class="px-4 py-2 text-white bg-blue-500 rounded-lg">Post</button>
-            </div>
         </div>
+        
+
     </div>
 
     <script>
@@ -224,54 +208,30 @@
             }
         }
 
-        document.getElementById('text-post-popup').addEventListener('input', function() {
-            const addThreadInput = document.querySelector('.add-thread-input');
-            addThreadInput.disabled = !this.value.trim();
-        });
-
-        document.querySelector('.add-thread-input').addEventListener('click', function() {
-            if (!this.disabled) {
-                const newPart = document.createElement('div');
-                newPart.className = 'flex main-part';
-                newPart.innerHTML = `
-                    <div class="pr-3">
-                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
-                    </div>
-                    <div>
-                        <p>rmuhm_</p>
-                        <textarea name="" id="text-post-popup" class="w-full resize-none border-none focus:outline-none" placeholder="Create a threads"></textarea>
-                        <div class="attachments ">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2px" height="2px" viewBox="0 0 48 48">
-                                    <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
-                                </svg>
-                            </div>
-                            <div class="attachment-item">
-                            </div>
-                            <div class="attachment-item">
-                                <i class="bi bi-bar-chart"></i>
-                            </div>
-    
-                        </div>
-                    </div>`;
-
-                const mainContainer = document.querySelector('.main-container');
-                const addThreads = document.querySelector('.add-threads');
-                mainContainer.insertBefore(newPart, addThreads);
-
-                // Disable the add-thread-input
-                this.disabled = true;
-
-                // Add event listener to the new textarea
-                const newTextarea = newPart.querySelector('.text-post-popup');
-                newTextarea.addEventListener('input', function() {
-                    const addThreadInput = document.querySelector('.add-thread-input');
-                    const allTextareas = document.querySelectorAll('.text-post-popup');
-                    const lastTextarea = allTextareas[allTextareas.length - 1];
-                    addThreadInput.disabled = !lastTextarea.value.trim();
-                });
+        document.getElementById('post-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleModal();
             }
         });
+
+        function adjustHeight(textarea) {
+            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+            if (isSmallScreen)
+            {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+                const maxHeight = window.innerHeight * 0.7;
+                if (textarea.scrollHeight >= maxHeight) {
+                    textarea.style.height = maxHeight + 'px'; 
+                    textarea.style.overflowY = 'auto'; 
+                } else {
+                    textarea.style.overflowY = 'hidden';
+                }
+            }
+            
+        }
+
+
     </script>
 </body>
 
