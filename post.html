@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image" href="thread.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div class="w-screen h-screen relative overflow-x-hidden">
+        <nav id="nav-bar"
+            class="h-[76px] w-full p-0 bottom-0 fixed flex justify-between items-center sm:w-[76px] sm:h-full sm:flex-col bg-[rgb(250,250,250)]">
+            <ul class="w-full flex flex-row justify-around items-center sm:justify-center sm:flex-col p-0 m-0 gap-0">
+                <!-- THREAD ICON -->
+                <li class="flex items-center justify-center">
+                    <a href="#" onclick="window.location.reload()"
+                        class="hidden sm:flex sm:transition-transform sm:duration-300 sm:hover:scale-110 sm:ease-in-out sm:py-3 sm:px-3 sm:mt-3 p-0 m-0 w-full">
+                        <svg class="mt-[-7px]" height="34" viewBox="0 0 192 192" width="34">
+                            <path
+                                d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.834 117.143 138.28 106.366C144.217 109.949 148.617 114.664 151.047 120.332C155.179 129.967 155.42 145.8 142.501 158.708C131.182 170.016 117.576 174.908 97.0135 175.059C74.2042 174.89 56.9538 167.575 45.7381 153.317C35.2355 139.966 29.8077 120.682 29.6052 96C29.8077 71.3178 35.2355 52.0336 45.7381 38.6827C56.9538 24.4249 74.2039 17.11 97.0132 16.9405C119.988 17.1113 137.539 24.4614 149.184 38.788C154.894 45.8136 159.199 54.6488 162.037 64.9503L178.184 60.6422C174.744 47.9622 169.331 37.0357 161.965 27.974C147.036 9.60668 125.202 0.195148 97.0695 0H96.9569C68.8816 0.19447 47.2921 9.6418 32.7883 28.0793C19.8819 44.4864 13.2244 67.3157 13.0007 95.9325L13 96L13.0007 96.0675C13.2244 124.684 19.8819 147.514 32.7883 163.921C47.2921 182.358 68.8816 191.806 96.9569 192H97.0695C122.03 191.827 139.624 185.292 154.118 170.811C173.081 151.866 172.51 128.119 166.26 113.541C161.776 103.087 153.227 94.5962 141.537 88.9883ZM98.4405 129.507C88.0005 130.095 77.1544 125.409 76.6196 115.372C76.2232 107.93 81.9158 99.626 99.0812 98.6368C101.047 98.5234 102.976 98.468 104.871 98.468C111.106 98.468 116.939 99.0737 122.242 100.233C120.264 124.935 108.662 128.946 98.4405 129.507Z"
+                                fill="black" stroke-width="2.5">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+
+                <div
+                    class="w-full p-0 flex items-center justify-between sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 sm:absolute sm:top-[45%] sm:left-1/2 sm:flex-col sm:justify-center">
+                    <!-- HOME ICON -->
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="feed"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-3 sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="25" height="25">
+                                <path
+                                    d="M2.25 12.8855V20.7497C2.25 21.8543 3.14543 22.7497 4.25 22.7497H8.25C8.52614 22.7497 8.75 22.5259 8.75 22.2497V17.6822V17.4997C8.75 15.1525 10.6528 13.2497 13 13.2497C15.3472 13.2497 17.25 15.1525 17.25 17.4997V17.6822V22.2497C17.25 22.5259 17.4739 22.7497 17.75 22.7497H21.75C22.8546 22.7497 23.75 21.8543 23.75 20.7497V12.8855C23.75 11.3765 23.0685 9.94815 21.8954 8.99883L16.1454 4.3454C14.3112 2.86095 11.6888 2.86095 9.85455 4.3454L4.10455 8.99883C2.93153 9.94815 2.25 11.3765 2.25 12.8855Z"
+                                    stroke-linecap="round" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- SEARCH ICON -->
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="search"
+                            class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="24" height="24">
+                                <path clipRule="evenodd"
+                                    d="M3.5 11.5C3.5 7.08172 7.08172 3.5 11.5 3.5C15.9183 3.5 19.5 7.08172 19.5 11.5C19.5 15.9183 15.9183 19.5 11.5 19.5C7.08172 19.5 3.5 15.9183 3.5 11.5ZM11.5 1C5.70101 1 1 5.70101 1 11.5C1 17.299 5.70101 22 11.5 22C13.949 22 16.2023 21.1615 17.9883 19.756L22.3661 24.1339C22.8543 24.622 23.6457 24.622 24.1339 24.1339C24.622 23.6457 24.622 22.8543 24.1339 22.3661L19.756 17.9883C21.1615 16.2023 22 13.949 22 11.5C22 5.70101 17.299 1 11.5 1Z"
+                                    fill-rule="evenodd" fill="currentColor" stroke="currentColor" stroke-width="0.05">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- NEW THREAD ICON -->
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="newpost" onclick="toggleModal()"
+                            class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="24" height="24">
+                                <path
+                                    d="M22.75 13L22.75 13.15C22.75 16.5103 22.75 18.1905 22.096 19.4739C21.5208 20.6029 20.6029 21.5208 19.4739 22.096C18.1905 22.75 16.5103 22.75 13.15 22.75L12.85 22.75C9.48969 22.75 7.80953 22.75 6.52606 22.096C5.39708 21.5208 4.4792 20.6029 3.90396 19.4739C3.25 18.1905 3.25 16.5103 3.25 13.15L3.25 12.85C3.25 9.48968 3.25 7.80953 3.90396 6.52606C4.4792 5.39708 5.39708 4.4792 6.52606 3.90396C7.80953 3.25 9.48968 3.25 12.85 3.25L13 3.25"
+                                    stroke="currentColor" stroke-linecap="round" stroke-width="2.6" fill="none"></path>
+                                <path d="M21.75 4.25L13.75 12.25" stroke="currentColor" stroke-linecap="round"
+                                    stroke-width="2.6" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- NOTI ICON -->
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="notification"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 32 32" width="27" height="27">
+                                <path
+                                    d="M5.5 12.8568C5.5 17.224 9.22178 21.5299 15.0332 25.2032C15.3554 25.397 15.7401 25.5909 16 25.5909C16.2703 25.5909 16.655 25.397 16.9668 25.2032C22.7782 21.5299 26.5 17.224 26.5 12.8568C26.5 9.11212 23.8698 6.5 20.4599 6.5C18.4847 6.5 16.9356 7.39792 16 8.74479C15.0851 7.40812 13.5257 6.5 11.5401 6.5C8.14059 6.5 5.5 9.11212 5.5 12.8568Z"
+                                    stroke="currentColor" stroke-width="2.5" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- PROFILE ICON -->
+                    <li class="flex items-center justify-center">
+                        <a href="#" id="profile"
+                            class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
+                            <svg viewBox="0 0 26 26" width="26" height="26">
+                                <circle cx="13" cy="7.25" r="4" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </circle>
+                                <path
+                                    d="M6.26678 23.75H19.744C21.603 23.75 22.5 23.2186 22.5 22.0673C22.5 19.3712 18.8038 15.75 13 15.75C7.19625 15.75 3.5 19.3712 3.5 22.0673C3.5 23.2186 4.39704 23.75 6.26678 23.75Z"
+                                    stroke-linecap="round" stroke-width="2.4" stroke="currentColor" fill="none">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+
+            <!-- SETTING ICON -->
+            <ul class="flex items-center justify-center mt-auto mb-7">
+                <a href="#" id="setting"
+                    class="text-[#BEC3C9] sm:flex w-full mr-5 ml-5 sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 sm:mr-0 hover:bg-[rgba(0,0,0,0.04)] rounded-xl hidden">
+                    <svg viewBox="0 0 24 24" width="25" height="25">
+                        <rect rx="1.25" x="3" y="7" width="18" height="2" fill="currentColor" stroke="currentColor"
+                            stroke-width="0.5"></rect>
+                        <rect rx="1.25" x="3" y="15" width="12" height="2" fill="currentColor" stroke="currentColor"
+                            stroke-width="0.5"></rect>
+                    </svg>
+                </a>
+            </ul>
+        </nav>
+
+        <div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
+            <div
+                class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
+                <span onclick="toggleTextAndRotate(this)">For you</span>
+                <span
+                    class="h-6 w-6 border flex justify-center items-center transition-transform duration-300 ease-in-out rounded-full hover:scale-110 border-[#CCD0D5] bg-white  ">
+                    <svg viewBox="0 0 13 12" height="12" width="12">
+                        <path d="m2.5 4.2 4 4 4-4" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="1.5">
+                        </path>
+                    </svg>
+                </span>
+
+                <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6">
+                    <span class="bg-black py-[6px] px-5 border rounded-xl">
+                        <a href="#" class="text-white no-underline font-normal text-[15px]">Log in</a>
+                    </span>
+                </div>
+            </div>
+
+            <div
+                class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
+                <div class="h-full overflow-y-scroll hide-scrollbar">
+                    <div class="h-[50px] sm:hidden"></div>
+                    <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5] ">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                        <span class="mr-auto text-[#777777]">What's new?</span>
+                        <button
+                            class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div id="post-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+            <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6">
+                <h2 class="text-lg font-semibold mb-4">Create a New Post</h2>
+                <textarea class="w-full border rounded-lg p-2 mb-4" rows="4" placeholder="What's on your mind?"></textarea>
+                <div class="flex justify-end gap-2">
+                    <button onclick="toggleModal()" class="px-4 py-2 text-gray-500 bg-gray-200 rounded-lg">Cancel</button>
+                    <button class="px-4 py-2 text-white bg-blue-500 rounded-lg">Post</button>
+                </div>
+            </div>
+        </div> -->
+
+        <div id="post-modal" class="hidden pl-6 h-screen bg-gray-100 fixed inset-0 flex flex-col justify-between">
+            <!-- main post  -->
+            <div class="flex justify-between pt-4">
+                <a href="#">Cancel</a>
+                <h1>New Thread</h1>
+                <div class="w-6"></div>
+            </div>
+            <div class="pt-8 flex-1 main-container ">
+                <div class="flex main-part">
+                    <div class="pr-3">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                    </div>
+                    <div>
+                        <p>rmuhm_</p>
+                        <textarea name="" id="text-post-popup" class="w-full resize-none border-none focus:outline-none" placeholder="Create a threads"></textarea>
+                        <div class="attachments ">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2px" height="2px" viewBox="0 0 48 48">
+                                    <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
+                                </svg>
+                            </div>
+                            <div class="attachment-item">
+                            </div>
+                            <div class="attachment-item">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center pl-1 add-threads">
+                    <div class="pr-3">
+                        <img src="av1.jpg" alt="" class="w-[24px] h-[24px] rounded-full">
+                    </div>
+                    <input type="text" placeholder="Add to Threads..." class="add-thread-input" disabled>
+                </div>
+            </div>
+            <!-- footer -->
+            <div class="flex justify-between items-center">
+                <p class="reply-info">Your followers can reply</p>
+                <button onclick="toggleModal()" class="px-4 py-2 text-white bg-blue-500 rounded-lg">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    </script>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('post-modal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('text-post-popup').addEventListener('input', function() {
+            const addThreadInput = document.querySelector('.add-thread-input');
+            addThreadInput.disabled = !this.value.trim();
+        });
+
+        document.querySelector('.add-thread-input').addEventListener('click', function() {
+            if (!this.disabled) {
+                const newPart = document.createElement('div');
+                newPart.className = 'flex main-part';
+                newPart.innerHTML = `
+                    <div class="pr-3">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                    </div>
+                    <div>
+                        <p>rmuhm_</p>
+                        <textarea name="" id="text-post-popup" class="w-full resize-none border-none focus:outline-none" placeholder="Create a threads"></textarea>
+                        <div class="attachments ">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2px" height="2px" viewBox="0 0 48 48">
+                                    <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
+                                </svg>
+                            </div>
+                            <div class="attachment-item">
+                            </div>
+                            <div class="attachment-item">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+    
+                        </div>
+                    </div>`;
+
+                const mainContainer = document.querySelector('.main-container');
+                const addThreads = document.querySelector('.add-threads');
+                mainContainer.insertBefore(newPart, addThreads);
+
+                // Disable the add-thread-input
+                this.disabled = true;
+
+                // Add event listener to the new textarea
+                const newTextarea = newPart.querySelector('.text-post-popup');
+                newTextarea.addEventListener('input', function() {
+                    const addThreadInput = document.querySelector('.add-thread-input');
+                    const allTextareas = document.querySelectorAll('.text-post-popup');
+                    const lastTextarea = allTextareas[allTextareas.length - 1];
+                    addThreadInput.disabled = !lastTextarea.value.trim();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
