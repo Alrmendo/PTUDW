@@ -72,6 +72,8 @@ svg.nonactive {
     color: #BEC3C9; 
 }
 
+
+
 @media (min-width: 640px) {
     .login-background{
         background-image: url("/Users/nguyentriet/Desktop/Workspace/KHTN/Third_Year/Web/Thread/Template/layout/background_thread.webp");
