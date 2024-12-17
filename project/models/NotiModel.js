@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const sub_noti = new mongoose.Schema({
-    content: { type: String, required: true },
     noti_avatar: { type: String, default: "/images/av1.jpg" },
     noti_name: { type: String, default: "User" },
     date: { type: Date, default: Date.now },
+    content: { type: String, required: true },
     isRead: { type: Boolean, default: false },
 });
 
