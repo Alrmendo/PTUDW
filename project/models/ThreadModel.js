@@ -19,8 +19,8 @@ const thread_db = new mongoose.Schema({
     content: { type: String, required: true },
     image: { type: String, default: "" },
     date: { type: Date, default: Date.now },
-    comments: { type: [sub_comment_db], default: [] }, // Embedded comment sub-schema
-    likes: { type: [sub_like_db], default: [] },       // Embedded like sub-schema
+    comments: { type: [sub_comment_db], default: [] }, //khác nhau so với sub_comment_db
+    likes: { type: [sub_like_db], default: [] }, //tương tự
 });
 
 // Model for Thread
