@@ -1,31 +1,41 @@
-const express = require('express');
-const app = express();
-const expressHbs = require("express-handlebars");
-const port = process.env.PORT | 3000;
+import express from "express";
+import database from "./services/db.js";
+import { engine as expressHbs } from "express-handlebars";
+import path from "path";
+import { fileURLToPath } from "url";
 
-//app.use(express.static(__dirname + "/html", {index: "index.html"}));
-app.use(express.static('public'));
+database.connectDatabase();
+const app = express();
+const port = process.env.PORT || 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// Setting up Handlebars
 app.engine(
     "hbs",
-    expressHbs.engine({
-        layoutsDir: __dirname + '/views/layouts',
-        partialsDir: __dirname + '/views/partials',
+    expressHbs({
+        layoutsDir: path.join(__dirname, "views", "layouts"),
+        partialsDir: path.join(__dirname, "views", "partials"),
         extname: "hbs",
         defaultLayout: "layout",
     })
-)
+);
 
 app.set("view engine", "hbs");
 
-app.get("/", (req, res) => res.render("index", {title: "Threads"}));
-
-app.get("/login", (req, res) => res.render("login", {layout: false}));
-app.get("/resetPassword", (req, res) => res.render("resetPassword", {layout: false}));
-app.get("/signup", (req, res) => res.render("signup", {layout: false}));
+// Routes
+app.get("/", (req, res) => res.render("index", { title: "Threads" }));
+app.get("/login", (req, res) => res.render("login", { layout: false }));
+app.get("/resetPassword", (req, res) => res.render("resetPassword", { layout: false }));
+app.get("/signup", (req, res) => res.render("signup", { layout: false }));
 app.get("/noti", (req, res) => res.render("noti"));
 app.get("/profile", (req, res) => res.render("profile"));
 app.get("/search", (req, res) => res.render("search"));
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-})
+});
