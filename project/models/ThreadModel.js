@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 
-const comment_db = new mongoose.Schema({
+const sub_comment_db = new mongoose.Schema({
     comment: { type: String, required: true },
     comment_ID: { type: mongoose.Schema.Types.ObjectId, required: true },
     date: { type: Date, default: Date.now },
 });
 
 
-const like_db = new mongoose.Schema({
+const sub_like_db = new mongoose.Schema({
     user_ID: { type: mongoose.Schema.Types.ObjectId, required: true },
 });
 
@@ -19,8 +19,8 @@ const thread_db = new mongoose.Schema({
     content: { type: String, required: true },
     image: { type: String, default: "" },
     date: { type: Date, default: Date.now },
-    comments: { type: [comment_db], default: [] }, // Embedded comment sub-schema
-    likes: { type: [like_db], default: [] },       // Embedded like sub-schema
+    comments: { type: [sub_comment_db], default: [] }, // Embedded comment sub-schema
+    likes: { type: [sub_like_db], default: [] },       // Embedded like sub-schema
 });
 
 // Model for Thread
