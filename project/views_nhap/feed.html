@@ -64,7 +64,6 @@
                     <li class="flex items-center justify-center">
                         <!-- <a href="#" id="newpost" -->
                         <a href="#" id="newpost" onclick="toggleModal()"
-
                             class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
                             <svg viewBox="0 0 26 26" width="24" height="24">
                                 <path
@@ -153,6 +152,44 @@
                         <button
                             class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
                     </div>
+                    <div class="flex sm:py-4 sm:px-5 gap-3 border-b border-[#CCD0D5] p-2">
+                        <img id="avatar" src="" class="w-[36px] h-[36px] rounded-full" />
+                        <div class="flex flex-col w-full">
+                            <div class="flex gap-2 text-black cursor-pointer">
+                                <span class="hover:underline">nhmum</span>
+                                <span class="text-[#777777]" id="uploadTime">12h</span>
+                            </div>
+                            <span id="content" class="thread-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, provident nemo hic harum expedita similique? Harum aliquam esse nostrum fuga placeat. Odit expedita non a cum illo corporis porro ipsam.</span>
+                            <div class="image-container w-full max-w-full overflow-hidden my-2">
+                                <img src="" class="max-h-[400px] max-w-full h-auto rounded-[5px]" />
+                            </div>
+
+                            <div class="flex items-center gap-5">
+                                <div id="" class="p-3 -ml-3 flex items-center h-[18px] gap-1" onclick="handleLike()">
+                                    <svg viewBox="0 0 18 18" width="18" height="18">
+                                        <path
+                                            d="M1.34375 7.53125L1.34375 7.54043C1.34374 8.04211 1.34372 8.76295 1.6611 9.65585C1.9795 10.5516 2.60026 11.5779 3.77681 12.7544C5.59273 14.5704 7.58105 16.0215 8.33387 16.5497C8.73525 16.8313 9.26573 16.8313 9.66705 16.5496C10.4197 16.0213 12.4074 14.5703 14.2232 12.7544C15.3997 11.5779 16.0205 10.5516 16.3389 9.65585C16.6563 8.76296 16.6563 8.04211 16.6562 7.54043V7.53125C16.6562 5.23466 15.0849 3.25 12.6562 3.25C11.5214 3.25 10.6433 3.78244 9.99228 4.45476C9.59009 4.87012 9.26356 5.3491 9 5.81533C8.73645 5.3491 8.40991 4.87012 8.00772 4.45476C7.35672 3.78244 6.47861 3.25 5.34375 3.25C2.9151 3.25 1.34375 5.23466 1.34375 7.53125Z"
+                                            stroke-width="1.25">
+                                        </path>
+                                    </svg>
+                                    <span
+                                        class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">12</span>
+                                </div>
+                                <div class="p-3 -ml-3 flex items-center h-[18px] gap-1">
+                                    <svg viewBox="0 0 18 18" width="18" height="18">
+                                        <path
+                                            d="M15.376 13.2177L16.2861 16.7955L12.7106 15.8848C12.6781 15.8848 12.6131 15.8848 12.5806 15.8848C11.3779 16.5678 9.94767 16.8931 8.41995 16.7955C4.94194 16.5353 2.08152 13.7381 1.72397 10.2578C1.2689 5.63919 5.13697 1.76863 9.75264 2.22399C13.2307 2.58177 16.0261 5.41151 16.2861 8.92429C16.4161 10.453 16.0586 11.8841 15.376 13.0876C15.376 13.1526 15.376 13.1852 15.376 13.2177Z"
+                                            stroke-linejoin="round" stroke-width="1.25" stroke="#cccccc"
+                                            fill="transparent">
+                                        </path>
+                                    </svg>
+                                    <span
+                                        class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -195,16 +232,20 @@
                         <p class="font-semibold">rmuhm_</p>
                         <textarea
                             class="w-full rounded-xl pr-4 py-3 resize-none overflow-auto border-none focus:outline-none"
-                            id="text-post-popup" placeholder="Create a thread..." required rows="4" oninput="adjustHeight(this)"
-                        ></textarea>
+                            id="text-post-popup" placeholder="Create a thread..." required rows="4"
+                            oninput="adjustHeight(this)"></textarea>
                         <div class="flex items-center pt-4">
                             <!-- Image -->
                             <label for="image-upload" class="cursor-pointer flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-black" viewBox="0 0 48 48">
-                                    <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-black"
+                                    viewBox="0 0 48 48">
+                                    <path
+                                        d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z">
+                                    </path>
                                 </svg>
                             </label>
-                            <input id="image-upload" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)" />
+                            <input id="image-upload" type="file" accept="image/*" class="hidden"
+                                onchange="handleImageSelection(event)" />
                         </div>
                     </div>
                 </div>
@@ -248,7 +289,7 @@
             }
         }
 
-        document.getElementById('post-modal').addEventListener('click', function(e) {
+        document.getElementById('post-modal').addEventListener('click', function (e) {
             if (e.target === this) {
                 toggleModal();
             }
@@ -256,19 +297,18 @@
 
         function adjustHeight(textarea) {
             const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
-            if (isSmallScreen)
-            {
+            if (isSmallScreen) {
                 textarea.style.height = 'auto';
                 textarea.style.height = textarea.scrollHeight + 'px';
                 const maxHeight = window.innerHeight * 0.7;
                 if (textarea.scrollHeight >= maxHeight) {
-                    textarea.style.height = maxHeight + 'px'; 
-                    textarea.style.overflowY = 'auto'; 
+                    textarea.style.height = maxHeight + 'px';
+                    textarea.style.overflowY = 'auto';
                 } else {
                     textarea.style.overflowY = 'hidden';
                 }
             }
-            
+
         }
     </script>
 </body>
