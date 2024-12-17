@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image" href="thread.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>search</title>
+    <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -19,6 +19,7 @@
         <nav id="nav-bar"
             class="h-[76px] w-full p-0 bottom-0 fixed flex justify-between items-center sm:w-[76px] sm:h-full sm:flex-col bg-[rgb(250,250,250)]">
             <ul class="w-full flex flex-row justify-around items-center sm:justify-center sm:flex-col p-0 m-0 gap-0">
+                <!-- THREAD ICON -->
                 <li class="flex items-center justify-center">
                     <a href="#" onclick="window.location.reload()"
                         class="hidden sm:flex sm:transition-transform sm:duration-300 sm:hover:scale-110 sm:ease-in-out sm:py-3 sm:px-3 sm:mt-3 p-0 m-0 w-full">
@@ -33,7 +34,7 @@
 
                 <div
                     class="w-full p-0 flex items-center justify-between sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 sm:absolute sm:top-[45%] sm:left-1/2 sm:flex-col sm:justify-center">
-
+                    <!-- HOME ICON -->
                     <li class="flex items-center justify-center">
                         <a href="#" id="feed"
                             class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-3 sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
@@ -46,8 +47,9 @@
                         </a>
                     </li>
 
+                    <!-- SEARCH ICON -->
                     <li class="flex items-center justify-center">
-                        <a href="#" id="search"
+                        <a href="./search.html" id="search"
                             class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
                             <svg viewBox="0 0 26 26" width="24" height="24">
                                 <path clipRule="evenodd"
@@ -58,8 +60,11 @@
                         </a>
                     </li>
 
+                    <!-- NEW THREAD ICON -->
                     <li class="flex items-center justify-center">
-                        <a href="#" id="newpost"
+                        <!-- <a href="#" id="newpost" -->
+                        <a href="#" id="newpost" onclick="toggleModal()"
+
                             class=" text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
                             <svg viewBox="0 0 26 26" width="24" height="24">
                                 <path
@@ -72,8 +77,9 @@
                         </a>
                     </li>
 
+                    <!-- NOTI ICON -->
                     <li class="flex items-center justify-center">
-                        <a href="#" id="notification"
+                        <a href="./noti.html" id="notification"
                             class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
                             <svg viewBox="0 0 32 32" width="27" height="27">
                                 <path
@@ -84,8 +90,9 @@
                         </a>
                     </li>
 
+                    <!-- PROFILE ICON -->
                     <li class="flex items-center justify-center">
-                        <a href="#" id="profile"
+                        <a href="./profile.html" id="profile"
                             class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl">
                             <svg viewBox="0 0 26 26" width="26" height="26">
                                 <circle cx="13" cy="7.25" r="4" stroke-width="2.4" stroke="currentColor" fill="none">
@@ -100,6 +107,7 @@
                 </div>
             </ul>
 
+            <!-- SETTING ICON -->
             <ul class="flex items-center justify-center mt-auto mb-7">
                 <a href="#" id="setting"
                     class="text-[#BEC3C9] sm:flex w-full mr-5 ml-5 sm:py-3 sm:px-[18px] sm:mt-[18px] sm:ml-0 sm:mr-0 hover:bg-[rgba(0,0,0,0.04)] rounded-xl hidden">
@@ -116,11 +124,19 @@
         <div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
             <div
                 class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
-                <span onclick="toggleTextAndRotate(this)">Search</span>
+                <span onclick="toggleTextAndRotate(this)">For you</span>
+                <span
+                    class="h-6 w-6 border flex justify-center items-center transition-transform duration-300 ease-in-out rounded-full hover:scale-110 border-[#CCD0D5] bg-white  ">
+                    <svg viewBox="0 0 13 12" height="12" width="12">
+                        <path d="m2.5 4.2 4 4 4-4" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="1.5">
+                        </path>
+                    </svg>
+                </span>
 
                 <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
                     <span class="bg-black py-[6px] px-5 border rounded-xl">
-                        <a href="#" class="text-white no-underline font-normal text-[15px]">Log in</a>
+                        <a href="./login.html" class="text-white no-underline font-normal text-[15px]">Log in</a>
                     </span>
                 </div>
             </div>
@@ -128,54 +144,133 @@
             <div
                 class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
                 <div class="h-full overflow-y-scroll hide-scrollbar">
-                    <!-- SEARCH BAR -->
-                    <div>
-                        <div class="p-6 gap-3 flex items-center">
-                            <div
-                                class="w-full h-11 rounded-2xl flex items-center bg-[rgb(250,250,250)] border border-[#CCD0D5]">
-                                <svg class="p-2 ml-4 cursor-pointer" viewBox="0 0 26 26" width="32" height="32">
-                                    <path clip-rule="evenodd" fill="#CCD0D5"
-                                        d="M3.5 11.5C3.5 7.08172 7.08172 3.5 11.5 3.5C15.9183 3.5 19.5 7.08172 19.5 11.5C19.5 15.9183 15.9183 19.5 11.5 19.5C7.08172 19.5 3.5 15.9183 3.5 11.5ZM11.5 1C5.70101 1 1 5.70101 1 11.5C1 17.299 5.70101 22 11.5 22C13.949 22 16.2023 21.1615 17.9883 19.756L22.3661 24.1339C22.8543 24.622 23.6457 24.622 24.1339 24.1339C24.622 23.6457 24.622 22.8543 24.1339 22.3661L19.756 17.9883C21.1615 16.2023 22 13.949 22 11.5C22 5.70101 17.299 1 11.5 1Z">
-                                    </path>
-                                </svg>
-                                <form action="#" method="get" class="w-[calc(100%-32px)]">
-                                    <input type="text" placeholder="Search"
-                                        class="w-full text-[15px] font-thin text-black bg-transparent leading-[1.5rem] border-none outline-none"
-                                        name="q" id="searchInput" />
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="line-height: calc(1.4* 1em);" class="px-6 py-1 text-[#CCD0D5] font-light">
-                        Follow suggestions
-                    </div>
-                    
-
-                    <!-- INFOMATION IN SEARCH -->
-                    <div class="py-8 pl-6 flex bg-transparent gap-3 cursor-pointer text-[#CCD0D5]">
-                        <img id="avatar" src="av1.jpg" alt="Avatar" class="w-9] h-9 rounded-full" />
-                        <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
-                            <div class="flex items-center h-[36px]">
-                                <div class="flex flex-col mr-auto">
-                                    <span class="text-black font-semibold">uhmum__</span>
-                                    <span class="font-thin">uhmum__</span>
-                                </div>
-                                <button
-                                    class="bg-transparent font-thin text-black border border-[#CCD0D5] h-[34px] w-[104px] rounded-[0.75rem] mr-6">Follow</button>
-                            </div>
-                            <span class="text-black py-3 pt-5">12k followers</span>
-                        </div>
-                    </div>
                     <div class="h-[50px] sm:hidden"></div>
+                    <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5] ">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                        <!-- <span class="mr-auto text-[#777777]">What's new?</span> -->
+                        <span onclick="toggleModal()" class="mr-auto text-[#777777]">What's new?</span>
+
+                        <button
+                            class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settingsModal"
+            class="flex fixed inset-0 bg-opacity-50 bg-gray-500 items-end justify-start z-50 opacity-0 pointer-events-none transition-opacity">
+            <div class="bg-white w-72 rounded-3xl shadow-lg border-gray-300 mb-5 ml-4 p-3">
+                <ul class="divide-y divide-gray-200">
+                    <li
+                        class="py-5 px-6 rounded-lg hover:bg-gray-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Settings
+                    </li>
+                    <div class="flex border-b border-[#CCD0D5] my-2"></div>
+                    <li
+                        class="py-5 px-6 rounded-lg hover:bg-gray-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Report a problem
+                    </li>
+                    <li
+                        class="py-5 px-6 text-red-600 rounded-lg hover:bg-red-100 hover:rounded-3xl cursor-pointer border-none text-lg font-medium transition">
+                        Log out
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="post-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50">
+            <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[50vh] md:rounded-xl">
+                <!-- Header -->
+                <div class="flex justify-between items-center px-6 pt-4">
+                    <a href="#" onclick="toggleModal()">Cancel</a>
+                    <h1 class="font-bold text-lg">New Thread</h1>
+                    <div class="w-6"></div>
+                </div>
+                <!-- Main Content -->
+                <div class="pt-8 flex flex-grow px-6">
+                    <div class="pr-3">
+                        <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                    </div>
+                    <div class="flex-grow">
+                        <p class="font-semibold">rmuhm_</p>
+                        <textarea
+                            class="w-full rounded-xl pr-4 py-3 resize-none overflow-auto border-none focus:outline-none"
+                            id="text-post-popup" placeholder="Create a thread..." required rows="4" oninput="adjustHeight(this)"
+                        ></textarea>
+                        <div class="flex items-center pt-4">
+                            <!-- Image -->
+                            <label for="image-upload" class="cursor-pointer flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current text-black" viewBox="0 0 48 48">
+                                    <path d="M 9.5 6 C 5.3754991 6 2 9.3754991 2 13.5 L 2 29.5 C 2 33.624501 5.3754991 37 9.5 37 L 33.5 37 C 37.624501 37 41 33.624501 41 29.5 L 41 13.5 C 41 9.3754991 37.624501 6 33.5 6 L 9.5 6 z M 9.5 9 L 33.5 9 C 36.003499 9 38 10.996501 38 13.5 L 38 29.5 C 38 29.673588 37.96792 29.837643 37.949219 30.005859 L 29.75 22.072266 C 29.016121 21.362903 28.056962 21.007812 27.097656 21.007812 C 26.13835 21.007812 25.179192 21.362903 24.445312 22.072266 A 1.50015 1.50015 0 0 0 24.443359 22.072266 L 22.345703 24.101562 L 17.150391 19.074219 C 16.416511 18.364857 15.4554 18.009766 14.496094 18.009766 C 13.536788 18.009766 12.577629 18.364857 11.84375 19.074219 L 5 25.695312 L 5 13.5 C 5 10.996501 6.9965009 9 9.5 9 z M 43 10.513672 L 43 30.5 C 43 35.187 39.187 39 34.5 39 L 12.013672 39 C 13.383672 40.818 15.553 42 18 42 L 34.5 42 C 40.841 42 46 36.841 46 30.5 L 46 16.5 C 46 14.054 44.818 11.883672 43 10.513672 z M 30.5 13 A 2.5 2.5 0 0 0 30.5 18 A 2.5 2.5 0 0 0 30.5 13 z M 14.498047 20.992188 C 14.699678 20.992188 14.900333 21.071831 15.064453 21.230469 L 20.189453 26.1875 L 12.113281 34 L 9.5 34 C 7.1117621 34 5.2055653 32.176628 5.0332031 29.835938 L 13.929688 21.230469 C 14.093808 21.071831 14.296416 20.992188 14.498047 20.992188 z M 27.095703 23.992188 C 27.297334 23.992188 27.499942 24.071831 27.664062 24.230469 L 27.664062 24.228516 L 36.537109 32.814453 C 35.73831 33.545784 34.68019 34 33.5 34 L 16.427734 34 L 26.529297 24.228516 L 26.529297 24.230469 C 26.693417 24.071831 26.894072 23.992188 27.095703 23.992188 z"></path>
+                                </svg>
+                            </label>
+                            <input id="image-upload" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <div class="flex justify-between items-center px-5 pb-5">
+                    <p class="reply-info text-[#BEC3C9]">Your followers can reply</p>
+                    <button onclick="toggleModal()" class="px-4 py-2 text-white bg-[#BEC3C9] rounded-full">Post</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-    </script>
+        // Get elements
+        const settingButton = document.getElementById("setting");
+        const settingsModal = document.getElementById("settingsModal");
 
+        // Toggle modal visibility
+        settingButton.addEventListener("click", () => {
+            const isHidden = settingsModal.classList.contains("opacity-0");
+            if (isHidden) {
+                settingsModal.classList.remove("opacity-0", "pointer-events-none");
+            } else {
+                settingsModal.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        // Close modal when clicking outside
+        settingsModal.addEventListener("click", (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        function toggleModal() {
+            const modal = document.getElementById('post-modal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('post-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleModal();
+            }
+        });
+
+        function adjustHeight(textarea) {
+            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+            if (isSmallScreen)
+            {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+                const maxHeight = window.innerHeight * 0.7;
+                if (textarea.scrollHeight >= maxHeight) {
+                    textarea.style.height = maxHeight + 'px'; 
+                    textarea.style.overflowY = 'auto'; 
+                } else {
+                    textarea.style.overflowY = 'hidden';
+                }
+            }
+            
+        }
+    </script>
 </body>
 
 </html>

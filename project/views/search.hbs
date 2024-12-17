@@ -1,0 +1,58 @@
+<div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
+    <div
+        class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
+        <span onclick="toggleTextAndRotate(this)">Search</span>
+
+        <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
+            <span class="bg-black py-[6px] px-5 border rounded-xl">
+                <a href="./login.html" class="text-white no-underline font-normal text-[15px]">Log in</a>
+            </span>
+        </div>
+    </div>
+
+    <div
+        class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
+        <div class="h-full overflow-y-scroll hide-scrollbar">
+            <!-- SEARCH BAR -->
+            <div>
+                <div class="p-6 gap-3 flex items-center">
+                    <div
+                        class="w-full h-11 rounded-2xl flex items-center bg-[rgb(250,250,250)] border border-[#CCD0D5]">
+                        <svg class="p-2 ml-4 cursor-pointer" viewBox="0 0 26 26" width="32" height="32">
+                            <path clip-rule="evenodd" fill="#CCD0D5"
+                                d="M3.5 11.5C3.5 7.08172 7.08172 3.5 11.5 3.5C15.9183 3.5 19.5 7.08172 19.5 11.5C19.5 15.9183 15.9183 19.5 11.5 19.5C7.08172 19.5 3.5 15.9183 3.5 11.5ZM11.5 1C5.70101 1 1 5.70101 1 11.5C1 17.299 5.70101 22 11.5 22C13.949 22 16.2023 21.1615 17.9883 19.756L22.3661 24.1339C22.8543 24.622 23.6457 24.622 24.1339 24.1339C24.622 23.6457 24.622 22.8543 24.1339 22.3661L19.756 17.9883C21.1615 16.2023 22 13.949 22 11.5C22 5.70101 17.299 1 11.5 1Z">
+                            </path>
+                        </svg>
+                        <form action="./search.html" method="get" class="w-[calc(100%-32px)]">
+                            <input type="text" placeholder="Search"
+                                class="w-full text-[15px] font-thin text-black bg-transparent leading-[1.5rem] border-none outline-none"
+                                name="q" id="searchInput" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div style="line-height: calc(1.4* 1em);" class="px-6 py-1 text-[#CCD0D5] font-light">
+                Follow suggestions
+            </div>
+            
+
+            <!-- INFOMATION IN SEARCH -->
+            <div class="py-8 pl-6 flex bg-transparent gap-3 cursor-pointer text-[#CCD0D5]">
+                <img id="avatar" src="av1.jpg" alt="Avatar" class="w-9] h-9 rounded-full" />
+                <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
+                    <div class="flex items-center h-[36px]">
+                        <div class="flex flex-col mr-auto">
+                            <span class="text-black font-semibold">uhmum__</span>
+                            <span class="font-thin">uhmum__</span>
+                        </div>
+                        <button
+                            class="bg-transparent font-thin text-black border border-[#CCD0D5] h-[34px] w-[104px] rounded-[0.75rem] mr-6">Follow</button>
+                    </div>
+                    <span class="text-black py-3 pt-5">12k followers</span>
+                </div>
+            </div>
+            <div class="h-[50px] sm:hidden"></div>
+        </div>
+    </div>
+</div>
