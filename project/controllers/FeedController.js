@@ -19,7 +19,7 @@ const loadAllFeed = async (req, res) => {
 const likeThread = (req, res) => {
     const { userid, threadid } = req.body;
     console.log(`User ${userid} liked thread ${threadid}`);
-    res.status(200).json({ message: 'Success' });;
+    res.status(200).json({ message: 'Sucessfully receives message' });
 }
 
 const FeedController = {
