@@ -33,6 +33,6 @@ const UserFollowSchema = new mongoose.Schema({
     }
 });
 
-const UserFollowModel = mongoose.model("UserFollow", UserFollowSchema);
+const UserFollowModel = mongoose.model("Follows", UserFollowSchema);
 
 export default UserFollowModel;
