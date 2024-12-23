@@ -22,22 +22,23 @@
         class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
         <!-- NOTIFICATION START -->
         <div class="h-full overflow-y-scroll hide-scrollbar">
+            {{#each notifications}}
             <div class="relative bg-transparent">
                 <div class="flex mt-4 py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5]">
-                    <img class="w-9 h-9 rounded-full" src="av1.jpg" alt="Avatar" />
+                    <img class="w-9 h-9 rounded-full" src="{{noti_avatar}}" alt="Avatar" />
                     <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
                         <div class="flex items-center h-[36px]">
                             <div class="flex items-center gap-2 mr-auto">
-                                <span class="text-black font-semibold">nhmum__</span>
-                                <span class="font-thin text-gray-400">6h</span>
+                                <span class="text-black font-semibold">{{noti_name}}</span>
+                                <span class="font-thin text-gray-400">{{formatDate date}}</span>
                             </div>
                         </div>  
-                        <p class="text-black font-thin pt-4 pb-2">Notification is here</p>
+                        <p class="text-black font-thin pt-4 pb-2">{{content}}</p>
                     </div>
                 </div>
             </div>
-
-            <div class="relative bg-transparent">
+            {{/each}}
+            {{!-- <div class="relative bg-transparent">
                 <div class="flex py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5]">
                     <img class="w-9 h-9 rounded-full" src="av1.jpg" alt="Avatar" />
                     <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
@@ -50,7 +51,7 @@
                         <p class="text-black font-thin pt-4 pb-2">Notification is here</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="h-[50px] sm:hidden"></div>
         </div>
     </div>

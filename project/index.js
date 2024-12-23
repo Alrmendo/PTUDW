@@ -1,12 +1,19 @@
 import express from "express";
 import database from "./services/db.js";
+import cors from "cors";
 import { engine as expressHbs } from "express-handlebars";
 import path from "path";
 import { fileURLToPath } from "url";
+import SearchRouter from "./routes/SearchRouter.js";
+import FeedRouter from "./routes/FeedRouter.js";
+import ProfileRouter from "./routes/ProfileRouter.js";
+import NotiRouter from "./routes/NotiRouter.js";
+import ThreadRouter from "./routes/ThreadRouter.js";
 
 database.connectDatabase();
 const app = express();
 const port = process.env.PORT || 3000;
+const host = "localhost";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,21 +28,43 @@ app.engine(
         partialsDir: path.join(__dirname, "views", "partials"),
         extname: "hbs",
         defaultLayout: "layout",
-    })
+        runtimeOptions: {
+            allowProtoPropertiesByDefault: true,
+        },
+        helpers: {
+            formatDate: (date) => {
+              return date.toLocaleDateString("vi-VN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              });
+            },
+          },
+    }),
+    
 );
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    credentials: true
+}))
+app.options('*', cors())
 app.set("view engine", "hbs");
 
-// Routes
-app.get("/", (req, res) => res.render("index", { title: "Threads" }));
-app.get("/login", (req, res) => res.render("login", { layout: false }));
-app.get("/resetPassword", (req, res) => res.render("resetPassword", { layout: false }));
-app.get("/signup", (req, res) => res.render("signup", { layout: false }));
-app.get("/noti", (req, res) => res.render("noti"));
-app.get("/profile", (req, res) => res.render("profile"));
-app.get("/search", (req, res) => res.render("search"));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/", FeedRouter);
+app.use("/search", SearchRouter);
+app.use("/profile", ProfileRouter);
+app.use("/noti", NotiRouter);
+app.use("/newthread", ThreadRouter);
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Listening on http://${host}:${port}`);
 });

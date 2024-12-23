@@ -1,0 +1,30 @@
+import threadModel from '../models/ThreadModel.js';
+
+const loadAllFeed = async (req, res) => {
+  try {
+      const threads = await threadModel.find({}).populate({
+        path: "author",
+        model: "users",
+        localField: "author",
+        foreignField: "username",
+        select: "username avatar",
+      });
+      res.render('index', {threads: threads });
+  } catch (error) {
+      console.error('Error fetching threads:', error);
+      res.status(500).json({message: 'An error occurred while loading the feed'});
+  }
+};
+
+const likeThread = (req, res) => {
+    const { userid, threadid } = req.body;
+    console.log(`User ${userid} liked thread ${threadid}`);
+    res.status(200).json({ message: 'Sucessfully receives message' });
+}
+
+const FeedController = {
+    loadAllFeed: loadAllFeed,
+    likeThread: likeThread,
+};
+
+export default FeedController;

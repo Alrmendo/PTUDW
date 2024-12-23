@@ -19,15 +19,15 @@
                         <div class="flex flex-col justify-center">
                             <div class="name__username">
                                 <h1 class="text-black text-xl font-bold leading-8 cursor-pointer">
-                                    nhmum
+                                    {{user.username}}
                                 </h1>
                             </div>
                             <div class="name__nickname">
-                                <span class="text-black font-normal leading-[20px]">nhmum__</span>
+                                <span class="text-black font-normal leading-[20px]">{{user.username}}</span>
                             </div>
                         </div>
                         <div class="profile-avatar">
-                            <img src="av1.jpg" alt="Avatar"
+                            <img src="{{user.avatar}}" alt="Avatar"
                                 class="h-auto max-w-20 object-cover rounded-full outline outline-[0.5px] outline-[#CCD0D5] cursor-pointer" />
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="number-follow cursor-pointer">
                             <span
                                 class="text-[14px] font-normal text-[#BEC3C9] leading-[20px] hover:border-b-[1.5px] hover:border-[#BEC3C9]"
-                                onclick="displayFollowsPanel()">12 followers</span>
+                                onclick="displayFollowsPanel()">{{followers.length}} followers</span>
 
                             <div
                                 class="wrap-panel w-[90%] absolute z-10 top-[20%] bg-[rgb(250,250,250)] rounded-lg border border-[#CCD0D5] hidden sm:w-[80%] md:w-[80%] lg:w-[33.33%] sm:left-[15%] md:left-[10%] lg:top-[25%] lg:left-[32.5%]">
@@ -50,31 +50,31 @@
                                         onclick="chooseFollower()">
                                         <span class="text-lg font-semibold leading-8">Follower</span>
                                         <br />
-                                        <span class="text-sm font-normal leading-4 font-sans">12</span>
+                                        <span class="text-sm font-normal leading-4 font-sans">{{followers.length}}</span>
                                     </div>
                                     <div class="list-following flex-1 text-[#BEC3C9] cursor-pointer"
                                         onclick="chooseFollowing()">
                                         <span class="text-lg font-semibold leading-8">Following</span>
                                         <br />
-                                        <span class="text-sm font-normal leading-4 font-sans">10</span>
+                                        <span class="text-sm font-normal leading-4 font-sans">{{followings.length}}</span>
                                     </div>
                                 </div>
 
                                 <div class="list-of-follower relative max-h-[30vh] custom-scrollbar overflow-y-auto"
                                     style="display: block;">
                                     <ul>
-                                        <li>Follower 1</li>
-                                        <li>Follower 2</li>
-                                        <li>Follower 3</li>
+                                        {{#each followers}}
+                                        <li>{{username}}</li>
+                                        {{/each}}
                                     </ul>
                                 </div>
 
                                 <div class="list-of-following relative max-h-[30vh] custom-scrollbar overflow-y-auto"
                                     style="display: none;">
                                     <ul>
-                                        <li>Follower 4</li>
-                                        <li>Follower 5</li>
-                                        <li>Follower 6</li>
+                                        {{#each followings}}
+                                        <li>{{username}}</li>
+                                        {{/each}}
                                     </ul>
                                 </div>
                             </div>
@@ -126,8 +126,8 @@
                 </div>
                 <div class="h-[50px] sm:hidden"></div>
                 <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5]">
-                    <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
-                    <span class="mr-auto text-[#777777]">What's new?</span>
+                    <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
+                    <span class="mr-auto text-[#777777]" onclick="toggleModal()" id="post-modal">What's new?</span>
                     <button
                         class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg hover:bg-black hover:text-white hover:border-[#CCD0D5]">Post</button>
                 </div>
@@ -212,4 +212,5 @@
             }
         });
     };
+
 </script>

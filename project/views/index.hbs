@@ -23,23 +23,24 @@
         <div class="h-full overflow-y-scroll hide-scrollbar">
             <div class="h-[50px] sm:hidden"></div>
             <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5] ">
-                <img src="av1.jpg" class="w-[36px] h-[36px] rounded-full" />
+                <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
                 <!-- <span class="mr-auto text-[#777777]">What's new?</span> -->
                 <span onclick="toggleModal()" class="mr-auto text-[#777777]">What's new?</span>
 
                 <button
                     class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
             </div>
+            {{#each threads}}
             <div class="flex sm:py-4 sm:px-5 gap-3 border-b border-[#CCD0D5] p-2">
-                <img id="avatar" src="" class="w-[36px] h-[36px] rounded-full" />
+                <img id="avatar" src="{{author.avatar}}" class="w-[36px] h-[36px] rounded-full" />
                 <div class="flex flex-col w-full">
                     <div class="flex gap-2 text-black cursor-pointer">
-                        <span class="hover:underline">nhmum</span>
-                        <span class="text-[#777777]" id="uploadTime">12h</span>
+                        <span class="hover:underline">{{author.username}}</span>
+                        <span class="text-[#777777]" id="uploadTime">{{formatDate date}}</span>
                     </div>
-                    <span id="content" class="thread-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, provident nemo hic harum expedita similique? Harum aliquam esse nostrum fuga placeat. Odit expedita non a cum illo corporis porro ipsam.</span>
+                    <span id="content" class="thread-content">{{content}}</span>
                     <div class="image-container w-full max-w-full overflow-hidden my-2">
-                        <img src="" class="max-h-[400px] max-w-full h-auto rounded-[5px]" />
+                        <img src="{{image}}" class="max-h-[400px] max-w-full h-auto rounded-[5px]" />
                     </div>
 
                     <div class="flex items-center gap-5">
@@ -51,7 +52,7 @@
                                 </path>
                             </svg>
                             <span
-                                class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">12</span>
+                                class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">{{likes.length}}</span>
                         </div>
                         <div class="p-3 -ml-3 flex items-center h-[18px] gap-1">
                             <svg viewBox="0 0 18 18" width="18" height="18">
@@ -62,11 +63,12 @@
                                 </path>
                             </svg>
                             <span
-                                class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">12</span>
+                                class="flex items-center justify-center text-[12px] font-normal text-[#cccccc] cursor-pointer">{{comment.length}}</span>
                         </div>
                     </div>
                 </div>
             </div>
+            {{/each}}
         </div>
     </div>
 </div>
