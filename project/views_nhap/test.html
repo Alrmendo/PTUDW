@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image" href="thread.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/project/public/css/app.css">
+</head>
+
+<body>
+    <li class="information-follow flex flex-row justify-between py-4 pl-4 border-b border-[rgba(243,245,247,0.15)]">
+        <div class="avatar-follow flex-[3] flex items-center justify-center">
+            <div class="w-[50%] aspect-square rounded-full overflow-hidden">
+                <img class="cursor-pointer w-full h-full object-cover" src="{{avatar}}" alt="Avatar" />
+            </div>
+        </div>
+
+        <div class="follow-item flex-[7] flex flex-row justify-between">
+            <div class="name-container">
+                <span class="text-[rgb(243,245,247)] text-[15px] font-[600] leading-5">{{username}}</span><br />
+                <span class="text-[rgb(119,119,119)] text-[15px] font-[400] leading-5">{{fullname}}</span>
+            </div>
+            <div
+                class="follow-back-btn text-[rgb(119,119,119)] font-[600] text-[15px] p-[0px_16px] border border-[rgba(243,245,247,0.15)] rounded-[10px] leading-[32.4px] h-[32.4px] mr-[10px]">
+                {{status}}
+            </div>
+        </div>
+    </li>
+</body>
+
+</html>
