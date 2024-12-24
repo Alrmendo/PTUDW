@@ -1,59 +1,52 @@
 import UserInfoModel from '../models/UserModel.js';
 import UserFollowModel from '../models/FollowModel.js';
+import ThreadModel from '../models/ThreadModel.js';
+import NotificationController from './NotiController.js';
+
+import jwt from "jsonwebtoken";
 
 const loadSearch = async (req, res) => {
-  const searchQuery = req.query.q || ""; 
-  console.log(searchQuery);
+  const token = req.cookies.token;
+  if (!token) return res.redirect("/login");
 
-  // Dữ liệu mẫu
-  // const profiles = [
-  //   {
-  //     avatar: '/images/av1.jpg',
-  //     username: "user1",
-  //     bio: "Freelancer.",
-  //     status: "Theo dõi",
-  //     followers: 120,
-  //   },
-  //   {
-  //     avatar: '/images/av1.jpg',
-  //     username: "user2",
-  //     bio: "Freelancer.",
-  //     status: "Theo dõi",
-  //     followers: 80,
-  //   },
-  //   {
-  //     avatar: '/images/av1.jpg',
-  //     username: "user3",
-  //     bio: "Freelancer.",
-  //     status: "Đang theo dõi",
-  //     followers: 45,
-  //   },
-  // ];
-  
-  const profiles = await UserInfoModel.find({});
-
-  const enrichedProfiles = await Promise.all(profiles.map(async (profile) => {
-    const userFollow = await UserFollowModel.findOne({ userId: profile._id });
-
-    const followerCount = userFollow ? userFollow.followers.length : 0;
-
-    return {
-      avatar: profile.avatar,
-      username: profile.username,
-      bio: profile.bio || "", 
-      status: userFollow && userFollow.followings.find(following => following.userId.toString() === profile._id.toString()) ? "Following" : "Not Following",
-      followers: followerCount,
-    };
-  }));
-  const filteredProfiles = enrichedProfiles.filter(profile =>
-    profile.username.toLowerCase().includes(searchQuery.toLowerCase())
+  const decode = jwt.verify(
+    token,
+    "c8763fb94e2a4dc88263f70de16d72c34ff8f3f88f59bcefc9f3e05e3c3c0a7a9d8ab67d5e4131dc681f6bca7b6eb8c9213d2ffbd4cbf28a40a37d3ea7f6b05b"
   );
-  res.render("Search", { infomations: filteredProfiles, searchQuery });
-};
 
+  try {
+    const user_Id = decode.userId;
+    const searchQuery = req.query.q || '';
+    const users = await UserInfoModel.find({ _id: { $ne: user_Id } }).lean();
+    const followData = await UserFollowModel.findOne({ user_Id }).lean();
+
+    const followingUserIds = followData ? followData.followings : [];
+    const filteredProfiles = users.filter(user =>
+      user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const result = await Promise.all(filteredProfiles.map(async user => {
+      const userFollowData = await UserFollowModel.findOne({ user_Id: user._id }).lean();
+      const isFollowing = followingUserIds.some(followingId => followingId.equals(user._id));
+
+      return {
+        id: user._id,
+        avatar: user.avatar,
+        username: user.username,
+        bio: user.quote || '',
+        status: isFollowing,
+        followers: userFollowData ? userFollowData.followers.length : 0
+      };
+    }))
+    res.render("Search", { infomations: result });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 const SearchController = {
-    loadSearch: loadSearch,
+  loadSearch: loadSearch,
 }
 
 export default SearchController;
