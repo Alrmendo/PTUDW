@@ -1,5 +1,6 @@
 import express from "express";
 import database from "./services/db.js";
+import cookieParser from 'cookie-parser';
 import cors from "cors";
 import { engine as expressHbs } from "express-handlebars";
 import path from "path";
@@ -9,7 +10,7 @@ import FeedRouter from "./routes/FeedRouter.js";
 import ProfileRouter from "./routes/ProfileRouter.js";
 import NotiRouter from "./routes/NotiRouter.js";
 import ThreadRouter from "./routes/ThreadRouter.js";
-
+import AuthRouter from "./routes/AuthRouter.js";
 database.connectDatabase();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,8 +18,9 @@ const host = "localhost";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
 
 // Setting up Handlebars
 app.engine(
@@ -58,6 +60,7 @@ app.set("view engine", "hbs");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/", AuthRouter);
 app.use("/", FeedRouter);
 app.use("/search", SearchRouter);
 app.use("/profile", ProfileRouter);
