@@ -5,7 +5,7 @@ const FollowDetailSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userId: {
+    user_Id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         unique: true
@@ -18,7 +18,7 @@ const FollowDetailSchema = new mongoose.Schema({
 
 //Main Schema
 const UserFollowSchema = new mongoose.Schema({
-    userId: {
+    user_Id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         unique: true,
