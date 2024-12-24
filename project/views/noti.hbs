@@ -1,6 +1,58 @@
-<!-- NOTIFICATION START -->
-<div class="h-full overflow-y-scroll hide-scrollbar">
-    {{#each notifications}}
-    {{> notification}}
-    {{/each}}
+<div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
+    <div
+        class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
+        <span onclick="toggleTextAndRotate(this)">Activity</span>
+        <span
+            class="h-6 w-6 border flex justify-center items-center transition-transform duration-300 ease-in-out rounded-full hover:scale-110 border-[#CCD0D5] bg-white  ">
+            <svg viewBox="0 0 13 12" height="12" width="12">
+                <path d="m2.5 4.2 4 4 4-4" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="1.5">
+                </path>
+            </svg>
+        </span>
+
+        <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
+            <span class="bg-black py-[6px] px-5 border rounded-xl">
+                <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
+            </span>
+        </div>
+    </div>
+
+    <div
+        class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
+        <!-- NOTIFICATION START -->
+        <div class="h-full overflow-y-scroll hide-scrollbar">
+            {{#each notifications}}
+            <div class="relative bg-transparent">
+                <div class="flex mt-4 py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5]">
+                    <img class="w-9 h-9 rounded-full" src="{{noti_avatar}}" alt="Avatar" />
+                    <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
+                        <div class="flex items-center h-[36px]">
+                            <div class="flex items-center gap-2 mr-auto">
+                                <span class="text-black font-semibold">{{noti_name}}</span>
+                                <span class="font-thin text-gray-400">{{formatDate date}}</span>
+                            </div>
+                        </div>  
+                        <p class="text-black font-thin pt-4 pb-2">{{content}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            {{!-- <div class="relative bg-transparent">
+                <div class="flex py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5]">
+                    <img class="w-9 h-9 rounded-full" src="av1.jpg" alt="Avatar" />
+                    <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
+                        <div class="flex items-center h-[36px]">
+                            <div class="flex items-center gap-2 mr-auto">
+                                <span class="text-black font-semibold">nhmum__</span>
+                                <span class="font-thin text-gray-400">6h</span>
+                            </div>
+                        </div>                                    
+                        <p class="text-black font-thin pt-4 pb-2">Notification is here</p>
+                    </div>
+                </div>
+            </div> --}}
+            <div class="h-[50px] sm:hidden"></div>
+        </div>
+    </div>
 </div>

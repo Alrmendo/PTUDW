@@ -36,7 +36,5 @@ const UserInfoSchema = new mongoose.Schema({
         default: () => Date.now() + 300000
     },
 });
-
-const UserInfoModel = mongoose.model("Users", UserInfoSchema);
-
+const UserInfoModel = mongoose.model("users", UserInfoSchema);
 export default UserInfoModel;

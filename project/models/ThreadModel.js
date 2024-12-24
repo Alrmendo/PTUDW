@@ -26,7 +26,8 @@ const ThreadLikeSchema = new mongoose.Schema({
 const ThreadSchema = new mongoose.Schema({
     author: {
         type: String,
-        required: true
+        required: true,
+        ref: 'users' ,
     },
     author_ID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -54,6 +55,6 @@ const ThreadSchema = new mongoose.Schema({
     }
 });
 
-const ThreadModel = mongoose.model("Thread", ThreadSchema);
+const ThreadModel = mongoose.model("threads", ThreadSchema);
 
 export default ThreadModel;

@@ -21,15 +21,18 @@ const UserFollowSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        unique: true
+        unique: true,
+        ref: "users" 
     },
     followings: {
         type: [FollowDetailSchema], 
-        default: []
+        default: [],
+        ref: "users"
     },
     followers: {
         type: [FollowDetailSchema], 
-        default: []
+        default: [],
+        ref: "users"
     }
 });
 

@@ -35,8 +35,12 @@
                     <div class="text-center text-xl md:text-2xl font-bold font-sans">
                         <p>Sign in with your account</p>
                     </div>
-                    
-                    <form action="" class="space-y-2 bg-white py-4 md:py-6 rounded-xl text-base mt-4">
+                    {{#if message}}
+                        <div class="text-red-500 text-sm mb-2">
+                            {{message}}
+                        </div>
+                    {{/if}}
+                    <form action="/login" method="post" class="space-y-2 bg-white py-4 md:py-6 rounded-xl text-base mt-4">
                         <div>
                             <input
                             class="w-full  bg-gray-100 rounded-xl px-3 py-3 md:py-4"
