@@ -141,31 +141,18 @@
     }
 
     window.onload = function () {
-      // Kiểm tra xem người dùng đã đăng nhập (token tồn tại trong localStorage)
-      // localStorage.removeItem('authToken');
-      const authToken = localStorage.getItem('authToken');
-
-      if (authToken) {
-        // Ẩn nút đăng nhập nếu người dùng đã đăng nhập
-        document.getElementById('loginButton').style.display = 'none';
-      } else {
-        // Hiện nút đăng nhập nếu người dùng chưa đăng nhập
+      if (!document.cookie.split(';').some(cookie => cookie.trim().startsWith('token='))) {
         document.getElementById('loginButton').style.display = 'block';
       }
-
       const currentPath = window.location.pathname;
+      document.getElementById('threadContent').focus();
       const navLinks = document.querySelectorAll('a');
-
       navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
           link.classList.add('mainpage__selected');
         }
       });
     };
-    function clearInput() {
-      const input = document.getElementById("searchInput");
-      input.value = "";
-    }
   </script>
 </body>
 

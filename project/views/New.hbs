@@ -18,8 +18,8 @@
         <form onsubmit="handleSubmit(event)" class="space-y-4" method="post" enctype="multipart/form-data"
             action="/newthread/upload">
             <div class="flex items-center space-x-3">
-                <img src="/images/av1.jpg" alt="User Icon" class="w-10 h-10 rounded-full" />
-                <span class="font-semibold text-black">nhum__</span>
+                <img src="{{avatar}}" alt="User Icon" class="w-10 h-10 rounded-full" />
+                <span class="font-semibold text-black">{{username}}</span>
             </div>
             <textarea id="threadContent" placeholder="Create a thread..."
                 class="w-full text-black p-2 border border-none bg-white rounded-md focus:outline-none hide-scrollbar"
@@ -55,7 +55,7 @@
                 <div id="imagePreview" class="ml-3 flex flex-col space-y-1"></div>
             </div>
             <div class="flex justify-between items-center mt-4">
-                <span class="text-sm text-[#777777]">Your followers can reply</span>
+                <span class="text-sm text-[#777777]">Anyone can see post</span>
                 <button type="submit"
                     class="bg-blue-500 text-white py-[6px] px-4 rounded font-semibold hover:bg-blue-600">Post</button>
             </div>
@@ -108,15 +108,27 @@
         formData.append('content', content);
         formData.append('username', 'nhan1');
         if (file) formData.append('file', file);
-        console.log(formData);
         const response = await fetch('http://localhost:3000/newthread/upload', {
             method: 'POST',
             body: formData
         });
-        const data = await response.json();
-        if (data.success)
-            window.location.href = "http://localhost:3000";
+        if (response.ok)
+            window.location.href = "/";
         else
             alert(data.message);
     }
+    document.getElementById('threadContent').addEventListener('input', function () {
+        const postButton = document.getElementById('postButton');
+        const content = document.getElementById('threadContent').value;
+
+        if (content.trim() === '') {
+            postButton.disabled = true;
+            postButton.classList.add('opacity-30', 'cursor-not-allowed');
+            postButton.classList.remove('opacity-100');
+        } else {
+            postButton.disabled = false;
+            postButton.classList.add('opacity-100');
+            postButton.classList.remove('opacity-30', 'cursor-not-allowed');
+        }
+    });
 </script>

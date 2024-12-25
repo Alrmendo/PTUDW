@@ -1,10 +1,10 @@
 <div class="flex p-2 gap-2 border-b border-[#CCD0D5]">
-    <img id="avatar" src="{{avatar}}" class="w-9 h-9 rounded-full"/>
+    <img id="avatar" src="{{commentId.avatar}}" class="w-9 h-9 rounded-full"/>
     <div class="flex flex-col gap-2 w-full">
         <div class="flex gap-2 text-black">
-            <span>{{username}}</span>
-            <span class="text-[#BEC3C9]">{{time}}</span>
+            <span>{{commentId.username}}</span>
+            <span class="text-[#BEC3C9]">{{formatTime date}}</span>
         </div>
-        <span id="content" class="thread-content">{{content}}</span>
+        <span id="content" class="thread-content">{{comment}}</span>
     </div>
 </div>
