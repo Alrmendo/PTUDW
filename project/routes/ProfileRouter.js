@@ -7,6 +7,6 @@ import ProfileController from '../controllers/ProfileController.js';
 
 router.get('/', ProfileController.showProfile);
 
-// router.get('/configProfile', ProfileController.redirectToSettings);
+router.post('/updateProfile', ProfileController.updateProfile);
 
 export default router;
