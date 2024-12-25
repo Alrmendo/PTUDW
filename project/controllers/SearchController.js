@@ -6,7 +6,7 @@ const loadSearch = async (req, res) => {
 
   const profiles = [
     {
-      avatar: '/images/avt.png',
+      avatar: '/images/avt.jpg',
       username: "user1",
       bio: "this is a bio",
       status: "Follow",
