@@ -118,46 +118,75 @@ const showProfile = async (req, res) => {
     res.status(500).json({ message: "An error occurred while loading the thread" });
   }
 };
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage: storage }).single('avatar');
+// const storage = multer.memoryStorage(); // Store files in memory
+// const upload = multer({ storage: storage }).single('avatar');
+// const updateProfile = async (req, res) => {
+//   const token = req.cookies.token;
+//   if (!req.cookies.token)
+//     return res.redirect("/login");
+//   const decode = jwt.verify(token, "22127104_22127247");
+//   console.log("token");
+//   console.log(token);
+//   console.log(req.body);
+//   const user_Id = decode.id;
+//   const {username, quote} = req.body;
+
+//   try {
+
+//     const user = await UserModel.findById(user_Id);
+//     console.log("usernaame");
+//     if (!user)     console.log("fck");
+
+//     console.log(username);
+//     console.log(quote);
+//     if (username) 
+//       user.username = username;
+//     if (quote)
+//       user.quote = quote;
+//     const avatar = req.file; // Get the uploaded file from multer
+//     if (avatar) {
+//       // If an avatar is uploaded, you may want to handle it (e.g., save it to a path or cloud storage)
+//       user.avatar = avatar.buffer; // Example: store the image buffer directly (not recommended for production)
+//     }
+//     // if (avatar)
+//     //   user.avatar = imageUpload;
+//     await user.save();
+//     res.send("User has been updated!");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Can not update user!");
+//   }
+// };
+
 const updateProfile = async (req, res) => {
   const token = req.cookies.token;
-  if (!req.cookies.token)
-    return res.redirect("/login");
+  if (!token) {
+      return res.redirect("/login");
+  }
   const decode = jwt.verify(token, "22127104_22127247");
-  console.log("token");
-  console.log(token);
-  console.log(req.body);
   const user_Id = decode.id;
-  const {username, quote} = req.body;
+  const { username, quote } = req.body;
+  const avatar = req.file; // Get the uploaded file from multer
 
   try {
+      const user = await UserModel.findById(user_Id);
+      if (!user) {
+          return res.status(404).send("User not found");
+      }
 
-    const user = await UserModel.findById(user_Id);
-    console.log("usernaame");
-    if (!user)     console.log("fck");
+      if (username) user.username = username;
+      if (quote) user.quote = quote;
+      if (avatar) {
+          user.avatar = avatar.buffer; // Example: store the image buffer directly (not recommended for production)
+      }
 
-    console.log(username);
-    console.log(quote);
-    if (username) 
-      user.username = username;
-    if (quote)
-      user.quote = quote;
-    const avatar = req.file; // Get the uploaded file from multer
-    if (avatar) {
-      // If an avatar is uploaded, you may want to handle it (e.g., save it to a path or cloud storage)
-      user.avatar = avatar.buffer; // Example: store the image buffer directly (not recommended for production)
-    }
-    // if (avatar)
-    //   user.avatar = imageUpload;
-    await user.save();
-    res.send("User has been updated!");
+      await user.save();
+      res.send("User has been updated!");
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Can not update user!");
+      console.error(error);
+      res.status(500).send("Can't update user!");
   }
 };
-
 const ProfileController = {
   // redirectToSettings: redirectToSettings,
   // loadUserThreadData: loadUserThreadData,

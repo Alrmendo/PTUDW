@@ -166,30 +166,34 @@
     }
   }
 
-function saveProfile() {
+async function saveProfile() {
     const username = document.getElementById('usernameEdit').value;
     const quote = document.getElementById('quoteEdit').value;
     const imageInput = document.getElementById("image-upload");
     const avatar = imageInput.files ? imageInput.files[0] : null;
-    console.log(username);
+    console.log(avatar);
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('quote', quote);
+    if (avatar) {
+        formData.append('avatar', avatar); // Attach the file if it exists
+    }
 
     fetch('/profile/updateProfile', {
         method: 'POST',
-        body: JSON.stringify({ username: username, quote: quote, avatar: avatar })//formData // Use FormData as the body
+        body: formData, // Use FormData as the body
     }).then(response => {
         if (response.ok) {
-            /*document.querySelector('.profile-username h1').innerText = username;
-            document.querySelector('.profile-avatar img').src = avatar ? URL.createObjectURL(avatar) : ''; // Update avatar preview
-            document.querySelector('.px-7.pt-3 span').innerText = quote;*/
-
             toggleModal();
-//            window.location.href = "/profile"
+            window.location.href = "/profile";
         } else {
             alert('Failed to update profile.');
         }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update profile.');
     });
 }
-
 </script>
 </body>
 
