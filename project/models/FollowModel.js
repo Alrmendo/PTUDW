@@ -1,29 +1,34 @@
 import mongoose from "mongoose";
 
 const UserFollowSchema = new mongoose.Schema({
-    username: { 
-        type: String, 
-        required: true 
+    user_Id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        unique: true
     },
-    avatar: { 
-        type: String, 
-        default: "/images/av1.jpg" 
+    username: {
+        type: String,
+        required: true
+    },
+    avatar: {
+        type: String,
+        default: "/images/av1.jpg"
     },
 });
 
 const FollowSchema = new mongoose.Schema({
-    username: { 
-        type: String, 
-        required: true, 
-        unique: true 
+    user_Id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        unique: true
     },
-    followers: { 
-        type: [UserFollowSchema], 
-        default: [] 
+    followers: {
+        type: [UserFollowSchema],
+        default: []
     },
-    followings: { 
-        type: [UserFollowSchema], 
-        default: [] 
+    followings: {
+        type: [UserFollowSchema],
+        default: []
     },
 });
 
