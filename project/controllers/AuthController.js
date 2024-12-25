@@ -1,4 +1,4 @@
-import UserInfoModel from "../models/UserModel.js";
+import UserModel from "../models/UserModel.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
@@ -23,7 +23,7 @@ const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     console.log("Username:", username);
-    const user = await UserInfoModel.findOne({ username });
+    const user = await UserModel.findOne({ username });
 
     if (!user) {
       console.log("User not found.");
@@ -63,7 +63,7 @@ const signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     console.log(username);
-    const userExists = await UserInfoModel.findOne({$or: [{ username: username }, { email: email }] });
+    const userExists = await UserModel.findOne({$or: [{ username: username }, { email: email }] });
     if (userExists) {
       if (userExists.username === username) 
       {
@@ -82,7 +82,7 @@ const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
-    const user = await UserInfoModel.create({ username, email, password: hashedPassword, verificationToken});
+    const user = await UserModel.create({ username, email, password: hashedPassword, verificationToken});
 
     // Send verification email
     const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
@@ -117,7 +117,7 @@ const signup = async (req, res) => {
 const verifyEmail = async (req, res) => {
   try {
     const { token } = req.query;
-    const user = await UserInfoModel.findOne({ verificationToken: token });
+    const user = await UserModel.findOne({ verificationToken: token });
 
     if (!user) {
       return res.status(400).render("signup", { message: "Invalid or expired token.", layout: false });
@@ -137,7 +137,7 @@ const verifyEmail = async (req, res) => {
 // const resendEmail = async (req, res) => {
 //   try {
 //     const { email } = req.query;
-//     const user = await UserInfoModel.findOne({ email });
+//     const user = await UserModel.findOne({ email });
 
 //     if (!user) {
 //       return res.status(404).render("signup", { 
@@ -192,7 +192,7 @@ const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await UserInfoModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) {
       req.message = "No account with this email found.";
       return res.render("forgotPassword", { message: req.message, layout: false });
@@ -235,7 +235,7 @@ const resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
     console.log("Received token:", token);
     console.log("Received newPassword:", newPassword);    
-    const user = await UserInfoModel.findOne({
+    const user = await UserModel.findOne({
       verificationToken: token,
       verificationExpires: { $gt: Date.now() },
     });
@@ -263,7 +263,7 @@ const resetPassword = async (req, res) => {
 //   try {
 //     const { currentPassword, newPassword } = req.body;
 
-//     const user = await UserInfoModel.findById(req.user.id); // Assuming `req.user` contains the logged-in user's ID
+//     const user = await UserModel.findById(req.user.id); // Assuming `req.user` contains the logged-in user's ID
 //     if (!user) {
 //       req.message = "User not found.";
 //       return res.render("profile", { message: req.message, layout: false });
