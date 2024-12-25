@@ -11,6 +11,14 @@ const showSignup = async(req, res) =>{
   res.render('signup', {message: req.message, success:req.success, layout:false});
 }
 
+const showforgotPassword = async(req, res) =>{
+  res.render('forgotPassword', {message: req.message, layout:false});
+}
+
+const showresetPassword = async(req, res) =>{
+  const { token } = req.query;
+  res.render('resetPassword', {token, message: req.message, layout: false});
+}
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -180,6 +188,104 @@ const verifyEmail = async (req, res) => {
 //   }
 // };
 
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await UserInfoModel.findOne({ email });
+    if (!user) {
+      req.message = "No account with this email found.";
+      return res.render("forgotPassword", { message: req.message, layout: false });
+    }
+
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationExpires = Date.now() + 300000;
+    user.verificationToken = verificationToken;
+    user.verificationExpires = verificationExpires;
+    await user.save();
+
+    const resetLink = `http://localhost:3000/resetPassword?token=${verificationToken}`;
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: 'underwavecontact@gmail.com',
+        pass: 'awrj ukks lynl sslx',
+      },
+    });
+
+    await transporter.sendMail({
+      from: 'underwavecontact@gmail.com',
+      to: user.email,
+      subject: "Password Reset",
+      html: `<p>Click the link below to reset your password:</p>
+             <a href="${resetLink}">Reset Password</a>
+             <p>If you did not request this, please ignore this email.</p>`,
+    });
+
+    req.message = "Password reset link sent to your email.";
+    return res.render("forgotPassword", { message: req.message, layout: false });
+  } catch (error) {
+    console.error("Error during forgotPassword:", error);
+    res.status(500).json({ message: "An error occurred during the process." });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    console.log("Received token:", token);
+    console.log("Received newPassword:", newPassword);    
+    const user = await UserInfoModel.findOne({
+      verificationToken: token,
+      verificationExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      req.message = "Invalid or expired token.";
+      return res.render("resetPassword", { message: req.message, layout: false });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.verificationToken = null;
+    // user.resetPasswordExpires = null;
+    await user.save();
+
+    req.message = "Password reset successfully.";
+    return showLogin(req, res);
+  } catch (error) {
+    console.error("Error during resetPassword:", error);
+    res.status(500).json({ message: "An error occurred during the process." });
+  }
+};
+
+// const updatePassword = async (req, res) => {
+//   try {
+//     const { currentPassword, newPassword } = req.body;
+
+//     const user = await UserInfoModel.findById(req.user.id); // Assuming `req.user` contains the logged-in user's ID
+//     if (!user) {
+//       req.message = "User not found.";
+//       return res.render("profile", { message: req.message, layout: false });
+//     }
+
+//     const isMatch = await bcrypt.compare(currentPassword, user.password);
+//     if (!isMatch) {
+//       req.message = "Current password is incorrect.";
+//       return res.render("profile", { message: req.message, layout: false });
+//     }
+
+//     user.password = await bcrypt.hash(newPassword, 10);
+//     await user.save();
+
+//     req.message = "Password updated successfully.";
+//     return res.render("profile", { message: req.message, layout: false });
+//   } catch (error) {
+//     console.error("Error during updatePassword:", error);
+//     res.status(500).json({ message: "An error occurred during the process." });
+//   }
+// };
+
 const signout = async(req, res) => {
   res.clearCookie("token");
   return res.redirect("/");
@@ -191,6 +297,10 @@ const AuthController = {
     signup: signup,
     verifyEmail: verifyEmail,
     // resendEmail: resendEmail,
+    showforgotPassword: showforgotPassword,
+    forgotPassword: forgotPassword,
+    showresetPassword: showresetPassword,
+    resetPassword: resetPassword,
     signout: signout,
 }
 

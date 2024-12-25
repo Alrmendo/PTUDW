@@ -8,5 +8,11 @@ router.get("/signup",AuthController.showSignup);
 router.post("/signup",AuthController.signup);
 router.get("/verify-email", AuthController.verifyEmail);
 // router.get("/resendEmail", AuthController.resendEmail);
+router.get('/forgotPassword', AuthController.showforgotPassword);
+router.post('/forgotPassword', AuthController.forgotPassword);
+router.get("/resetPassword", AuthController.showresetPassword);
+
+router.post("/resetPassword", AuthController.resetPassword);
+
 router.get("/signout", AuthController.signout);
 export default router;
