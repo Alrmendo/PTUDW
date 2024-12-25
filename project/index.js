@@ -26,25 +26,25 @@ app.use(cookieParser());
 app.engine(
     "hbs",
     expressHbs({
-        layoutsDir: path.join(__dirname, "views", "layouts"),
-        partialsDir: path.join(__dirname, "views", "partials"),
-        extname: "hbs",
-        defaultLayout: "layout",
-        runtimeOptions: {
-            allowProtoPropertiesByDefault: true,
-        },
-        helpers: {
-            formatDate: (date) => {
-              return date.toLocaleDateString("vi-VN", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              });
-            },
+      layoutsDir: path.join(__dirname, "views", "layouts"),
+      partialsDir: path.join(__dirname, "views", "partials"),
+      extname: "hbs",
+      defaultLayout: "layout",
+      runtimeOptions: {
+          allowProtoPropertiesByDefault: true,
+      },
+      helpers: {
+          formatDate: (date) => {
+            return date.toLocaleDateString("vi-VN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            });
           },
+        },
     }),
     
 );
