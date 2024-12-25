@@ -8,20 +8,20 @@
       <div class="profile-username flex flex-col justify-center">
         <div class="name__username">
           <h1 class="text-black text-xl font-bold leading-8 cursor-pointer">
-            nhmum
+            {{user.username}}
           </h1>
         </div>
         <div class="name__nickname">
-          <span class="text-black font-normal leading-[20px]">nhmum__</span>
+          <span class="text-black font-normal leading-[20px]">{{user.username}}</span>
         </div>
       </div>
       <div class="profile-avatar">
-        <img src="./image/avatar_1.0.jpg" alt="Avatar"
+        <img src="{{user.avatar}}" alt="Avatar"
           class="h-auto max-w-20 object-cover rounded-full outline outline-[0.5px] outline-[#CCD0D5] cursor-pointer" />
       </div>
     </div>
     <div class="px-7 pt-3">
-      <span>profile note here</span>
+      <span>{profile note here}</span>
     </div>
 
     <!-- FOLLOWER BANNER -->
@@ -29,7 +29,7 @@
       <div class="number-follower cursor-pointer">
         <span
           class="text-[14px] font-normal text-[#BEC3C9] leading-[20px] hover:border-b-[1.5px] hover:border-[#BEC3C9]"
-          onclick="displayFollowsPanel()">12 followers
+          onclick="displayFollowsPanel()">{{followers.length}} followers
         </span>
       </div>
 

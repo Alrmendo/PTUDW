@@ -29,7 +29,9 @@ const newThread = async (req, res) => {
     }
 
     try {
-        const findUser = await getUserFromToken(token);
+        const decode = jwt.verify(token, "22127104_22127247");
+        const user_Id = decode.id;
+        const findUser = await UserModel.findById(user_Id);
         if (!findUser) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -96,5 +98,4 @@ const NewThreadController = {
     newThread,
     uploadThread
 };
-
 export default NewThreadController;
