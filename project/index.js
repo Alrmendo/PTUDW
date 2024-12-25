@@ -1,29 +1,30 @@
 import express from "express";
 import path from "path";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
-import database from "./services/db.js";
-import FeedRouter from "./routes/FeedRouter.js";
-import SearchRouter from "./routes/SearchRouter.js";
-import AuthenticationRouter from "./routes/AuthRouter.js";
-import ProfileRouter from "./routes/ProfileRouter.js";
-import NotificationRouter from "./routes/NotificationRouter.js";
-import NewThreadRouter from "./routes/NewThreadRouter.js";
-import expressHandlebars from "express-handlebars";
+import databaseService from "./database/db.js";
+import feedRoutes from "./routes/FeedRouter.js";
+import searchRoutes from "./routes/SearchRouter.js";
+import authRoutes from "./routes/AuthRouter.js";
+import profileRoutes from "./routes/ProfileRouter.js";
+import notificationRoutes from "./routes/NotificationRouter.js";
+import threadRoutes from "./routes/NewThreadRouter.js";
+import handlebars from "express-handlebars";
 
-database.connectDatabase();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const currentFilename = fileURLToPath(import.meta.url);
+const currentDirname = path.dirname(currentFilename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const HOST = "localhost";
+databaseService.connectDatabase();
 
-// Cài đặt handlebars
-const hbs = expressHandlebars.create({
-  layoutsDir: path.join(__dirname, "/views/layouts"),
-  partialsDir: path.join(__dirname, "/views/partials"),
+const SERVER_PORT = process.env.PORT || 3000;
+const SERVER_HOST = process.env.HOST || "localhost";
+
+// Configure Handlebars
+const hbsConfig = handlebars.create({
+  layoutsDir: path.join(currentDirname, "/views/layouts"),
+  partialsDir: path.join(currentDirname, "/views/partials"),
   extname: "hbs",
   defaultLayout: "layout",
   helpers: {
@@ -33,12 +34,22 @@ const hbs = expressHandlebars.create({
       const inputDate = new Date(dateString);
       const diff = Math.floor((now - inputDate) / 1000);
 
-      if (diff < 60) return `${diff} giây`;
-      if (diff < 3600) return `${Math.floor(diff / 60)} phút`;
-      if (diff < 86400) return `${Math.floor(diff / 3600)} giờ`;
-      if (diff < 2592000) return `${Math.floor(diff / 86400)} ngày`;
-      if (diff < 31536000) return `${Math.floor(diff / 2592000)} tháng`;
-      return `${Math.floor(diff / 31536000)} năm`;
+      const pluralize = (value, unit) => `${value} ${unit}${value > 1 ? "s" : ""}`;
+
+      if (diff < 60) return pluralize(diff, "second");
+      if (diff < 3600) return pluralize(Math.floor(diff / 60), "minute");
+      if (diff < 86400) return pluralize(Math.floor(diff / 3600), "hour");
+      if (diff < 2592000) return pluralize(Math.floor(diff / 86400), "day");
+      if (diff < 31536000) return pluralize(Math.floor(diff / 2592000), "month");
+      return pluralize(Math.floor(diff / 31536000), "year");
+    },
+    formatFollows: (numFollows) => {
+      if (typeof numFollows !== "number") return numFollows;
+
+      if (numFollows >= 1000000) return `${(numFollows / 1000000).toFixed(1)}M`;
+      if (numFollows >= 10000) return `${(numFollows / 1000).toFixed(1)}K`;
+      if (numFollows >= 1000) return numFollows.toLocaleString("de-DE");
+      return numFollows.toString();
     },
   },
   runtimeOptions: {
@@ -50,21 +61,24 @@ const hbs = expressHandlebars.create({
 // Middleware
 app.use(cors({ origin: "*", methods: ["GET", "POST"], credentials: true }));
 app.options("*", cors());
-app.engine("hbs", hbs.engine);
-app.set("view engine", "hbs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(currentDirname, "public")));
+app.use(cookieParser());
+
+// Set up Handlebars
+app.engine("hbs", hbsConfig.engine);
+app.set("view engine", "hbs");
 
 // Routes
-app.use("/", FeedRouter);
-app.use("/search", SearchRouter);
-app.use("/", AuthenticationRouter);
-app.use("/profile", ProfileRouter);
-app.use("/notification", NotificationRouter);
-app.use("/newthread", NewThreadRouter);
+app.use("/", feedRoutes);
+app.use("/search", searchRoutes);
+app.use("/", authRoutes);
+app.use("/profile", profileRoutes);
+app.use("/notification", notificationRoutes);
+app.use("/newthread", threadRoutes);
 
 // Start server
-app.listen(PORT, HOST, () => {
-  console.log(`Listening on http://${HOST}:${PORT}`);
+app.listen(SERVER_PORT, SERVER_HOST, () => {
+  console.log(`Server is running at http://${SERVER_HOST}:${SERVER_PORT}`);
 });
