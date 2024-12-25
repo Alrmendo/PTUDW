@@ -12,7 +12,7 @@ const loadAllThread = async (req, res) => {
             foreignField: "username",
             select: "username avatar",
         }).lean();
-        res.render("Feed", { threads: threads, isLogin: false });
+        res.render("Thread", { threads: threads, isLogin: false });
     } else {
         const decode = jwt.verify(
             token,
@@ -37,7 +37,7 @@ const loadAllThread = async (req, res) => {
                 );
                 return { ...thread, isLike };
             });
-            res.render("Feed", { threads: updatedThreads, avatar: user.avatar, isLogin: true });
+            res.render("Thread", { threads: updatedThreads, avatar: user.avatar, isLogin: true });
         } catch (error) {
             console.error("Error fetching threads:", error);
             res
@@ -98,7 +98,7 @@ const addComment = async (req, res) => {
     );
     try {
         const thread = await threadModel.findById(req.params.id);
-        thread.comments.push({ commentId: decode.user_Id, comment: content });
+        thread.comments.push({ comment_Id: decode.user_Id, comment: content });
         await thread.save();
         res.status(200).json({ message: "Comment added successfully" });
     } catch (error) {
@@ -125,8 +125,8 @@ const loadThread = async (req, res) => {
             foreignField: "username",
             select: "username avatar",
         }).populate({
-            path: "comments.commentId",
-            localField: "comments.commentId",
+            path: "comments.comment_Id",
+            localField: "comments.comment_Id",
             foreignField: "_id",
             model: "Users",
             select: "username avatar"
@@ -136,7 +136,7 @@ const loadThread = async (req, res) => {
         );
         const user = await userModel.findById(decode.user_Id).lean();
         const updatedThread = { ...thread, isLike };
-        res.render("Post", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar });
+        res.render("post", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar });
     } catch (error) {
         console.error("Error fetching thread:", error);
         res.status(500).json({ message: "An error occurred while loading the thread" });

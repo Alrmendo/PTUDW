@@ -1,51 +1,62 @@
 import UserModel from '../models/UserModel.js';
 import FollowModel from '../models/FollowModel.js';
 import jwt from "jsonwebtoken";
-import { query } from 'express';
+
+const SECRET_KEY = "22127104_22127247";
+
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, SECRET_KEY);
+  } catch (err) {
+    return null;
+  }
+};
 
 const loadSearch = async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
-    res.redirect("/login");
-    return;
+    return res.redirect("/login");
   }
-  const decode = jwt.verify(
-    token,
-    "22127104_22127247"
-  );
+
+  const decode = verifyToken(token);
+  if (!decode) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+
   try {
     const user_Id = decode.user_Id;
-    const searchQuery = req.query.q || '';
+    const searchQuery = req.query.q?.trim() || '';
+    
+    // Lấy danh sách người dùng ngoại trừ chính user hiện tại
     const users = await UserModel.find({ _id: { $ne: user_Id } });
-
+    
+    // Lấy thông tin follow của user hiện tại
     const followData = await FollowModel.findOne({ user_Id });
+    const followingUsernames = followData?.followings.map(follow => follow.username) || [];
 
-    const followingUsernames = followData ? followData.followings.map(follow => follow.username) : [];
-
+    // Lọc người dùng theo từ khóa tìm kiếm
     const filteredProfiles = users.filter(user =>
       user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const result = filteredProfiles.map(user => {
-      const isFollowing = followingUsernames.includes(user.username);
-      return {
-        avatar: user.avatar,
-        username: user.username,
-        bio: user.quote || '',
-        status: isFollowing,
-        followers: followData ? followData.followers.length : 0
-      };
-    });
+    // Chuẩn hóa kết quả trả về
+    const result = filteredProfiles.map(user => ({
+      avatar: user.avatar,
+      username: user.username,
+      bio: user.quote || '',
+      status: followingUsernames.includes(user.username),
+      followers: followData?.followers.length || 0
+    }));
+
     res.render("Search", { infomations: result });
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error loading search:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-
 const SearchController = {
-  loadSearch: loadSearch,
-}
+  loadSearch,
+};
 
 export default SearchController;
