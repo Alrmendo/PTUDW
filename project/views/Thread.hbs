@@ -8,7 +8,9 @@
   </div> --}}
   <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5] justify-between">
     {{#if isLogin}}
-      <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
+      <a href="profile">
+        <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
+      </a>
       <!-- <span class="mr-auto text-[#777777]">What's new?</span> -->
       <span onclick="toggleModal()" class="mr-auto text-[#777777]">What's new?</span>
       <button
@@ -38,10 +40,10 @@
         <!-- Main Content -->
         <div class="pt-8 flex flex-grow px-6">
             <div class="pr-3">
-                <img src="{{user.username}}" class="w-[36px] h-[36px] rounded-full" />
+                <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
             </div>
             <div class="flex-grow">
-                <p class="font-semibold">rmuhm_</p>
+                <p class="font-semibold">{{user.username}}</p>
                 <textarea
                     class="w-full rounded-xl pr-4 py-3 resize-none overflow-auto border-none focus:outline-none"
                     id="text-post-popup" placeholder="Create a thread..." required rows="4" oninput="adjustHeight(this)"

@@ -119,10 +119,7 @@ const loadThread = async (req, res) => {
     res.redirect("/login");
     return;
   }
-  const decode = jwt.verify(
-    token,
-    "22127104_22127247"
-  );
+  const decode = jwt.verify(token,"22127104_22127247");
   try{
     const thread = await threadModel.findById(req.params.id).populate({
       path: "author",
