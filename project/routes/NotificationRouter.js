@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import NotificationController from '../controllers/NotiController.js';
+import NotificationController from '../controllers/NotificationController.js';
 
 router.get("/", NotificationController.loadNotifications);
 

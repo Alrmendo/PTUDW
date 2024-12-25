@@ -8,9 +8,10 @@ import { fileURLToPath } from "url";
 import SearchRouter from "./routes/SearchRouter.js";
 import FeedRouter from "./routes/FeedRouter.js";
 import ProfileRouter from "./routes/ProfileRouter.js";
-import NotiRouter from "./routes/NotiRouter.js";
-import ThreadRouter from "./routes/ThreadRouter.js";
+import NotiRouter from "./routes/NotificationRouter.js";
+import ThreadRouter from "./routes/NewThreadRouter.js";
 import AuthRouter from "./routes/AuthRouter.js";
+
 database.connectDatabase();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,35 +25,49 @@ app.use(cookieParser());
 
 // Setting up Handlebars
 app.engine(
-    "hbs",
-    expressHbs({
-      layoutsDir: path.join(__dirname, "views", "layouts"),
-      partialsDir: path.join(__dirname, "views", "partials"),
-      extname: "hbs",
-      defaultLayout: "layout",
-      runtimeOptions: {
-          allowProtoPropertiesByDefault: true,
+  "hbs",
+  expressHbs({
+    layoutsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "partials"),
+    extname: "hbs",
+    defaultLayout: "layout",
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    },
+    helpers: {
+      formatTime: function (dateString) {
+        const now = new Date();
+        const inputDate = new Date(dateString);
+        const diff = Math.floor((now - inputDate) / 1000);
+
+        if (diff < 60) {
+          return `${diff} giây`;
+        } else if (diff < 3600) {
+          const minutes = Math.floor(diff / 60);
+          return `${minutes} phút`;
+        } else if (diff < 86400) {
+          const hours = Math.floor(diff / 3600);
+          return `${hours} giờ`;
+        } else if (diff < 2592000) {
+          const days = Math.floor(diff / 86400);
+          return `${days} ngày`;
+        } else if (diff < 31536000) {
+          const months = Math.floor(diff / 2592000);
+          return `${months} tháng`;
+        } else {
+          const years = Math.floor(diff / 31536000);
+          return `${years} năm`;
+        }
       },
-      helpers: {
-          formatDate: (date) => {
-            return date.toLocaleDateString("vi-VN", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-            });
-          },
-        },
-    }),
-    
+    },
+  }),
+
 );
 
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST'],
-    credentials: true
+  origin: '*',
+  methods: ['GET', 'POST'],
+  credentials: true
 }))
 app.options('*', cors())
 app.set("view engine", "hbs");
@@ -69,5 +84,5 @@ app.use("/newthread", ThreadRouter);
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Listening on http://${host}:${port}`);
+  console.log(`Listening on http://${host}:${port}`);
 });

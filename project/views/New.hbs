@@ -1,0 +1,122 @@
+{{!-- CREAT A NEW THREAD --}}
+<div id="newThreadModal" class="flex justify-center items-center fixed inset-0 bg-[rgb(250,250,250)]">
+    <div class="bg-white text-black rounded-lg sm:w-4/12 p-5 w-11/12 border border-[#CCD0D5]">
+        <div class="flex justify-between items-center mb-4">
+            <button class="text-[#BEC3C9] text-base hover:text-gray-300">Cancel</button>
+            <h2 class="text-lg font-semibold">Creat Thread</h2>
+            {{!-- ICON --}}
+            <svg viewBox="0 0 24 24" width="22" height="22">
+                <rect height="15" rx="4.5" stroke="currentColor" stroke-width="2" width="15" x="7" y="7"></rect>
+                <path clip-rule="evenodd"
+                    d="M15.3833 4.50007C15.0018 4.15977 14.5475 3.9045 14.05 3.75672C13.7983 3.68195 13.432 3.6357 12.7078 3.68313C11.9633 3.73189 11.0102 3.86454 9.59538 4.06338C8.18054 4.26222 7.22784 4.39741 6.4987 4.55577C5.78946 4.7098 5.45011 4.85522 5.22879 4.99646C4.51904 5.44941 3.99637 6.14302 3.7566 6.95012C3.68183 7.2018 3.63558 7.56809 3.68301 8.29232C3.73177 9.03686 3.86442 9.98992 4.06326 11.4047C4.23845 12.6513 4.36423 13.5391 4.49997 14.2313V17.5001C4.49997 17.737 4.51175 17.9713 4.53475 18.2022C4.05772 17.8249 3.64282 17.3681 3.31041 16.8473C2.66675 15.8387 2.47208 14.4535 2.08272 11.6831C1.69337 8.91269 1.49869 7.52748 1.83941 6.38057C2.21619 5.11227 3.03754 4.02231 4.15285 3.31053C5.16142 2.66688 6.54662 2.4722 9.31703 2.08284C12.0874 1.69349 13.4726 1.49881 14.6196 1.83953C15.8878 2.21631 16.9778 3.03766 17.6896 4.15297C17.7623 4.26696 17.8294 4.38577 17.8916 4.51084C17.7619 4.50369 17.6314 4.50007 17.5 4.50007H15.3833Z"
+                    fill="currentColor" fill-rule="evenodd"></path>
+                <rect fill="currentColor" height="2" rx="1" width="9" x="10" y="12"></rect>
+                <rect fill="currentColor" height="2" rx="1" width="6" x="10" y="15"></rect>
+            </svg>
+        </div>
+
+        <form onsubmit="handleSubmit(event)" class="space-y-4" method="post" enctype="multipart/form-data"
+            action="/newthread/upload">
+            <div class="flex items-center space-x-3">
+                <img src="/images/av1.jpg" alt="User Icon" class="w-10 h-10 rounded-full" />
+                <span class="font-semibold text-black">nhum__</span>
+            </div>
+            <textarea id="threadContent" placeholder="Create a thread..."
+                class="w-full text-black p-2 border border-none bg-white rounded-md focus:outline-none hide-scrollbar"
+                style="height: 100px; resize: none;"></textarea>
+
+            <div class="flex items-center " id="imageContainer">
+                <input type="file" name="file" accept="image/*" id="file" class="hidden" onchange="displayImage()">
+                <label for="file" class="cursor-pointer">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <g>
+                            <path clip-rule="evenodd"
+                                d="M2.00207 9.4959C1.65132 7.00019 1.47595 5.75234 1.82768 4.73084C2.13707 3.83231 2.72297 3.05479 3.50142 2.50971C4.38639 1.89005 5.63425 1.71467 8.12996 1.36392L10.7047 1.00207C13.2004 0.651325 14.4482 0.47595 15.4697 0.827679C16.3682 1.13707 17.1458 1.72297 17.6908 2.50142C17.9171 2.82454 18.0841 3.19605 18.2221 3.65901C17.7476 3.64611 17.2197 3.64192 16.6269 3.64055C16.5775 3.5411 16.5231 3.44881 16.4621 3.36178C16.0987 2.84282 15.5804 2.45222 14.9814 2.24596C14.3004 2.01147 13.4685 2.12839 11.8047 2.36222L7.44748 2.97458C5.78367 3.20841 4.95177 3.32533 4.36178 3.73844C3.84282 4.10182 3.45222 4.62017 3.24596 5.21919C3.01147 5.90019 3.12839 6.73209 3.36222 8.3959L3.97458 12.7531C4.15588 14.0431 4.26689 14.833 4.50015 15.3978C4.50083 16.3151 4.50509 17.0849 4.53201 17.7448C4.13891 17.4561 3.79293 17.1036 3.50971 16.6991C2.89005 15.8142 2.71467 14.5663 2.36392 12.0706L2.00207 9.4959Z"
+                                fill="currentColor" fill-rule="evenodd"></path>
+                            <g>
+                                <g clip-path="url(#:rg:)">
+                                    <rect fill="none" height="15.5" rx="3.75" stroke="currentColor" stroke-width="1.5"
+                                        width="15.5" x="6.75" y="5.8894"></rect>
+                                    <path
+                                        d="M6.6546 17.8894L8.59043 15.9536C9.1583 15.3857 10.0727 15.3658 10.6647 15.9085L12.5062 17.5966C12.9009 17.9584 13.5105 17.9451 13.8891 17.5665L17.8181 13.6376C18.4038 13.0518 19.3536 13.0518 19.9394 13.6375L22.0663 15.7644"
+                                        fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5">
+                                    </path>
+                                    <circle cx="10.75" cy="9.8894" fill="currentColor" r="1.25"></circle>
+                                </g>
+                            </g>
+                        </g>
+                        <defs>
+                            <clipPath id=":rg:">
+                                <rect fill="white" height="17" rx="4.5" width="17" x="6" y="5.1394"></rect>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </label>
+                <div id="imagePreview" class="ml-3 flex flex-col space-y-1"></div>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <span class="text-sm text-[#777777]">Your followers can reply</span>
+                <button type="submit"
+                    class="bg-blue-500 text-white py-[6px] px-4 rounded font-semibold hover:bg-blue-600">Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="postList" class="mt-5 space-y-4"></div>
+<script>
+    function displayImage() {
+        const fileInput = document.getElementById('file');
+        const imagePreviewContainer = document.getElementById('imagePreview');
+        imagePreviewContainer.innerHTML = '';
+
+        Array.from(fileInput.files).forEach(file => {
+            const fileContainer = document.createElement('div');
+            fileContainer.classList.add('flex', 'items-center', 'justify-between', 'mb-1');
+
+            const fileName = document.createElement('div');
+            fileName.textContent = file.name;
+            fileName.classList.add('text-white', 'mr-2');
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'x';
+            deleteButton.classList.add('text-[#777777]', 'ml-2');
+            deleteButton.onclick = function () {
+                const fileList = Array.from(fileInput.files).filter(f => f !== file);
+                fileInput.files = new FileListItems(fileList);
+                fileContainer.remove();
+            };
+
+            fileContainer.appendChild(fileName);
+            fileContainer.appendChild(deleteButton);
+
+            imagePreviewContainer.appendChild(fileContainer);
+        });
+    }
+
+    function FileListItems(files) {
+        let b = new DataTransfer();
+        files.forEach(f => b.items.add(f));
+        return b.files;
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const content = document.getElementById('threadContent').value;
+        const file = document.getElementById('file').files[0];
+        const formData = new FormData();
+        formData.append('content', content);
+        formData.append('username', 'nhan1');
+        if (file) formData.append('file', file);
+        console.log(formData);
+        const response = await fetch('http://localhost:3000/newthread/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (data.success)
+            window.location.href = "http://localhost:3000";
+        else
+            alert(data.message);
+    }
+</script>

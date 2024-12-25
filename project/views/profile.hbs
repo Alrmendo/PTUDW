@@ -1,216 +1,193 @@
-<div class="w-screen h-screen overflow-x-hidden flex flex-col items-center justify-center">
-        <div
-            class="w-full sm:w-1/2 m-4 font-semibold text-lg text-center cursor-pointer flex justify-center items-center gap-2 text-black">
-            <span onclick="toggleTextAndRotate(this)">Profile</span>
+{{!-- TRANG PROFILE --}}
+<!DOCTYPE html>
+<html lang="en">
 
-            <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
-                <span class="bg-black py-[6px] px-5 border rounded-xl">
-                    <a href="./login.html" class="text-white no-underline font-normal text-[15px]">Log in</a>
-                </span>
-            </div>
+<body>
+  <div class="profile">
+    <div class="profile_control flex justify-between px-6 pt-4 pb-2.5">
+      <div class="profile-username flex flex-col justify-center">
+        <div class="name__username">
+          <h1 class="text-black text-xl font-bold leading-8 cursor-pointer">
+            nhmum
+          </h1>
         </div>
+        <div class="name__nickname">
+          <span class="text-black font-normal leading-[20px]">nhmum__</span>
+        </div>
+      </div>
+      <div class="profile-avatar">
+        <img src="./image/avatar_1.0.jpg" alt="Avatar"
+          class="h-auto max-w-20 object-cover rounded-full outline outline-[0.5px] outline-[#CCD0D5] cursor-pointer" />
+      </div>
+    </div>
+    <div class="px-7 pt-3">
+      <span>profile note here</span>
+    </div>
+
+    <!-- FOLLOWER BANNER -->
+    <div class="follower-banner flex px-6 pt-4 justify-between">
+      <div class="number-follower cursor-pointer">
+        <span
+          class="text-[14px] font-normal text-[#BEC3C9] leading-[20px] hover:border-b-[1.5px] hover:border-[#BEC3C9]"
+          onclick="displayFollowsPanel()">12 followers</span>
 
         <div
-            class=" w-full sm:w-[45%] flex-1 overflow-y-auto flex flex-col sm:rounded-t-3xl sm:bg-white sm:border sm:border-[#CCD0D5]">
-            <div class="h-full overflow-y-scroll hide-scrollbar">
-                <!-- PROFILE START -->
-                <div class="profile">
-                    <div class="flex justify-between px-7 pt-6 pb-3">
-                        <div class="flex flex-col justify-center">
-                            <div class="name__username">
-                                <h1 class="text-black text-xl font-bold leading-8 cursor-pointer">
-                                    {{user.username}}
-                                </h1>
-                            </div>
-                            <div class="name__nickname">
-                                <span class="text-black font-normal leading-[20px]">{{user.username}}</span>
-                            </div>
-                        </div>
-                        <div class="profile-avatar">
-                            <img src="{{user.avatar}}" alt="Avatar"
-                                class="h-auto max-w-20 object-cover rounded-full outline outline-[0.5px] outline-[#CCD0D5] cursor-pointer" />
-                        </div>
-                    </div>
-                    <div class="px-7 pt-3">
-                        <span>profile note here</span>
-                    </div>
-
-                    <!-- FOLLOWER BANNER -->
-                    <div class="follower-banner flex px-6 pt-4 justify-between">
-                        <div class="number-follow cursor-pointer">
-                            <span
-                                class="text-[14px] font-normal text-[#BEC3C9] leading-[20px] hover:border-b-[1.5px] hover:border-[#BEC3C9]"
-                                onclick="displayFollowsPanel()">{{followers.length}} followers</span>
-
-                            <div
-                                class="wrap-panel w-[90%] absolute z-10 top-[20%] bg-[rgb(250,250,250)] rounded-lg border border-[#CCD0D5] hidden sm:w-[80%] md:w-[80%] lg:w-[33.33%] sm:left-[15%] md:left-[10%] lg:top-[25%] lg:left-[32.5%]">
-                                <div
-                                    class="column-line flex flex-row text-center border-b-[1.5px] border-[#BEC3C9] text-[#BEC3C9]">
-                                    <div class="list-follower flex-1 text-[#BEC3C9] activated cursor-pointer "
-                                        onclick="chooseFollower()">
-                                        <span class="text-lg font-semibold leading-8">Follower</span>
-                                        <br />
-                                        <span class="text-sm font-normal leading-4 font-sans">{{followers.length}}</span>
-                                    </div>
-                                    <div class="list-following flex-1 text-[#BEC3C9] cursor-pointer"
-                                        onclick="chooseFollowing()">
-                                        <span class="text-lg font-semibold leading-8">Following</span>
-                                        <br />
-                                        <span class="text-sm font-normal leading-4 font-sans">{{followings.length}}</span>
-                                    </div>
-                                </div>
-
-                                <div class="list-of-follower relative max-h-[30vh] custom-scrollbar overflow-y-auto"
-                                    style="display: block;">
-                                    <ul>
-                                        {{#each followers}}
-                                        <li>{{username}}</li>
-                                        {{/each}}
-                                    </ul>
-                                </div>
-
-                                <div class="list-of-following relative max-h-[30vh] custom-scrollbar overflow-y-auto"
-                                    style="display: none;">
-                                    <ul>
-                                        {{#each followings}}
-                                        <li>{{username}}</li>
-                                        {{/each}}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center">
-                            <svg viewBox="0 0 24 24" class="svg-icon" width="24" height="24">
-                                <rect fill="white" height="20" rx="5" stroke="black" stroke-width="2" width="20"
-                                    x="2" y="2"></rect>
-                                <rect fill="black" height="12" rx="1" width="2" x="11" y="6"></rect>
-                                <rect fill="black" height="9" rx="1" width="2" x="15" y="9"></rect>
-                                <rect fill="black" height="5" rx="1" width="2" x="7" y="13"></rect>
-                            </svg>
-                            <svg viewBox="0 0 24 24" class="insta-icon ml-2.5" width="24" height="24">
-                                <path fill="black"
-                                    d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- EDIT BUTTON -->
-                    <div class="edit-btn px-7 py-3 relative">
-                        <div
-                            class="edit-profile border border-[#BEC3C9] px-4 py-[2px] text-center rounded-xl cursor-pointer">
-                            <span class="font-normal leading-[2rem]">Edit Profile</span>
-                        </div>
-                    </div>
-
-                    <div
-                        class="nav-profile-bar h-[48px] flex items-center justify-around text-[15px] font-normal border-b-[0.8px] border-[#BEC3C9] relative">
-                        <div class="nav-item threads switch cursor-pointer text-black"
-                            onclick="switchTab('threads')">
-                            <span>Threads</span>
-                        </div>
-                        <div class="nav-item replies cursor-pointer text-[#BEC3C9]" onclick="switchTab('replies')">
-                            <span>Replies</span>
-                        </div>
-                        <div class="nav-item repost cursor-pointer text-[#BEC3C9]" onclick="switchTab('repost')">
-                            <span>Repost</span>
-                        </div>
-                        <!-- Thanh border di chuyển -->
-                        <div
-                            class="nav-active-indicator absolute bottom-0 h-[0.8px] bg-black transition-all duration-300">
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="h-[50px] sm:hidden"></div>
-                <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5]">
-                    <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
-                    <span class="mr-auto text-[#777777]" onclick="toggleModal()" id="post-modal">What's new?</span>
-                    <button
-                        class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg hover:bg-black hover:text-white hover:border-[#CCD0D5]">Post</button>
-                </div>
+          class="wrap-panel w-[90%] absolute z-10 top-[20%] bg-[rgb(250,250,250)] rounded-lg border border-[#CCD0D5] hidden sm:w-[80%] md:w-[80%] lg:w-[33.33%] sm:left-[15%] md:left-[10%] lg:top-[25%] lg:left-[32.5%]">
+          <div class="column-line flex flex-row text-center border-b-[1.5px] border-[#BEC3C9] text-[#BEC3C9]">
+            <div class="list-follower flex-1 text-[#BEC3C9] activated cursor-pointer" onclick="chooseFollower()">
+              <span class="text-lg font-bold leading-5 font-sans">Follower</span>
+              <br />
+              <span class="text-sm font-normal leading-4.5 font-sans">{{followerCount}}</span>
             </div>
-        </div>
-</div>
+            <div class="list-following flex-1 text-[#BEC3C9] cursor-pointer" onclick="chooseFollowing()">
+              <span class="text-lg font-bold leading-5 font-sans">Following</span>
+              <br />
+              <span class="text-sm font-normal leading-4.5 font-sans">{{followingCount}}</span>
+            </div>
+          </div>
 
-<script>
+          <div class="list-of-follower relative max-h-[30vh] custom-scrollbar overflow-y-auto" style="display: block;">
+            <ul>
+              {{#each followers}}
+              {{> follower}}
+              {{/each}}
+            </ul>
+          </div>
+
+          <div class="list-of-following relative max-h-[30vh] custom-scrollbar overflow-y-auto">
+            <ul>
+              {{#each followings}}
+              {{> following}}
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {{!-- INSTA AND GRAPH ICON --}}
+      <div class="flex items-center">
+        <svg viewBox="0 0 24 24" class="svg-icon" width="24" height="24">
+          <rect fill="white" height="20" rx="5" stroke="currentColor" stroke-width="2" width="20" x="2" y="2"></rect>
+          <rect fill="black" height="12" rx="1" width="2" x="11" y="6"></rect>
+          <rect fill="black" height="9" rx="1" width="2" x="15" y="9"></rect>
+          <rect fill="black" height="5" rx="1" width="2" x="7" y="13"></rect>
+        </svg>
+        <svg viewBox="0 0 24 24" class="insta-icon ml-2.5" width="24" height="24">
+          <path fill="black"
+            d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z">
+          </path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="edit-btn px-7 py-3 relative">
+    <div class="edit-profile border border-[#BEC3C9] px-4 py-[2px] text-center rounded-xl cursor-pointer"
+      onclick="redirectToSettings()">
+      <span class="font-normal leading-[2rem]">Edit Profile</span>
+    </div>
+  </div>
+
+  <div
+    class="nav-profile-bar h-[48px] flex items-center justify-around text-[15px] font-normal border-b-[0.8px] border-[#BEC3C9] relative">
+    <div class="nav-item threads switch cursor-pointer text-black" onclick="switchTab('threads')">
+      <span>Threads</span>
+    </div>
+    <div class="nav-item replies cursor-pointer text-[#BEC3C9]" onclick="switchTab('replies')">
+      <span>Replies</span>
+    </div>
+    <div class="nav-item repost cursor-pointer text-[#BEC3C9]" onclick="switchTab('repost')">
+      <span>Repost</span>
+    </div>
+    <!-- Thanh border di chuyển -->
+    <div class="nav-active-indicator absolute bottom-0 h-[0.8px] bg-black transition-all duration-300">
+    </div>
+  </div>
+
+
+  {{#each threads}}
+  {{> thread}}
+  {{/each}}
+
+  <script>
     const displayFollowsPanel = () => {
-        const followsPanel = document.querySelector(
-            ".profile .follower-banner .wrap-panel"
-        );
-        followsPanel.style.display = "block";
+      const followsPanel = document.querySelector(
+        ".profile .follower-banner .wrap-panel"
+      );
+      followsPanel.style.display = "block";
 
-        setTimeout(() => {
-            document.addEventListener("click", handleClickOutsideFollowsPanel);
-        }, 0);
+      // Thêm sự kiện `click` với độ trễ ngắn để tránh ẩn panel ngay lập tức
+      setTimeout(() => {
+        document.addEventListener("click", handleClickOutsideFollowsPanel);
+      }, 0);
     };
 
     function handleClickOutsideFollowsPanel(event) {
-        const numberFollower = document.querySelector(
-            ".profile .follower-banner .number-follow"
-        );
-        const followsPanel = document.querySelector(
-            ".profile .follower-banner .wrap-panel"
-        );
+      const numberFollower = document.querySelector(
+        ".profile .follower-banner .number-follower"
+      );
+      const followsPanel = document.querySelector(
+        ".profile .follower-banner .wrap-panel"
+      );
 
-        if (!numberFollower.contains(event.target)) {
-            followsPanel.style.display = "none";
-            document.removeEventListener("click", handleClickOutsideFollowsPanel);
-        }
+      if (!numberFollower.contains(event.target)) {
+        followsPanel.style.display = "none";
+        document.removeEventListener("click", handleClickOutsideFollowsPanel);
+      }
     }
 
     const chooseFollower = () => {
-        const listFollowerBtn = document.querySelector(
-            ".column-line .list-follower"
-        );
-        const listFollowingBtn = document.querySelector(
-            ".column-line .list-following"
-        );
-        const followers = document.querySelector(".wrap-panel .list-of-follower");
-        const followings = document.querySelector(".wrap-panel .list-of-following");
+      const listFollowerBtn = document.querySelector(
+        ".column-line .list-follower"
+      );
+      const listFollowingBtn = document.querySelector(
+        ".column-line .list-following"
+      );
+      const followers = document.querySelector(".wrap-panel .list-of-follower");
+      const followings = document.querySelector(".wrap-panel .list-of-following");
 
-        followers.style.display = "block";
-        followings.style.display = "none";
+      followers.style.display = "block";
+      followings.style.display = "none";
 
-        listFollowerBtn.classList.add("activated");
-        listFollowingBtn.classList.remove("activated");
+      listFollowerBtn.classList.add("activated");
+      listFollowingBtn.classList.remove("activated");
     };
 
     const chooseFollowing = () => {
-        const listFollowing = document.querySelector(
-            ".column-line .list-following"
-        );
-        const listFollower = document.querySelector(
-            ".column-line .list-follower"
-        );
-        const followers = document.querySelector(".wrap-panel .list-of-follower");
-        const followings = document.querySelector(".wrap-panel .list-of-following");
+      const listFollowing = document.querySelector(
+        ".column-line .list-following"
+      );
+      const listFollower = document.querySelector(
+        ".column-line .list-follower"
+      );
+      const followers = document.querySelector(".wrap-panel .list-of-follower");
+      const followings = document.querySelector(".wrap-panel .list-of-following");
 
-        followers.style.display = "none";
-        followings.style.display = "block";
+      followers.style.display = "none";
+      followings.style.display = "block";
 
-        listFollower.classList.remove("activated");
-        listFollowing.classList.add("activated");
+      listFollower.classList.remove("activated");
+      listFollowing.classList.add("activated");
     };
 
     const switchTab = (tabName) => {
-        const tabs = document.querySelectorAll(".nav-item");
-        const indicator = document.querySelector(".nav-active-indicator");
+      const tabs = document.querySelectorAll(".nav-item");
+      const indicator = document.querySelector(".nav-active-indicator");
 
-        tabs.forEach((tab, index) => {
-            if (tab.classList.contains(tabName)) {
-                tab.classList.add("switch");
-                tab.style.color = "black";
+      tabs.forEach((tab, index) => {
+        if (tab.classList.contains(tabName)) {
+          tab.classList.add("switch");
+          tab.style.color = "black";
 
-                // Di chuyển thanh border dưới
-                indicator.style.left = `${index * 33.33}%`;
-            } else {
-                tab.classList.remove("switch");
-                tab.style.color = "#BEC3C9";
-            }
-        });
+          // Di chuyển thanh border dưới
+          indicator.style.left = `${index * 33.33}%`;
+        } else {
+          tab.classList.remove("switch");
+          tab.style.color = "#BEC3C9";
+        }
+      });
     };
+  </script>
+</body>
 
-</script>
+</html>

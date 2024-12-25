@@ -1,60 +1,55 @@
 import mongoose from "mongoose";
 
-const ThreadCommentSchema = new mongoose.Schema({
-    comment: {
-        type: String,
-        required: true
+const CommentSchema = new mongoose.Schema({
+    author: { 
+        type: String, 
+        required: true 
     },
-    comment_ID: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    comment: { 
+        type: String, 
+        required: true 
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
-});
-
-const ThreadLikeSchema = new mongoose.Schema({
-    user_ID: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    date: { 
+        type: Date, 
+        default: Date.now 
     },
 });
 
-//Main Schema
+const LikeSchema = new mongoose.Schema({
+    author: { 
+        type: String, 
+        required: true 
+    },
+});
+
 const ThreadSchema = new mongoose.Schema({
-    author: {
-        type: String,
-        required: true,
-        ref: 'users' ,
+    author: { 
+        type: String, 
+        ref: "Users", 
+        required: true 
     },
-    author_ID: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    comments: { 
+        type: [CommentSchema], 
+        default: [] 
     },
-    content: {
-        type: String,
-        required: true
+    date: { 
+        type: Date, 
+        default: Date.now 
     },
-    image: {
-        type: String,
-        default: ""
+    image: { 
+        type: String, 
+        default: "" 
     },
-    date: {
-        type: Date,
-        default: Date.now
+    content: { 
+        type: String, 
+        required: true 
     },
-    comments: {
-        type: [ThreadCommentSchema], 
-        default: []
+    likes: { 
+        type: [LikeSchema], 
+        default: [] 
     },
-    likes: {
-        type: [ThreadLikeSchema], 
-        default: []
-    }
 });
 
-const ThreadModel = mongoose.model("threads", ThreadSchema);
+const ThreadModel = mongoose.model("Threads", ThreadSchema);
 
 export default ThreadModel;

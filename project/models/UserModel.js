@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
-const UserInfoSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     username: { 
         type: String, 
         required: true, 
         unique: true 
     },
-    avatar: { 
-        type: String, 
-        default: "/images/av1.jpg" 
-    },
     fullname: { 
         type: String, 
         default: "" 
+    },
+    avatar: { 
+        type: String, 
+        default: "/images/av1.jpg" 
     },
     email: { 
         type: String, 
@@ -23,6 +23,10 @@ const UserInfoSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    quote: { 
+        type: String, 
+        default: "" 
+    },
     isVerified: { 
         type: Boolean, 
         default: false 
@@ -32,9 +36,11 @@ const UserInfoSchema = new mongoose.Schema({
         default: null 
     },
     verificationExpires: { 
-        type: Date, 
-        default: () => Date.now() + 300000
+        type: Date, default: 
+        Date.now() + 1000 
     },
 });
-const UserInfoModel = mongoose.model("users", UserInfoSchema);
-export default UserInfoModel;
+
+const UserModel = mongoose.model("Users", UserSchema);
+
+export default UserModel;

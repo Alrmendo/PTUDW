@@ -1,19 +1,14 @@
-<div class="py-8 pl-6 flex bg-transparent gap-3 cursor-pointer text-[#CCD0D5]">
-    <img id="avatar" src="{{avatar}}" alt="Avatar" class="w-9 h-9 rounded-full" />
-    <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
-        <div class="flex items-center h-[36px]">
-            <div class="flex flex-col mr-auto">
-                <span class="text-black font-semibold">{{username}}</span>
-                <span class="font-thin">{{bio}}</span>
-            </div>
-            {{#if status}}
-            <button id='{{id}}' onClick="followUser(event)"
-                class="bg-transparent font-thin text-black border border-[#CCD0D5] h-[34px] w-[104px] rounded-[0.75rem] mr-6">Following</button>
-            {{else}}
-            <button id='{{id}}' onClick="followUser(event)"
-                class="bg-transparent font-thin text-black border border-[#CCD0D5] h-[34px] w-[104px] rounded-[0.75rem] mr-6">Follow</button>
-            {{/if}}
-        </div>
-        <span id="follow-number-{{id}}" class="text-black py-3 pt-5">{{followers}}</span>
+<div class="py-5 pl-6 flex bg-transparent gap-3 cursor-pointer text-[#CCD0D5]">
+  <img id="avatar" src="{{avatar}}" alt="Avatar" class="w-9 h-9 rounded-full" />
+  <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
+    <div class="flex items-center h-[36px]">
+      <div class="flex flex-col mr-auto">
+        <span class="text-black font-semibold">{{username}}</span>
+        <span class="font-thin">{{bio}}</span>
+      </div>
+      <button
+        class="bg-transparent font-thin text-black border border-[#CCD0D5] h-[34px] w-[104px] rounded-[0.75rem] mr-6">{{status}}</button>
     </div>
+    <span class="text-black py-3 pt-5">{{followers}} người theo dõi</span>
+  </div>
 </div>
