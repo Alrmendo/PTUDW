@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-const CommentSchema = new mongoose.Schema({
+const Comment = new mongoose.Schema({
     comment: {
         type: String,
         required: true
     },
-    commentId: {
+    comment_Id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -15,14 +15,14 @@ const CommentSchema = new mongoose.Schema({
     },
 });
 
-const LikeSchema = new mongoose.Schema({
+const Like = new mongoose.Schema({
     user_Id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
 });
 
-const ThreadSchema = new mongoose.Schema({
+const Thread = new mongoose.Schema({
     author: { 
         type: String, 
         required: true 
@@ -36,7 +36,7 @@ const ThreadSchema = new mongoose.Schema({
         required: true 
     },
     comments: { 
-        type: [CommentSchema], 
+        type: [Comment], 
         default: [] 
     },
     date: { 
@@ -48,11 +48,11 @@ const ThreadSchema = new mongoose.Schema({
         required: true 
     },
     likes: { 
-        type: [LikeSchema], 
+        type: [Like], 
         default: [] 
     },
 });
 
-const ThreadModel = mongoose.model("Threads", ThreadSchema);
+const ThreadModel = mongoose.model("Threads", Thread);
 
 export default ThreadModel;

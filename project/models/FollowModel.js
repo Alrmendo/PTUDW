@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserFollowSchema = new mongoose.Schema({
+const UserFollow = new mongoose.Schema({
     user_Id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -23,11 +23,11 @@ const FollowSchema = new mongoose.Schema({
         unique: true
     },
     followers: {
-        type: [UserFollowSchema],
+        type: [UserFollow],
         default: []
     },
     followings: {
-        type: [UserFollowSchema],
+        type: [UserFollow],
         default: []
     },
 });
