@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 const loadAllThread = async (req, res) => {
   const token = req.cookies.token;
+  console.log(token)
   if (!token) {
     const threads = await threadModel.find({}).populate({
       path: "author",
@@ -12,14 +13,11 @@ const loadAllThread = async (req, res) => {
       foreignField: "username",
       select: "username avatar",
     }).lean();
-    res.render("Feed", { threads: threads, isLogin: false });
+    res.render("Thread", { threads: threads, isLogin: false });
   } else {
-    const decode = jwt.verify(
-      token,
-      "22127104_22127247"
-    );
+    const decode = jwt.verify(token, "22127104_22127247");
     try {
-      const user_Id = decode.user_Id;
+      const user_Id = decode.id;
       const user = await userModel.findById(user_Id);
       const threads = await threadModel
         .find({})
@@ -31,13 +29,21 @@ const loadAllThread = async (req, res) => {
           select: "username avatar",
         })
         .lean();
+      // const updatedThreads = threads.map((thread) => {
+      //   const isLike = thread.likes?.some(
+      //     (like) => like.user_Id.toString() === user_Id
+      //   );
+      //   return { ...thread, isLike };
+      // });
       const updatedThreads = threads.map((thread) => {
-        const isLike = thread.likes.some(
-          (like) => like.user_Id.toString() === user_Id
-        );
+        const isLike = thread.likes?.some(
+          (like) => like.user_Id && like.user_Id.toString() === user_Id
+        ) || false;
         return { ...thread, isLike };
       });
-      res.render("Feed", { threads: updatedThreads, avatar: user.avatar, isLogin: true });
+      
+      console.log(user.username);
+      res.render("Thread", { threads: updatedThreads, user: user, isLogin: true });
     } catch (error) {
       console.error("Error fetching threads:", error);
       res
