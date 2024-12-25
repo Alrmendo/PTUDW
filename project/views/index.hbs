@@ -17,7 +17,9 @@
             
             <span class="bg-black py-[6px] px-5 border rounded-xl">
                 {{#if isLogin}}
-                    <a href="/profile" class="text-white no-underline font-normal text-[15px]">{{user.username}}</a>
+                    <a href="/signout" class="text-white no-underline font-normal text-[15px]">Sign out</a>
+
+                    {{!-- <a href="/profile" class="text-white no-underline font-normal text-[15px]">{{user.username}}</a> --}}
                 {{else}}
                     <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
                 {{/if}}
@@ -34,10 +36,20 @@
             <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5] ">
                 <img src="{{user.avatar}}" class="w-[36px] h-[36px] rounded-full" />
                 <!-- <span class="mr-auto text-[#777777]">What's new?</span> -->
+                {{#if isLogin}}
                 <span onclick="toggleModal()" class="mr-auto text-[#777777]">What's new?</span>
 
                 <button
                     class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
+                {{else}}
+                <a href="/login">
+                    <span onclick="toggleModal()" class="mr-auto text-[#777777]">What's new?</span>
+
+                <button
+                    class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
+                </a>
+                
+                {{/if}}
             </div>
             {{#each threads}}
             <div class="flex sm:py-4 sm:px-5 gap-3 border-b border-[#CCD0D5] p-2">
