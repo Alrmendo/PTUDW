@@ -80,9 +80,6 @@ const likeThread = async (req, res) => {
     res.status(200).json({ message: "Thread updated successfully" });
 };
 
-const loadFollowingThread = async (req, res) => {
-}
-
 const addComment = async (req, res) => {
     const { content } = req.body;
     console.log(content);
@@ -146,7 +143,6 @@ const loadThread = async (req, res) => {
 const FeedController = {
     loadAllThread: loadAllThread,
     likeThread: likeThread,
-    loadFollowingThread: loadFollowingThread,
     addComment: addComment,
     loadThread: loadThread,
 };
