@@ -25,7 +25,8 @@ const Like = new mongoose.Schema({
 const ThreadSchema = new mongoose.Schema({
   author: {
     type: String,
-    required: true
+    required: true,
+    ref: "Users"
   },
   content: {
     type: String,

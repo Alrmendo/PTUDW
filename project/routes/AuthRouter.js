@@ -11,4 +11,6 @@ router.get('/api/verify/:token', AuthController.verifyEmail);
 router.post('/resetpassword', AuthController.forgotPassword);
 router.get('/api/reset-password/:token', AuthController.resetPassword);
 router.get('/api/islogin', AuthController.isLoggedIn);
+router.get('/signout', AuthController.signout);
+
 export default router;

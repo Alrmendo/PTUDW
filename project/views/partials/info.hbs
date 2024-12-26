@@ -7,13 +7,50 @@
         <span class="font-thin">{{bio}}</span>
       </div>
       {{#if status}}
-      <button onClick="followUser(event)"
+      <button onClick="followUser(event)" data-user-id="{{username}}"
         class="h-9 min-w-[105px] font-semibold text-black mr-6 px-4 bg-transparent border border-[#CCD0D5] rounded-[0.75rem]">Following</button>
       {{else}}
-      <button onClick="followUser(event)"
+      <button onClick="followUser(event)" data-user-id="{{username}}"
         class="h-9 min-w-[105px] font-semibold text-black mr-6 px-4 bg-transparent border border-[#CCD0D5] rounded-[0.75rem]">Follow</button>
       {{/if}}
     </div>
     <span class="text-black py-3 pt-5">{{formatFollows followers}} followers</span>
   </div>
 </div>
+
+
+<script>
+  async function followUser(event) {
+  event.preventDefault();
+  
+  const button = event.target;
+  const isFollowing = button.textContent.trim() === 'Following';
+  const username = button.getAttribute('data-user-id'); 
+  console.log(username);
+  try {
+    const response = await fetch(`/profile/${isFollowing ? 'unfollow' : 'follow'}/${username}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      if (isFollowing) {
+        button.textContent = 'Follow';
+        window.location.href="/search"
+
+      } else {
+        button.textContent = 'Following';
+
+        window.location.href="/search"
+      }
+    } else {
+      console.error('Failed to follow/unfollow user');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+
+}
+</script>
