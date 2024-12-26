@@ -24,7 +24,7 @@ const loadSearch = async (req, res) => {
         // Fetch follow data
         const followData = await FollowModel.findOne({ userId }).lean();
         const followingUsernames = followData ? followData.followings.map(follow => follow.username) : [];
-        
+
         // Filter and map profiles
         const filteredProfiles = users.filter(user =>
             user.username.toLowerCase().includes(searchQuery.toLowerCase())

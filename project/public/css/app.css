@@ -64,7 +64,7 @@ svg.nonactive {
 
 @media (min-width: 640px) {
   .login-background {
-    background-image: url("../image/background_thread.webp");
+    background-image: url("../images/background1.jpeg");
     background-size: 140% auto;
     background-repeat: no-repeat;
     background-position: -480px -57px;
@@ -121,29 +121,4 @@ svg.nonactive {
 
 .visible {
   display: block;
-}
-
-
-/*Custom scrollbar*/
-
-/* Thêm CSS cho scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  /* Độ rộng */
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #374151;
-  /* Màu nền */
-  border-radius: 10px;
-  /* Bo góc */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgb(119, 119, 119);
-  /* Màu thanh kéo */
-  border-radius: 10px;
-  /* Bo góc thanh kéo */
-  border: 2px solid #1f2937;
-  /* Tạo khoảng cách với track */
 }
