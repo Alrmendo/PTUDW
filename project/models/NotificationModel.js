@@ -1,34 +1,34 @@
 import mongoose from "mongoose";
 
 const Notification = new mongoose.Schema({
-    content: {
-        type: String,
-        required: true
+    content: { 
+        type: String, 
+        required: true 
     },
-    notiAvatar: {
-        type: String,
-        required: true,
-        default: "/images/av1.jpg"
+    date: { 
+        type: Date, 
+        default: Date.now 
     },
-    notiUsername: {
-        type: String,
-        required: true,
-        default: "user1"
+    notiAvatar: { 
+        type: String, 
+        required: true, 
+        default: "/images/thread.ico" 
     },
-    date: {
-        type: Date,
-        default: Date.now
+    notiName: { 
+        type: String, 
+        required: true, 
+        default: "Threads" 
     },
 });
 
 const UserNotification = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true 
     },
-    notifications: {
-        type: [Notification],
-        default: []
+    notifications: { 
+        type: [Notification], 
+        default: [] 
     }
 });
 
