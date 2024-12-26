@@ -2,6 +2,8 @@ import threadModel from "../models/ThreadModel.js";
 import userModel from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = "22127104_22127247";
+
 const loadAllThread = async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -15,8 +17,7 @@ const loadAllThread = async (req, res) => {
     res.render("Home", { threads: threads, isLogin: false });
   } else {
     const decode = jwt.verify(
-      token,
-      "22127104_22127247"
+      token, JWT_SECRET
     );
     try {
       const userId = decode.userId;
@@ -49,10 +50,7 @@ const likeThread = async (req, res) => {
   const token = req.cookies.token;
   if (!token)
     return res.redirect("/login");
-  const decode = jwt.verify(
-    token,
-    "22127104_22127247"
-  );
+  const decode = jwt.verify(token, JWT_SECRET);
   const thread = await threadModel.findById(req.params.id);
 
   if (!thread) {
@@ -76,22 +74,18 @@ const likeThread = async (req, res) => {
   res.status(200).json({ message: "Thread updated successfully" });
 };
 
-
 const addComment = async (req, res) => {
-  const {content} = req.body;
+  const { content } = req.body;
   const token = req.cookies.token;
-  if (!token) 
+  if (!token)
     return res.redirect("/login");
-  const decode = jwt.verify(
-    token,
-    "22127104_22127247"
-  );
+  const decode = jwt.verify(token, JWT_SECRET);
   try {
     const thread = await threadModel.findById(req.params.id);
     thread.comments.push({ commentId: decode.userId, comment: content });
     await thread.save();
     res.status(200).json({ message: "Comment added successfully" });
-  } catch(error) {
+  } catch (error) {
     console.error("Error adding comment:", error);
     res.status(500).json({ message: "An error occurred while adding the comment" });
   }
@@ -99,13 +93,11 @@ const addComment = async (req, res) => {
 
 const loadThread = async (req, res) => {
   const token = req.cookies.token;
-  if (!token) 
+  if (!token)
     return res.redirect("/login");
-  const decode = jwt.verify(
-    token,
-    "22127104_22127247"
+  const decode = jwt.verify(token,JWT_SECRET
   );
-  try{
+  try {
     const thread = await threadModel.findById(req.params.id).populate({
       path: "author",
       model: "Users",
@@ -124,11 +116,11 @@ const loadThread = async (req, res) => {
     );
     const user = await userModel.findById(decode.userId).lean();
     const updatedThread = { ...thread, isLike };
-    res.render("Comment", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar});
-} catch (error) {
-  console.error("Error fetching thread:", error);
-  res.status(500).json({ message: "An error occurred while loading the thread" });
-}
+    res.render("Comment", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar });
+  } catch (error) {
+    console.error("Error fetching thread:", error);
+    res.status(500).json({ message: "An error occurred while loading the thread" });
+  }
 }
 
 const FeedController = {
