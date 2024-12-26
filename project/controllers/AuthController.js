@@ -349,6 +349,11 @@ const isLoggedIn = (req, res) => {
         res.status(200).json({ isLoggedIn: true });
 }
 
+const signout = async(req, res) => {
+    res.clearCookie("token");
+    return res.redirect("/");
+  };
+
 const AuthenticationController = {
     showLogin: showLogin,
     showSignup: showSignup,
@@ -358,7 +363,8 @@ const AuthenticationController = {
     verifyEmail: verifyEmail,
     forgotPassword: forgotPassword,
     resetPassword: resetPassword,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    signout: signout
 }
 
 export default AuthenticationController;
