@@ -150,10 +150,10 @@
       <div class="flex items-center justify-between">
         {{#each followers}}
         <div class="flex items-center space-x-4">
-          <img src="{{followers.avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
+          <img src="{{avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
           <div>
-            <h2 class="font-medium text-gray-800">{{followers.username}}</h2>
-            <p class="text-sm text-gray-500">Follower</p>
+            <h2 class="font-medium text-gray-800">{{username}}</h2>
+            {{!-- <p class="text-sm text-gray-500">Follower</p> --}}
           </div>
         </div>
         <button
@@ -171,19 +171,19 @@
       <div class="flex items-center justify-between">
         {{#each followings}}
         <div class="flex items-center space-x-4">
-          <img src="{{followings.avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
+          <img src="{{avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
           <div>
-            <h2 class="font-medium text-gray-800">{{followings.username}}</h2>
-            <p class="text-sm text-gray-500">Following</p>
+            <h2 class="font-medium text-gray-800">{{username}}</h2>
+            {{!-- <p class="text-sm text-gray-500">Following</p> --}}
           </div>
         </div>
         
-        <button
+        <button onclick="handleUnfollow('{{user_Id}}')"
           class="px-4 py-1 text-sm font-medium text-white bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
         >
-          Followed
+          Un Follow
         </button>
-        {{/each}} 
+        {{/each}}
       </div>
     </div>
   </div>
@@ -310,7 +310,45 @@ async function saveProfile() {
         alert('Failed to update profile.');
     });
 }
+
+
+function handleUnfollow(followerId) {
+  // Confirm action
+  if (!confirm("Are you sure you want to unfollow this user?")) return;
+
+  // Send an AJAX request to the server
+  fetch(`profile/unfollow/${followerId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+//      "X-CSRFToken": getCsrfToken(), // Replace with your method to get CSRF token
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to unfollow user.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        // Remove the follower from the UI
+        document.querySelector(`[data-id="${followerId}"]`).remove();
+        alert("Successfully unfollowed!");
+      } else {
+        alert("Error: Unable to unfollow.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    });
+}
+
 </script>
+
+
+
 </body>
 
 </html>

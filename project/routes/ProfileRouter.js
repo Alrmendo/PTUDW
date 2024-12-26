@@ -12,5 +12,6 @@ const upload = multer({ storage: storage }).single('avatar');
 router.get('/', ProfileController.showProfile);
 
 router.post('/updateProfile', upload, ProfileController.updateProfile);
+router.delete('/unfollow/:followerId', ProfileController.unfollow)
 
 export default router;
