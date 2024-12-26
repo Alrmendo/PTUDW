@@ -87,7 +87,8 @@
         <div class="flex justify-between items-center px-6 pt-4 border-b border-gray-200">
             <button onclick="toggleModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
             <h1 class="font-bold text-lg">Edit Profile</h1>
-            <div class="w-6"></div>
+            <button onclick="saveProfile()" class="px-4 py-2 text-white bg-gray-500 rounded-full items-center mb-2 hover:bg-gray-600">Save</button>
+
         </div>
 
         <div class="flex-grow p-6 overflow-y-auto">
@@ -113,31 +114,126 @@
                 <textarea id="quoteEdit" name="quote" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{user.quote}}</textarea>
             </div>
         </div>
-        <div class="flex justify-end items-center px-6 py-4 border-t border-gray-200">
-            <button onclick="saveProfile()" class="px-4 py-2 text-white bg-gray-500 rounded-full hover:bg-gray-600">Save</button>
-        </div>
+
     </div>
 </div>
+<div id="follow-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50">
+  <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[70vh] md:rounded-xl">
+    <!-- Header -->
+    <div class="flex justify-between items-center px-6 pt-4">
+      <a href="#" onclick="displayFollowsPanel()" class="text-blue-500 hover:underline">Cancel</a>
+      <h1 class="font-bold text-lg">Followers & Following</h1>
+      <div class="w-6"></div>
+    </div>
 
-  <script>
-    const switchTab = (tabName) => {
-      const tabs = document.querySelectorAll(".nav-item");
-      const indicator = document.querySelector(".nav-active-indicator");
+    <!-- Tab Switch -->
+    <div class="flex justify-center mt-4">
+      <button
+        id="followers-tab"
+        class="px-4 py-2 font-medium text-blue-500 border-b-2 border-blue-500 focus:outline-none"
+        onclick="switchTab('followers')"
+      >
+        Followers
+      </button>
+      <button
+        id="following-tab"
+        class="px-4 py-2 font-medium text-gray-500 border-b-2 border-transparent hover:text-blue-500 hover:border-blue-500 focus:outline-none"
+        onclick="switchTab('following')"
+      >
+        Following
+      </button>
+    </div>
 
-      tabs.forEach((tab, index) => {
-        if (tab.classList.contains(tabName)) {
-          tab.classList.add("switch");
-          tab.style.color = "black";
+    <!-- Main Content -->
+    <div id="followers-section" class="flex-1 overflow-y-auto p-4 space-y-4">
+      <!-- Followers List -->
+      <div class="flex items-center justify-between">
+        {{#each followers}}
+        <div class="flex items-center space-x-4">
+          <img src="{{followers.avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
+          <div>
+            <h2 class="font-medium text-gray-800">{{followers.username}}</h2>
+            <p class="text-sm text-gray-500">Follower</p>
+          </div>
+        </div>
+        <button
+          class="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-full hover:bg-blue-600"
+        >
+          Follow
+        </button>
+        {{/each}}
+        
+      </div>
+    </div>
 
-          // Di chuyển thanh border dưới
-          indicator.style.left = `${index * 33.33}%`;
-        } else {
-          tab.classList.remove("switch");
-          tab.style.color = "#BEC3C9";
-        }
-      });
-    };
-  </script>
+    <div id="following-section" class="flex-1 overflow-y-auto p-4 space-y-4 hidden">
+      <!-- Following List -->
+      <div class="flex items-center justify-between">
+        {{#each followings}}
+        <div class="flex items-center space-x-4">
+          <img src="{{followings.avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
+          <div>
+            <h2 class="font-medium text-gray-800">{{followings.username}}</h2>
+            <p class="text-sm text-gray-500">Following</p>
+          </div>
+        </div>
+        
+        <button
+          class="px-4 py-1 text-sm font-medium text-white bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
+        >
+          Followed
+        </button>
+        {{/each}} 
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(tab) {
+    const followersTab = document.getElementById('followers-tab');
+    const followingTab = document.getElementById('following-tab');
+    const followersSection = document.getElementById('followers-section');
+    const followingSection = document.getElementById('following-section');
+
+    if (tab === 'followers') {
+      followersTab.classList.add('text-blue-500', 'border-blue-500');
+      followersTab.classList.remove('text-gray-500', 'border-transparent');
+      followingTab.classList.add('text-gray-500', 'border-transparent');
+      followingTab.classList.remove('text-blue-500', 'border-blue-500');
+      followersSection.classList.remove('hidden');
+      followingSection.classList.add('hidden');
+    } else if (tab === 'following') {
+      followingTab.classList.add('text-blue-500', 'border-blue-500');
+      followingTab.classList.remove('text-gray-500', 'border-transparent');
+      followersTab.classList.add('text-gray-500', 'border-transparent');
+      followersTab.classList.remove('text-blue-500', 'border-blue-500');
+      followingSection.classList.remove('hidden');
+      followersSection.classList.add('hidden');
+    }
+  }
+</script>
+
+
+<script>
+  const switchTab = (tabName) => {
+    const tabs = document.querySelectorAll(".nav-item");
+    const indicator = document.querySelector(".nav-active-indicator");
+
+    tabs.forEach((tab, index) => {
+      if (tab.classList.contains(tabName)) {
+        tab.classList.add("switch");
+        tab.style.color = "black";
+
+        // Di chuyển thanh border dưới
+        indicator.style.left = `${index * 33.33}%`;
+      } else {
+        tab.classList.remove("switch");
+        tab.style.color = "#BEC3C9";
+      }
+    });
+  };
+</script>
 
 <script>
   function toggleModal() {
@@ -155,6 +251,20 @@
     }
   });
 
+  function displayFollowsPanel() {
+    const modal = document.getElementById('follow-modal');
+    if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('follw-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        displayFollowsPanel();
+    }
+  });
   function handleImageSelection(event) {
     const file = event.target.files[0];
     if (file) {
@@ -168,6 +278,12 @@
 
 async function saveProfile() {
     const username = document.getElementById('usernameEdit').value;
+    const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
+
+    if (!usernameRegex.test(username)) {
+      alert('Username contains invalid characters. Only letters, numbers, underscores, dots, and hyphens are allowed.');
+      return false; // Prevent further actions
+    }
     const quote = document.getElementById('quoteEdit').value;
     const imageInput = document.getElementById("image-upload");
     const avatar = imageInput.files ? imageInput.files[0] : null;

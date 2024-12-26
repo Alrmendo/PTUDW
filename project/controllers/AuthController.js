@@ -78,7 +78,11 @@ const signup = async (req, res) => {
         //return res.render("signup", { message: "Email already exists." });
       }
     }
-
+    const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
+    if (!usernameRegex.test(username)) {
+      req.message = "Invalid username. Use only letters, numbers, dashes, hyphens, or dots, with a maximum length of 30 characters.";
+      return showSignup(req, res);
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
