@@ -310,18 +310,16 @@ async function saveProfile() {
         alert('Failed to update profile.');
     });
 }
-
-
 function handleUnfollow(followerId) {
   // Confirm action
   if (!confirm("Are you sure you want to unfollow this user?")) return;
 
   // Send an AJAX request to the server
-  fetch(`profile/unfollow/${followerId}`, {
-    method: "DELETE",
+  fetch(`/profile/unfollow/${followerId}`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
-//      "X-CSRFToken": getCsrfToken(), // Replace with your method to get CSRF token
+      // "X-CSRFToken": getCsrfToken(), // Uncomment if CSRF token is needed
     },
   })
     .then((response) => {
@@ -332,8 +330,9 @@ function handleUnfollow(followerId) {
     })
     .then((data) => {
       if (data.success) {
+        window.location.href = "/profile";
         // Remove the follower from the UI
-        document.querySelector(`[data-id="${followerId}"]`).remove();
+//        document.querySelector(`[data-id="${followerId}"]`).remove();
         alert("Successfully unfollowed!");
       } else {
         alert("Error: Unable to unfollow.");
@@ -344,7 +343,6 @@ function handleUnfollow(followerId) {
       alert("An error occurred. Please try again.");
     });
 }
-
 </script>
 
 

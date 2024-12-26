@@ -155,6 +155,7 @@ const updateProfile = async (req, res) => {
 //   }
 // };
 const unfollow = async (req, res) => {
+  console.log("hiiiiiiiiiiiiiiiiiiiiiii")
   const { followerId } = req.params;
   const token = req.cookies.token;
 
@@ -163,32 +164,37 @@ const unfollow = async (req, res) => {
   }
 
   try {
+    console.log("hiiiiiiiiiiiiiiiiiiiiiii")
     const decode = jwt.verify(token, "22127104_22127247");
     const user_Id = decode.id;
 
-    const followData = await UserFollowModel.findOne({ userId: user_Id });
+    const followData = await UserFollowModel.findOne({ user_Id: user_Id });
+    console.log("before");
 
     if (!followData) {
       return res.status(404).json({ success: false, message: 'Follow data not found' });
     }
-
+    console.log(followData);
+    console.log(followerId);
     // Filter out the followerId from the followings list
     followData.followings = followData.followings.filter(
-      (id) => id.toString() !== followerId
+
+      (id) => {console.log(user_Id.toString), id.toString() !== followerId}
     );
+    console.log(followData);
 
     // Save the updated follow data
     await followData.save();
 
     // Optionally, handle bi-directional unfollow
-    const targetUserFollowData = await UserFollowModel.findOne({ userId: followerId });
+    // const targetUserFollowData = await UserFollowModel.findOne({ userId: followerId });
 
-    if (targetUserFollowData) {
-      targetUserFollowData.followers = targetUserFollowData.followers.filter(
-        (id) => id.toString() !== user_Id
-      );
-      await targetUserFollowData.save();
-    }
+    // if (targetUserFollowData) {
+    //   targetUserFollowData.followers = targetUserFollowData.followers.filter(
+    //     (id) => id.toString() !== user_Id
+    //   );
+    //   await targetUserFollowData.save();
+    // }
 
     res.json({ success: true });
   } catch (error) {
