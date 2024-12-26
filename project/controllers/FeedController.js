@@ -17,8 +17,8 @@ const loadAllThread = async (req, res) => {
   } else {
     const decode = jwt.verify(token, "22127104_22127247");
     try {
-      const user_Id = decode.id;
-      const user = await userModel.findById(user_Id);
+      const userId = decode.id;
+      const user = await userModel.findById(userId);
       const threads = await threadModel
         .find({})
         .populate({
@@ -31,13 +31,13 @@ const loadAllThread = async (req, res) => {
         .lean();
       // const updatedThreads = threads.map((thread) => {
       //   const isLike = thread.likes?.some(
-      //     (like) => like.user_Id.toString() === user_Id
+      //     (like) => like.userId.toString() === userId
       //   );
       //   return { ...thread, isLike };
       // });
       const updatedThreads = threads.map((thread) => {
         const isLike = thread.likes?.some(
-          (like) => like.user_Id && like.user_Id.toString() === user_Id
+          (like) => like.userId && like.userId.toString() === userId
         ) || false;
         return { ...thread, isLike };
       });
@@ -70,15 +70,15 @@ const likeThread = async (req, res) => {
   }
 
   const userLiked = thread.likes.some(
-    (like) => like.user_Id.toString() === decode.user_Id
+    (like) => like.userId.toString() === decode.userId
   );
 
   if (userLiked) {
     thread.likes = thread.likes.filter(
-      (like) => like.user_Id.toString() !== decode.user_Id
+      (like) => like.userId.toString() !== decode.userId
     );
   } else {
-    thread.likes.push({ user_Id: decode.user_Id });
+    thread.likes.push({ userId: decode.userId });
   }
 
   await thread.save();
@@ -104,7 +104,7 @@ const addComment = async (req, res) => {
   );
   try {
     const thread = await threadModel.findById(req.params.id);
-    thread.comments.push({ commentId: decode.user_Id, comment: content });
+    thread.comments.push({ commentId: decode.userId, comment: content });
     await thread.save();
     res.status(200).json({ message: "Comment added successfully" });
   } catch(error) {
@@ -135,9 +135,9 @@ const loadThread = async (req, res) => {
       select: "username avatar"
     }).lean();
     const isLike = thread.likes.some(
-      (like) => like.user_Id.toString() === decode.user_Id
+      (like) => like.userId.toString() === decode.userId
     );
-    const user = await userModel.findById(decode.user_Id).lean();
+    const user = await userModel.findById(decode.userId).lean();
     const updatedThread = { ...thread, isLike };
     res.render("Post", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar});
 } catch (error) {

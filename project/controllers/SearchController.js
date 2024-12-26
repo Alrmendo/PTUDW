@@ -24,14 +24,14 @@ const loadSearch = async (req, res) => {
   }
 
   try {
-    const user_Id = decode.user_Id;
+    const userId = decode.userId;
     const searchQuery = req.query.q?.trim() || '';
     
     // Lấy danh sách người dùng ngoại trừ chính user hiện tại
-    const users = await UserModel.find({ _id: { $ne: user_Id } });
+    const users = await UserModel.find({ _id: { $ne: userId } });
     
     // Lấy thông tin follow của user hiện tại
-    const followData = await FollowModel.findOne({ user_Id });
+    const followData = await FollowModel.findOne({ userId });
     const followingUsernames = followData?.followings.map(follow => follow.username) || [];
 
     // Lọc người dùng theo từ khóa tìm kiếm

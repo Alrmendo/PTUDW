@@ -19,7 +19,7 @@ const verifyToken = (token) => {
 const getUserFromToken = async (token) => {
     const decode = verifyToken(token);
     if (!decode) return null;
-    return await UserModel.findOne({ _id: decode.user_Id });
+    return await UserModel.findOne({ _id: decode.userId });
 };
 
 const newThread = async (req, res) => {
@@ -30,8 +30,8 @@ const newThread = async (req, res) => {
 
     try {
         const decode = jwt.verify(token, "22127104_22127247");
-        const user_Id = decode.id;
-        const findUser = await UserModel.findById(user_Id);
+        const userId = decode.id;
+        const findUser = await UserModel.findById(userId);
         if (!findUser) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -78,7 +78,7 @@ const uploadThread = async (req, res) => {
         }
 
         const newThread = new ThreadModel({
-            author_Id: findUser._id,
+            authorId: findUser._id,
             author: findUser.username,
             content: content,
             image: imageUrl,

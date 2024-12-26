@@ -23,7 +23,7 @@ const loadNotifications = async (req, res) => {
   }
 
   try {
-    const noti = await NotificationModel.findOne({ user_Id: decode.user_Id });
+    const noti = await NotificationModel.findOne({ userId: decode.userId });
     res.render("notification", { notifications: noti?.notifications || [] });
   } catch (error) {
     console.error('Error loading notifications:', error);
@@ -43,7 +43,7 @@ const markAsRead = async (req, res) => {
   }
 
   try {
-    const noti = await NotificationModel.findOne({ user_Id: decode.user_Id });
+    const noti = await NotificationModel.findOne({ userId: decode.userId });
     if (!noti) {
       return res.status(404).json({ message: "Notification not found" });
     }
@@ -62,18 +62,18 @@ const markAsRead = async (req, res) => {
   }
 };
 
-const addNotification = async (user_Id, content, noti_avatar, noti_username) => {
+const addNotification = async (userId, content, notiAvatar, notiUsername) => {
   try {
-    const userNotification = await NotificationModel.findOne({ user_Id });
+    const userNotification = await NotificationModel.findOne({ userId });
 
     if (!userNotification) {
       const newNotification = new NotificationModel({
-        user_Id,
-        notifications: [{ content, noti_avatar, noti_username }],
+        userId,
+        notifications: [{ content, notiAvatar, notiUsername }],
       });
       await newNotification.save();
     } else {
-      userNotification.notifications.push({ content, noti_avatar, noti_username });
+      userNotification.notifications.push({ content, notiAvatar, notiUsername });
       await userNotification.save();
     }
   } catch (error) {

@@ -45,8 +45,8 @@ const showProfile = async (req, res) => {
   const decode = jwt.verify(token, "22127104_22127247");
   
   try {
-    const user_Id = decode.id;
-    const user = await UserModel.findById(user_Id);
+    const userId = decode.id;
+    const user = await UserModel.findById(userId);
     const isLogin = true;
     // Fetch the thread by ID (from the request parameter)
     const threads = await threadModel.find({author: user.username}).populate({
@@ -59,13 +59,13 @@ const showProfile = async (req, res) => {
 
     const updatedThreads = threads.map((thread) => {
       const isLike = thread.likes.some(
-        (like) => like.user_Id?.toString() === user_Id
+        (like) => like.userId?.toString() === userId
       );
-      const isAuthor = thread.author_Id.toString() === user_Id;
+      const isAuthor = thread.authorId.toString() === userId;
       return { ...thread, isLike, isAuthor };
     });
     console.log(updatedThreads);
-    const followData = await UserFollowModel.findOne({ user_Id: user._id }).lean();
+    const followData = await UserFollowModel.findOne({ userId: user._id }).lean();
     const followers = followData?.followers || [];
     const followings = followData?.followings || [];
     console.log(followers);
@@ -85,12 +85,12 @@ const updateProfile = async (req, res) => {
       return res.redirect("/login");
   }
   const decode = jwt.verify(token, "22127104_22127247");
-  const user_Id = decode.id;
+  const userId = decode.id;
   const { username, quote } = req.body;
   const avatar = req.file; // Get the uploaded file from multer
 
   try {
-      const user = await UserModel.findById(user_Id);
+      const user = await UserModel.findById(userId);
       if (!user) {
           return res.status(404).send("User not found");
       }
@@ -119,26 +119,26 @@ const updateProfile = async (req, res) => {
 
 //   try {
 //     const decode = jwt.verify(token, "22127104_22127247");
-//     const user_Id = decode.id;
+//     const userId = decode.id;
 
-//     const followData = await UserFollowModel.findOne({ user_Id });
+//     const followData = await UserFollowModel.findOne({ userId });
 //     console.log("follower");
 //     console.log(followerId);
-//     console.log(user_Id);
+//     console.log(userId);
 //     if (!followData) {
 //       return res.status(404).json({ success: false, message: 'Follow data not found' });
 //     }
 //     console.log(followData.followings);
 //     followData.followings = followData.followings.filter(
-//       (user_Id) => user_Id.toString() !== followerId
+//       (userId) => userId.toString() !== followerId
 //     );
 
 //     // If you want to also remove the user from their own followers (bi-directional unfollow)
-//     // const targetUserFollowData = await UserFollowModel.findOne({ user_Id: followerId });
+//     // const targetUserFollowData = await UserFollowModel.findOne({ userId: followerId });
 
 //     // if (targetUserFollowData) {
 //     //   targetUserFollowData.followers = targetUserFollowData.followers.filter(
-//     //     (id) => id.toString() !== user_Id
+//     //     (id) => id.toString() !== userId
 //     //   );
 //     //   await targetUserFollowData.save();
 //     // }
@@ -164,9 +164,9 @@ const unfollow = async (req, res) => {
 
   try {
     const decode = jwt.verify(token, "22127104_22127247");
-    const user_Id = decode.id;
+    const userId = decode.id;
 
-    const followData = await UserFollowModel.findOne({ userId: user_Id });
+    const followData = await UserFollowModel.findOne({ userId: userId });
 
     if (!followData) {
       return res.status(404).json({ success: false, message: 'Follow data not found' });
@@ -185,7 +185,7 @@ const unfollow = async (req, res) => {
 
     if (targetUserFollowData) {
       targetUserFollowData.followers = targetUserFollowData.followers.filter(
-        (id) => id.toString() !== user_Id
+        (id) => id.toString() !== userId
       );
       await targetUserFollowData.save();
     }

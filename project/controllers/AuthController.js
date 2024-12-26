@@ -138,60 +138,6 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-// const resendEmail = async (req, res) => {
-//   try {
-//     const { email } = req.query;
-//     const user = await UserModel.findOne({ email });
-
-//     if (!user) {
-//       return res.status(404).render("signup", { 
-//         message: "User not found.", 
-//         layout: false 
-//       });
-//     }
-
-//     if (user.isVerified) {
-//       return res.render("login", { 
-//         message: "Email already verified. Please log in.", 
-//         layout: false 
-//       });
-//     }
-
-//     const verificationToken = user.verificationToken || crypto.randomBytes(32).toString("hex");
-//     user.verificationToken = verificationToken;
-//     await user.save();
-
-//     const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
-//     const transporter = nodemailer.createTransport({
-//       service: "Gmail",
-//       auth: {
-//         user: 'underwavecontact@gmail.com',
-//         pass: 'awrj ukks lynl sslx'
-//       },
-//     });
-//     await transporter.sendMail({
-//       from: 'underwavecontact@gmail.com',
-//       to: user.email,
-//       subject: "Verify Your Email",
-//       html: `<p>Click the link below to verify your email:</p>
-//              <a href="${verificationLink}">Verify Email</a>
-//              <p>Ignore this email if you did not sign up account on Threads</p>`,
-//     });
-
-//     return res.render("signup", { 
-//       message: "Verification email resent successfully.", 
-//       showSuccess: true, 
-//       layout: false 
-//     });
-//   } catch (error) {
-//     console.error("Error resending verification email:", error);
-//     res.status(500).render("signup", { 
-//       message: "Error resending verification email. Please try again later.", 
-//       layout: false 
-//     });
-//   }
-// };
-
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -262,33 +208,6 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ message: "An error occurred during the process." });
   }
 };
-
-// const updatePassword = async (req, res) => {
-//   try {
-//     const { currentPassword, newPassword } = req.body;
-
-//     const user = await UserModel.findById(req.user.id); // Assuming `req.user` contains the logged-in user's ID
-//     if (!user) {
-//       req.message = "User not found.";
-//       return res.render("profile", { message: req.message, layout: false });
-//     }
-
-//     const isMatch = await bcrypt.compare(currentPassword, user.password);
-//     if (!isMatch) {
-//       req.message = "Current password is incorrect.";
-//       return res.render("profile", { message: req.message, layout: false });
-//     }
-
-//     user.password = await bcrypt.hash(newPassword, 10);
-//     await user.save();
-
-//     req.message = "Password updated successfully.";
-//     return res.render("profile", { message: req.message, layout: false });
-//   } catch (error) {
-//     console.error("Error during updatePassword:", error);
-//     res.status(500).json({ message: "An error occurred during the process." });
-//   }
-// };
 
 const signout = async(req, res) => {
   res.clearCookie("token");
