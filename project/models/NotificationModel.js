@@ -17,7 +17,7 @@ const Notification = new mongoose.Schema({
     notiName: { 
         type: String, 
         required: true, 
-        default: "Threads" 
+        default: "Admin" 
     },
 });
 
