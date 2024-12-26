@@ -33,31 +33,27 @@ const login = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Tìm user theo username
-        const user = await UserModel.findOne({ username: username });
-
-        // Kiểm tra user tồn tại
+        // const user = await UserModel.findOne({ username: username });
+        const user = await UserModel.findOne({
+            $or: [{ username: username }, { email: username }]
+        });
         if (!user) {
             return res.status(404).json({ message: "Incorrect username or password." });
         }
 
-        // Kiểm tra tài khoản đã xác minh
         if (!user.isVerified) {
             return res.status(403).json({ message: "Account not verified. Please check your email." });
         }
 
-        // Kiểm tra mật khẩu
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(404).json({ message: "Incorrect username or password." });
         }
 
-        // Tạo token
         const token = jwt.sign({ userId: user._id }, "22127104_22127247", {
             expiresIn: "30d",
         });
 
-        // Thiết lập cookie
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
@@ -76,11 +72,7 @@ const signup = async (req, res) => {
     try {
         const { username, password, email } = req.body;
 
-        // Validate password length
-        if (password.length < 6 || password.length > 20) {
-            return res.status(400).json({ message: "Password must be between 6 and 20 characters." });
-        }
-
+        
         // Validate username
         const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
         if (!usernameRegex.test(username)) {
@@ -89,7 +81,6 @@ const signup = async (req, res) => {
             });
         }
 
-        // Check if username or email already exists
         const existingUser = await UserModel.findOne({
             $or: [{ username: username }, { email: email }]
         });
@@ -103,14 +94,11 @@ const signup = async (req, res) => {
             }
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Generate a verification token
         const verificationToken = crypto.randomBytes(32).toString("hex");
         const verificationExpires = Date.now() + 500000;
 
-        // Create a new user
         const newUser = new UserModel({
             username,
             password: hashedPassword,
@@ -121,10 +109,8 @@ const signup = async (req, res) => {
 
         await newUser.save();
 
-        // Add a welcome notification
         NotificationController.addNotification(newUser._id, "Don't forget to update your profile");
 
-        // Send verification email
         const verificationLink = `http://localhost:3000/api/verify/${verificationToken}`;
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -171,7 +157,6 @@ const verifyEmail = async (req, res) => {
             user.verificationExpires = newVerificationExpires;
             await user.save();
 
-            // Gửi email xác thực mới
             const verificationLink = `http://localhost:3000/api/verify/${newVerificationToken}`;
             const transporter = nodemailer.createTransport({
                 service: "Gmail",
