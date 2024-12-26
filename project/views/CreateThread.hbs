@@ -107,11 +107,6 @@
 
         fileReader.readAsDataURL(file);
     }
-    function FileListItems(files) {
-        let b = new DataTransfer();
-        files.forEach(f => b.items.add(f));
-        return b.files;
-    }
     async function handleSubmit(event) {
         event.preventDefault();
         const content = document.getElementById('threadContent').value;
