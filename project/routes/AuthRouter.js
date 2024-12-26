@@ -2,17 +2,15 @@ import express from 'express';
 const router = express.Router();
 import AuthController from '../controllers/AuthController.js';
 
-router.get("/login", AuthController.showLogin);
-router.post("/login", AuthController.login);
-router.get("/signup",AuthController.showSignup);
-router.post("/signup",AuthController.signup);
-router.get("/verify-email", AuthController.verifyEmail);
-// router.get("/resendEmail", AuthController.resendEmail);
-router.get('/forgotPassword', AuthController.showforgotPassword);
-router.post('/forgotPassword', AuthController.forgotPassword);
-router.get("/resetPassword", AuthController.showresetPassword);
+router.get('/login', AuthController.showLogin);
+router.post('/api/login', AuthController.login);
+router.get('/signup', AuthController.showSignup);
+router.get('/resetpassword', AuthController.showForgotPassword);
+router.post('/api/register', AuthController.signup);
+router.get('/api/verify/:token', AuthController.verifyEmail);
+router.post('/resetpassword', AuthController.forgotPassword);
+router.get('/api/reset-password/:token', AuthController.resetPassword);
+router.get('/api/islogin', AuthController.isLoggedIn);
+router.get('/signout', AuthController.signout);
 
-router.post("/resetPassword", AuthController.resetPassword);
-
-router.get("/signout", AuthController.signout);
 export default router;

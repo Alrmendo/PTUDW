@@ -1,216 +1,269 @@
 import FollowModel from '../models/FollowModel.js';
 import UserModel from '../models/UserModel.js';
 import threadModel from '../models/ThreadModel.js';
-import UserFollowModel from '../models/FollowModel.js';
 import jwt from "jsonwebtoken";
-import multer from "multer";
+import multer from 'multer';
+import mongoose from 'mongoose';
+const upload = multer({ dest: 'temp/' });
+import database from '../database/db.js';
 
-// const loadUserThreadData = async (req, res, next) => {
-//   try {
-//     const threads = await threadModel.find({}).populate({
-//       path: "author",
-//       model: "Users",
-//       localField: "author",
-//       foreignField: "username",
-//       select: "username avatar",
-//     });
-//     req.threads = threads;
-//     next();
-//   } catch (error) {
-//     console.error("Error loadUserThreadData:", error);
-//     res.status(500).json({ message: "An error occurred while loadUserThreadData" });
-//   }
-// };
-
-// const renderProfile = (req, res) => {
-//   console.log("3");
-//   res.render("profile", {
-//     threads: req.threads,
-//     followers: req.followers,
-//     followings: req.followings,
-//     followerCount: req.followerCount,
-//     followingCount: req.followingCount,
-//   });
-// };
-
-
-
-const showProfile = async (req, res) => {
+const loadUserThreadData = async (req, res, next) => {
+    try {
+      const token = req.cookies.token;
+      // console.log("token");
+      // console.log(token);
+      if (!token) {
+        res.redirect("/login");
+        return;
+      }
+      
+      const decode = jwt.verify(token, "22127104_22127247");
+      const userId = decode.userId;
+      const user = await UserModel.findById(userId);
+      const threads = await threadModel.find({authorId: userId}).populate({
+        path: "author", 
+        model: "Users",
+        localField: "author",
+        foreignField: "username",
+        select: "username avatar",
+      });
+      console.log(threads);
+      const followData = await FollowModel.findOne({ userId: user._id }).lean();
+      const followers = followData?.followers || [];
+      const followings = followData?.followings || [];
+      req.followers = followers;
+      req.followings = followings;
+      req.threads = threads;
+      req.user = user;
+      req.isLogin = true;
+      next(); 
+    } catch (error) {
+      console.error("Error loadUserThreadData:", error);
+      res.status(500).json({ message: "An error occurred while loadUserThreadData" });
+    }
+  };
+const renderProfile = async (req, res) => {
+  try {
+    console.log(req.user.username); // Access user from req.user
+    res.render("Profile", {
+      user: req.user, // Pass req.user to the view
+      isLogin: req.isLogin, // Ensure isLogin is also passed
+      threads: req.threads,
+      followers: req.followers,
+      followings: req.followings,
+      // followerCount: req.followerCount,
+      // followingCount: req.followingCount,
+    });
+  } catch (error) {
+    console.error("Error fetching thread:", error);
+    res.status(500).json({ message: "An error occurred while loading the thread" });
+  }
+};
+const updateProfile = async (req, res) => {
   const token = req.cookies.token;
+  if (!token) {
+      return res.redirect("/login");
+  }
+  try{
+    const decode = jwt.verify(token, "22127104_22127247");
+    const userId = decode.userId;
+    const user = await UserModel.findById(userId);
+
+  
+    upload.single('file')(req, res, async (err) => {
+      if (err) return res.status(400).json({ error: "File upload error" });
+      const { username, quote } = req.body;    
+      const existingUser = await UserModel.findOne({ username: username});
+      console.log(existingUser._id);
+      console.log(userId);
+      if (existingUser && existingUser._id.toString() !== userId) 
+      {
+        return res.status(500).json({ message: "username already exist" });
+      }
+      let imageUrl = "";
+  
+      if (req.file) {
+        try {
+          const result = await database.cloudinary.uploader.upload(req.file.path, {
+            transformation: [
+              { width: 50, height: 50, crop: "fill" } // Resize to 150x150 pixels
+            ]
+          });
+          // const result = await database.cloudinary.uploader.upload(req.file.path);
+          imageUrl = result.secure_url;
+        } catch (uploadErr) {
+          console.error("Cloudinary upload error:", uploadErr);
+          return res.status(500).json({ error: "Failed to upload image" });
+        }
+        user.avatar = imageUrl;
+
+      }
+      user.username = username;
+      user.quote = quote;
+  
+      try {
+        await user.save();
+        res.status(201).json({ message: "Update successfully" });
+      } catch (saveErr) {
+        console.error("Error update:", saveErr);
+        res.status(500).json({ error: "Failed to update" });
+      }
+    });
+  }
+   catch (error) {
+      console.error(error);
+      res.status(500).send("Can't update user!");
+  }
+};
+  
+// Example using Express.js
+const follow = async (req, res) => {
+  const { username } = req.params;
+  const token = req.cookies.token;
+  console.log("token");
+  console.log(token);
   if (!token) {
     res.redirect("/login");
     return;
   }
   
   const decode = jwt.verify(token, "22127104_22127247");
-  
+  const currentUserId = decode.userId;
   try {
-    const user_Id = decode.id;
-    const user = await UserModel.findById(user_Id);
-    const isLogin = true;
-    // Fetch the thread by ID (from the request parameter)
-    const threads = await threadModel.find({author: user.username}).populate({
-      path: "author", 
-      model: "Users",
-      localField: "author",
-      foreignField: "username",
-      select: "username avatar",
-    }).lean();
+    // Find the current user's follow data
+    let currentUserFollowData = await FollowModel.findOne({ userId: currentUserId });
+    if (!currentUserFollowData) {
 
-    const updatedThreads = threads.map((thread) => {
-      const isLike = thread.likes.some(
-        (like) => like.userId?.toString() === user_Id
-      );
-      const isAuthor = thread.authorId.toString() === user_Id;
-      return { ...thread, isLike, isAuthor };
-    });
-    console.log(updatedThreads);
-    const followData = await UserFollowModel.findOne({ user_Id: user._id }).lean();
-    const followers = followData?.followers || [];
-    const followings = followData?.followings || [];
-    console.log(followers);
-    console.log(followings);
-    // Render the profile view with threads, comments, followers, and followings
-    res.render("Profile", { threads: updatedThreads, comments: updatedThreads.comments, user,followers: followers,followings: followings, isLogin});
-    
-  } catch (error) {
-    console.error("Error fetching thread:", error);
-    res.status(500).json({ message: "An error occurred while loading the thread" });
-  }
-};
-
-const updateProfile = async (req, res) => {
-  const token = req.cookies.token;
-  if (!token) {
-      return res.redirect("/login");
-  }
-  const decode = jwt.verify(token, "22127104_22127247");
-  const user_Id = decode.id;
-  const { username, quote } = req.body;
-  const avatar = req.file; // Get the uploaded file from multer
-
-  try {
-      const user = await UserModel.findById(user_Id);
-      if (!user) {
-          return res.status(404).send("User not found");
-      }
-
-      if (username) user.username = username;
-      if (quote) user.quote = quote;
-      if (avatar) {
-          user.avatar = avatar.buffer; // Example: store the image buffer directly (not recommended for production)
-      }
-
-      await user.save();
-      res.send("User has been updated!");
-  } catch (error) {
-      console.error(error);
-      res.status(500).send("Can't update user!");
-  }
-};
-
-// const unfollow = async (req, res) => {
-//   const { followerId } = req.params;
-//   const token = req.cookies.token;
-
-//   if (!token) {
-//     return res.redirect("/login");
-//   }
-
-//   try {
-//     const decode = jwt.verify(token, "22127104_22127247");
-//     const user_Id = decode.id;
-
-//     const followData = await UserFollowModel.findOne({ user_Id });
-//     console.log("follower");
-//     console.log(followerId);
-//     console.log(user_Id);
-//     if (!followData) {
-//       return res.status(404).json({ success: false, message: 'Follow data not found' });
-//     }
-//     console.log(followData.followings);
-//     followData.followings = followData.followings.filter(
-//       (user_Id) => user_Id.toString() !== followerId
-//     );
-
-//     // If you want to also remove the user from their own followers (bi-directional unfollow)
-//     // const targetUserFollowData = await UserFollowModel.findOne({ user_Id: followerId });
-
-//     // if (targetUserFollowData) {
-//     //   targetUserFollowData.followers = targetUserFollowData.followers.filter(
-//     //     (id) => id.toString() !== user_Id
-//     //   );
-//     //   await targetUserFollowData.save();
-//     // }
-
-//     console.log("after");
-//     console.log(followData.followings);
-
-//     await followData.save();
-
-//     res.json({ success: true });
-//   } catch (error) {
-//     console.error("Error during unfollow:", error);
-//     res.status(500).json({ success: false, message: 'An error occurred while unfollowing' });
-//   }
-// };
-const unfollow = async (req, res) => {
-  console.log("hiiiiiiiiiiiiiiiiiiiiiii")
-  const { followerId } = req.params;
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.redirect("/login");
-  }
-
-  try {
-    console.log("hiiiiiiiiiiiiiiiiiiiiiii")
-    const decode = jwt.verify(token, "22127104_22127247");
-    const user_Id = decode.id;
-
-    const followData = await UserFollowModel.findOne({ userId: user_Id });
-    console.log("before");
-
-    if (!followData) {
-      return res.status(404).json({ success: false, message: 'Follow data not found' });
+      currentUserFollowData = new FollowModel({ userId: currentUserId, followings: [], followers: [] });
+      console.log("khong tim thay current user");
     }
-    console.log(followData);
-    console.log(followerId);
-    // Filter out the followerId from the followings list
-    followData.followings = followData.followings.filter(
-//      (id) => {console.log(user_Id.toString), id.toString() !== followerId}
+    // console.log(currentUserFollowData);
+    else console.log("tim thay current user");
 
-      (id) => {id.toString() !== followerId}
-    );
-    console.log(followData);
+    // Find the target user's follow data
+    let targetUser = await UserModel.findOne({username});
+    if (!targetUser) {
+      return res.status(404).json({ success: false, message: "Target user not found" });
+    }
+    const targetUserId = targetUser._id.toString();
+    console.log("targetUserId");
+    console.log(targetUserId);
 
-    // Save the updated follow data
-    await followData.save();
 
-    // Optionally, handle bi-directional unfollow
-    // const targetUserFollowData = await UserFollowModel.findOne({ userId: followerId });
+    let targetUserFollowData = await FollowModel.findOne({userId: targetUserId });
+    if (!targetUserFollowData) {
+      targetUserFollowData = new FollowModel({ userId: targetUserId, followings: [], followers: [] });
+      console.log("khong tim thay target user");
+    }
+    else console.log("tim thay target user");
 
-    // if (targetUserFollowData) {
-    //   targetUserFollowData.followers = targetUserFollowData.followers.filter(
-    //     (id) => id.toString() !== user_Id
-    //   );
-    //   await targetUserFollowData.save();
-    // }
 
-    res.json({ success: true });
+    // console.log(currentUserFollowData);
+    // console.log(targetUserId);
+    // console.log(targetUser.username);
+    // console.log(targetUser.avatar);
+
+    currentUserFollowData.followings.push({
+      userId: targetUserId,
+      username: targetUser.username,
+      avatar: targetUser.avatar,
+    });
+
+    // Add current user to target user's followers
+    const currentUser = await UserModel.findById(currentUserId);
+    
+    // console.log(targetUserFollowData);
+    // console.log(currentUserId);
+    // console.log(currentUser.username);
+    // console.log(currentUser.avatar);
+
+    targetUserFollowData.followers.push({
+      userId: currentUserId,
+      username: currentUser.username, // Assuming you have the username in the req.user
+      avatar: currentUser.avatar, // Assuming you have the avatar in the req.user
+    });
+
+    await currentUserFollowData.save();
+    await targetUserFollowData.save();
+
+    res.status(200).json({ success: true });
   } catch (error) {
-    console.error("Error during unfollow:", error);
-    res.status(500).json({ success: false, message: 'An error occurred while unfollowing' });
+    console.error('Error following user:', error);
+    res.status(500).json({ success: false, message: "An error occurred while following the user" });
   }
 };
+const unfollow = async (req, res) => {
+  const { username } = req.params;
+  const token = req.cookies.token;
+  console.log("token");
+  console.log(token);
+  if (!token) {
+    res.redirect("/login");
+    return;
+  }
+  
+  const decode = jwt.verify(token, "22127104_22127247");
+  const currentUserId = decode.userId;
+  try {
+    // Find the current user's follow data
+
+    let currentUserFollowData = await FollowModel.findOne({ userId: currentUserId });
+    if (!currentUserFollowData) {
+      currentUserFollowData = new FollowModel({ userId: currentUserId, followings: [], followers: [] });
+      console.log("khong  tim thay current user");
+    }
+    else console.log("tim thay current user");
+
+
+    // console.log(currentUserFollowData);
+
+    // Find the target user's follow data
+    const targetUser = await UserModel.findOne({username});
+    if (!targetUser) {
+      return res.status(404).json({ success: false, message: "Target user not found" });
+    }
+    const targetUserId = targetUser._id.toString();
+    // console.log("targetUserId");
+    // console.log(targetUserId);
+    let targetUserFollowData = await FollowModel.findOne({userId: targetUserId });
+    if (!targetUserFollowData) {
+      console.log("khong tim thay target user");
+      targetUserFollowData = new FollowModel({ userId: targetUserId, followings: [], followers: [] });
+    }
+    else console.log("tim thay target user");
+
+    console.log(targetUserFollowData);
+    currentUserFollowData.followings = currentUserFollowData.followings.filter(
+      (user) => user.userId.toString() !== targetUserId
+    );
+
+    // Add current user to target user's followers
+    const currentUser = await UserModel.findById(currentUserId);
+    console.log(currentUser);
+    console.log(currentUserId)
+    console.log(targetUserFollowData);
+    targetUserFollowData.followers = targetUserFollowData.followers.filter(
+      (user) => user.userId.toString() !== currentUserId
+    );
+
+    await currentUserFollowData.save();
+    await targetUserFollowData.save();
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error following user:', error);
+    res.status(500).json({ success: false, message: "An error occurred while following the user" });
+  }
+};
+
 
 const ProfileController = {
-  // redirectToSettings: redirectToSettings,
-  // loadUserThreadData: loadUserThreadData,
-  // renderProfile: renderProfile,
-  showProfile: showProfile,
-  updateProfile: updateProfile,
-  unfollow: unfollow,
+    // loadFollowsData: loadFollowsData,
+    updateProfile: updateProfile,
+    loadUserThreadData: loadUserThreadData,
+    renderProfile: renderProfile,
+    follow: follow,
+    unfollow: unfollow,
 };
 
 export default ProfileController;

@@ -58,21 +58,14 @@
     {{!-- </a> --}}
     
   </div>
-
+  <hr>
   <div
     class="nav-profile-bar h-[48px] flex items-center justify-around text-[15px] font-normal border-b-[0.8px] border-[#BEC3C9] relative">
-    <div class="nav-item threads switch cursor-pointer text-black" onclick="switchTab('threads')">
+    <div class="nav-item threads switch cursor-pointer text-black">
       <span>Threads</span>
     </div>
-    <div class="nav-item replies cursor-pointer text-[#BEC3C9]" onclick="switchTab('replies')">
-      <span>Replies</span>
-    </div>
-    <div class="nav-item repost cursor-pointer text-[#BEC3C9]" onclick="switchTab('repost')">
-      <span>Repost</span>
-    </div>
-    <!-- Thanh border di chuyển -->
-    <div class="nav-active-indicator absolute bottom-0 h-[0.8px] bg-black transition-all duration-300">
-    </div>
+    
+
   </div>
 
 
@@ -81,42 +74,46 @@
   {{/each}}
 
 
-
 <div id="edit-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50 z-10">
-    <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[60vh] md:rounded-xl overflow-hidden">
-        <div class="flex justify-between items-center px-6 pt-4 border-b border-gray-200">
-            <button onclick="toggleModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
-            <h1 class="font-bold text-lg">Edit Profile</h1>
-            <button onclick="saveProfile()" class="px-4 py-2 text-white bg-gray-500 rounded-full items-center mb-2 hover:bg-gray-600">Save</button>
-
+  <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[60vh] md:rounded-xl overflow-hidden">
+    
+    <form onsubmit="handleSubmit(event)" id="edit-profile-form" action="profile/updateProfile" method="POST" enctype="multipart/form-data" class="flex flex-col h-full">
+      <div class="flex justify-between items-center px-6 pt-4 border-b border-gray-200">
+        <button type="button" onclick="toggleModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
+        <h1 class="font-bold text-lg">Edit Profile</h1>
+        <button type="submit" class="px-4 py-2 text-white bg-gray-500 rounded-full hover:bg-gray-600">Save</button>
+      </div>
+      <div class="flex-grow p-6 overflow-y-auto">
+          <!-- Profile Picture -->
+        <div class="flex flex-col items-center mb-6">
+            <label for="image-upload" class="relative cursor-pointer flex items-center justify-center w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
+                <img id="profile-picture-preview" src="{{user.avatar}}" alt="Profile Picture" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </div>
+            </label>
+            <input id="image-upload" name="avatar" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)">
+            <p class="text-sm text-gray-500 mt-2">Change Profile Picture</p>
         </div>
 
-        <div class="flex-grow p-6 overflow-y-auto">
-            <!-- Profile Picture -->
-            <div class="flex flex-col items-center mb-6">
-                <label for="image-upload" class="relative cursor-pointer flex items-center justify-center w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
-                    <img id="profile-picture-preview" src="{{user.avatar}}" alt="Profile Picture" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 4v16m8-8H4"></path>
-                        </svg>
-                    </div>
-                </label>
-                <input id="image-upload" name="avatar" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)">
-                <p class="text-sm text-gray-500 mt-2">Change Profile Picture</p>
-            </div>
-            <div class="mb-4">
-                <label for="usernameEdit" class="block text-lg font-medium text-gray-700">Username</label>
-                <input type="text" id="usernameEdit" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{user.username}}">
-            </div>
-            <div>
-                <label for="quoteEdit" class="block text-lg font-medium text-gray-700">Bio</label>
-                <textarea id="quoteEdit" name="quote" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{user.quote}}</textarea>
-            </div>
+          <!-- Username -->
+        <div class="mb-4">
+            <label for="usernameEdit" class="block text-lg font-medium text-gray-700">Username</label>
+            <input type="text" id="usernameEdit" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{user.username}}">
         </div>
 
-    </div>
+          <!-- Bio -->
+        <div>
+            <label for="quoteEdit" class="block text-lg font-medium text-gray-700">Bio</label>
+            <textarea id="quoteEdit" name="quote" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{user.quote}}</textarea>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
+
 <div id="follow-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50">
   <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[70vh] md:rounded-xl">
     <!-- Header -->
@@ -168,7 +165,7 @@
 
     <div id="following-section" class="flex-1 overflow-y-auto p-4 space-y-4 hidden">
       <!-- Following List -->
-      <div class="flex items-center justify-between">
+      <div class="flex  flex-col justify-between">
         {{#each followings}}
         <div class="flex items-center space-x-4">
           <img src="{{avatar}}" alt="Avatar" class="w-10 h-10 rounded-full" />
@@ -176,13 +173,14 @@
             <h2 class="font-medium text-gray-800">{{username}}</h2>
             {{!-- <p class="text-sm text-gray-500">Following</p> --}}
           </div>
-        </div>
-        
-        <button onclick="handleUnfollow('{{user_Id}}')"
+          <button onclick="handleUnfollow('{{username}}')"
           class="px-4 py-1 text-sm font-medium text-white bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
         >
           Un Follow
         </button>
+        </div>
+        
+        
         {{/each}}
       </div>
     </div>
@@ -214,26 +212,6 @@
   }
 </script>
 
-
-<script>
-  const switchTab = (tabName) => {
-    const tabs = document.querySelectorAll(".nav-item");
-    const indicator = document.querySelector(".nav-active-indicator");
-
-    tabs.forEach((tab, index) => {
-      if (tab.classList.contains(tabName)) {
-        tab.classList.add("switch");
-        tab.style.color = "black";
-
-        // Di chuyển thanh border dưới
-        indicator.style.left = `${index * 33.33}%`;
-      } else {
-        tab.classList.remove("switch");
-        tab.style.color = "#BEC3C9";
-      }
-    });
-  };
-</script>
 
 <script>
   function toggleModal() {
@@ -275,51 +253,53 @@
       reader.readAsDataURL(file);
     }
   }
-
-async function saveProfile() {
+async function handleSubmit(event) {
+    event.preventDefault();
     const username = document.getElementById('usernameEdit').value;
     const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
-
+    
     if (!usernameRegex.test(username)) {
       alert('Username contains invalid characters. Only letters, numbers, underscores, dots, and hyphens are allowed.');
-      return false; // Prevent further actions
+      return false;
     }
+    
     const quote = document.getElementById('quoteEdit').value;
-    const imageInput = document.getElementById("image-upload");
-    const avatar = imageInput.files ? imageInput.files[0] : null;
-    console.log(avatar);
+
+    const file = document.getElementById('image-upload').files[0];
     const formData = new FormData();
     formData.append('username', username);
     formData.append('quote', quote);
-    if (avatar) {
-        formData.append('avatar', avatar); // Attach the file if it exists
-    }
+    if (file) formData.append('file', file);
 
-    fetch('/profile/updateProfile', {
+    try {
+      const response = await fetch('http://localhost:3000/profile/updateProfile', {
         method: 'POST',
-        body: formData, // Use FormData as the body
-    }).then(response => {
-        if (response.ok) {
-            toggleModal();
-            window.location.href = "/profile";
-        } else {
-            alert('Failed to update profile.');
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-        alert('Failed to update profile.');
-    });
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message || 'Profile updated successfully!');
+        window.location.href = "/profile";
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to update profile');
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
 }
-function handleUnfollow(followerId) {
+
+
+function handleUnfollow(username) {
   // Confirm action
   if (!confirm("Are you sure you want to unfollow this user?")) return;
 
   // Send an AJAX request to the server
-  fetch(`/profile/unfollow/${followerId}`, {
+  fetch(`profile/unfollow/${username}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // "X-CSRFToken": getCsrfToken(), // Uncomment if CSRF token is needed
     },
   })
     .then((response) => {
@@ -330,10 +310,10 @@ function handleUnfollow(followerId) {
     })
     .then((data) => {
       if (data.success) {
-        window.location.href = "/profile";
         // Remove the follower from the UI
-//        document.querySelector(`[data-id="${followerId}"]`).remove();
+        //document.querySelector(`[data-id="${followerId}"]`).remove();
         alert("Successfully unfollowed!");
+        window.location.href ="/profile"
       } else {
         alert("Error: Unable to unfollow.");
       }
@@ -343,6 +323,7 @@ function handleUnfollow(followerId) {
       alert("An error occurred. Please try again.");
     });
 }
+
 </script>
 
 
