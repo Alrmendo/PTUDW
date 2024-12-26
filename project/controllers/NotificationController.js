@@ -23,7 +23,7 @@ const loadNotifications = async (req, res) => {
 
     try {
         const noti = await NotificationModel.findOne({ userId: decode.userId }).lean();
-        res.render("Notification", { notifications: noti?.notifications || [] });
+        res.render("Notification", { notifications: noti?.notifications || [],                 isLogin: true});
     } catch (error) {
         console.error("Error loading notifications:", error);
         res.status(500).json({ message: "Internal server error" });

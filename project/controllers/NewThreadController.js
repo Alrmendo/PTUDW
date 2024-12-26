@@ -19,7 +19,9 @@ const newThread = async (req, res) => {
 
     res.render("CreateThread", {
       username: user.username,
-      avatar: user.avatar,
+      avatar: user.avatar,                 
+      isLogin: true,
+
     });
   } catch (error) {
     console.error("Error fetching user:", error);

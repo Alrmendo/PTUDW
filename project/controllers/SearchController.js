@@ -37,12 +37,12 @@ const loadSearch = async (req, res) => {
                 username: user.username,
                 bio: user.quote || '',
                 status: isFollowing,
-                followers: followData ? followData.followers.length : 0
+                followers: followData ? followData.followers.length : 0,
             };
         });
 
         // Render search results
-        res.render("Search", { infomations: result });
+        res.render("Search", { infomations: result,                 isLogin: true,});
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -50,6 +50,7 @@ const loadSearch = async (req, res) => {
 };
 
 // Controller
+
 const SearchController = {
     loadSearch,
 };

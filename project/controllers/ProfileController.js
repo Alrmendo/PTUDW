@@ -74,7 +74,8 @@ const updateProfile = async (req, res) => {
       if (err) return res.status(400).json({ error: "File upload error" });
       const { username, quote } = req.body;    
       const existingUser = await UserModel.findOne({ username: username});
-      console.log(existingUser._id);
+      console.log(existingUser);
+      // console.log(existingUser._id);
       console.log(userId);
       if (existingUser && existingUser._id.toString() !== userId) 
       {
