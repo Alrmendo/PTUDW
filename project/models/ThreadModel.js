@@ -18,7 +18,8 @@ const Comment = new mongoose.Schema({
 const Like = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'Users'
   },
 });
 

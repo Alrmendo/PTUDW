@@ -2,6 +2,7 @@ import threadModel from "../models/ThreadModel.js";
 import userModel from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 
+
 const JWT_SECRET = "22127104_22127247";
 
 const loadAllThread = async (req, res) => {
@@ -51,8 +52,8 @@ const likeThread = async (req, res) => {
   if (!token)
     return res.redirect("/login");
   const decode = jwt.verify(token, JWT_SECRET);
+  
   const thread = await threadModel.findById(req.params.id);
-
   if (!thread) {
     return res.status(404).json({ message: "Thread not found" });
   }
