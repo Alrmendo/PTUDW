@@ -5,12 +5,12 @@ const Notification = new mongoose.Schema({
         type: String,
         required: true
     },
-    noti_avatar: {
+    notiAvatar: {
         type: String,
         required: true,
         default: "/images/av1.jpg"
     },
-    noti_username: {
+    notiUsername: {
         type: String,
         required: true,
         default: "user1"
@@ -22,7 +22,7 @@ const Notification = new mongoose.Schema({
 });
 
 const UserNotification = new mongoose.Schema({
-    user_Id: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },

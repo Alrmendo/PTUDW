@@ -5,7 +5,7 @@ const Comment = new mongoose.Schema({
         type: String,
         required: true
     },
-    comment_Id: {
+    commentId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -16,7 +16,7 @@ const Comment = new mongoose.Schema({
 });
 
 const Like = new mongoose.Schema({
-    user_Id: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -31,7 +31,7 @@ const Thread = new mongoose.Schema({
         type: String, 
         default: "" 
     },
-    author_Id: { 
+    authorId: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true 
     },

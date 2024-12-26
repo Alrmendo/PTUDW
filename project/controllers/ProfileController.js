@@ -59,9 +59,9 @@ const showProfile = async (req, res) => {
 
     const updatedThreads = threads.map((thread) => {
       const isLike = thread.likes.some(
-        (like) => like.user_Id?.toString() === user_Id
+        (like) => like.userId?.toString() === user_Id
       );
-      const isAuthor = thread.author_Id.toString() === user_Id;
+      const isAuthor = thread.authorId.toString() === user_Id;
       return { ...thread, isLike, isAuthor };
     });
     console.log(updatedThreads);
@@ -168,7 +168,7 @@ const unfollow = async (req, res) => {
     const decode = jwt.verify(token, "22127104_22127247");
     const user_Id = decode.id;
 
-    const followData = await UserFollowModel.findOne({ user_Id: user_Id });
+    const followData = await UserFollowModel.findOne({ userId: user_Id });
     console.log("before");
 
     if (!followData) {
@@ -178,8 +178,9 @@ const unfollow = async (req, res) => {
     console.log(followerId);
     // Filter out the followerId from the followings list
     followData.followings = followData.followings.filter(
+//      (id) => {console.log(user_Id.toString), id.toString() !== followerId}
 
-      (id) => {console.log(user_Id.toString), id.toString() !== followerId}
+      (id) => {id.toString() !== followerId}
     );
     console.log(followData);
 
