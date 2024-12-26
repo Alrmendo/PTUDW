@@ -1,6 +1,7 @@
 import express from 'express';
-const router = express.Router();
 import NewThreadController from '../controllers/NewThreadController.js';
+
+const router = express.Router();
 
 router.get("/", NewThreadController.newThread);
 router.post("/upload", NewThreadController.uploadThread);
