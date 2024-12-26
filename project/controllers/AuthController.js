@@ -34,7 +34,7 @@ const login = async (req, res) => {
 
     try {
         // Tìm user theo username
-        const user = await UserModel.findOne({ username });
+        const user = await UserModel.findOne({ username: username });
 
         // Kiểm tra user tồn tại
         if (!user) {
@@ -60,9 +60,9 @@ const login = async (req, res) => {
         // Thiết lập cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false, 
+            secure: false,
             sameSite: "Strict",
-            maxAge: 60 * 60 * 1000,
+            maxAge: 24 * 60 * 60 * 1000,
         });
 
         return res.status(200).json({ message: "Login successful", token });
@@ -84,8 +84,8 @@ const signup = async (req, res) => {
         // Validate username
         const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
         if (!usernameRegex.test(username)) {
-            return res.status(400).json({ 
-                message: "Invalid username. Use only letters, numbers, dashes, underscores, or dots, with a maximum length of 30 characters." 
+            return res.status(400).json({
+                message: "Invalid username. Use only letters, numbers, dashes, underscores, or dots, with a maximum length of 30 characters."
             });
         }
 
@@ -159,37 +159,58 @@ const verifyEmail = async (req, res) => {
         const user = await UserModel.findOne({ verificationToken: token });
 
         if (!user) {
-            return res.status(400).render("signup", { 
-                message: "Invalid or expired token.", 
-                layout: false 
-            });
+            return res.status(400).redirect("http://localhost:3000/login?message=Invalid+token");
         }
 
-        // Kiểm tra token có hết hạn không
         if (Date.now() > user.verificationExpires) {
-            return res.status(400).render("signup", {
-                message: "The verification token has expired. Please request a new verification email.",
-                layout: false
+            // Tạo token mới
+            const newVerificationToken = crypto.randomBytes(32).toString("hex");
+            const newVerificationExpires = Date.now() + 3600000;
+
+            user.verificationToken = newVerificationToken;
+            user.verificationExpires = newVerificationExpires;
+            await user.save();
+
+            // Gửi email xác thực mới
+            const verificationLink = `http://localhost:3000/api/verify/${newVerificationToken}`;
+            const transporter = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: "underwavecontact@gmail.com",
+                    pass: "awrj ukks lynl sslx", // Hạn chế lưu mật khẩu trực tiếp trong code, hãy dùng biến môi trường.
+                },
             });
+
+            await transporter.sendMail({
+                from: "underwavecontact@gmail.com",
+                to: user.email,
+                subject: "Confirm your email",
+                html: `<p>Hello ${user.username},</p>
+                       <p>Click the link below to verify your email:</p>
+                       <a href="${verificationLink}">Verify Email</a>
+                       <p>If you did not sign up for an account, please ignore this email.</p>`,
+            });
+
+            return res
+                .status(400)
+                .redirect("http://localhost:3000/login?message=Verification+token+expired.+Check+your+email+for+a+new+link");
         }
 
-        // Đánh dấu email đã xác thực
+        // Cập nhật trạng thái xác thực
         user.isVerified = true;
-        user.verificationToken = null; // Xóa token sau khi xác thực
+        user.verificationToken = null;
         await user.save();
 
-        return res.render("login", { 
-            message: "Email verified successfully. You can now log in.", 
-            layout: false 
-        });
+        // Chuyển hướng tới trang login
+        return res.redirect("http://localhost:3000/login?message=Email+verified+successfully");
     } catch (error) {
         console.error("Error verifying email:", error);
-        res.status(500).render("login", { 
-            message: "Error verifying email. Please try again later.", 
-            layout: false 
-        });
+        return res
+            .status(500)
+            .redirect("http://localhost:3000/login?message=Error+verifying+email.+Please+try+again+later");
     }
 };
+
 
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
@@ -198,9 +219,9 @@ const forgotPassword = async (req, res) => {
         const user = await UserModel.findOne({ email });
 
         if (!user) {
-            return res.status(404).render("forgotPassword", { 
-                message: "No account with this email found.", 
-                layout: false 
+            return res.status(404).render("forgotPassword", {
+                message: "No account with this email found.",
+                layout: false
             });
         }
 
@@ -214,7 +235,7 @@ const forgotPassword = async (req, res) => {
 
         // Tạo liên kết đặt lại mật khẩu
         const resetUrl = `http://localhost:3000/resetPassword/${resetToken}`;
-        
+
         // Gửi email
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -235,15 +256,15 @@ const forgotPassword = async (req, res) => {
                    <p>If you did not request this, please ignore this email.</p>`,
         });
 
-        return res.render("forgotPassword", { 
-            message: "Password reset link has been sent to your email.", 
-            layout: false 
+        return res.render("forgotPassword", {
+            message: "Password reset link has been sent to your email.",
+            layout: false
         });
     } catch (error) {
         console.error("Error during forgotPassword:", error);
-        res.status(500).render("forgotPassword", { 
-            message: "An error occurred during the process. Please try again later.", 
-            layout: false 
+        res.status(500).render("forgotPassword", {
+            message: "An error occurred during the process. Please try again later.",
+            layout: false
         });
     }
 };
@@ -291,9 +312,9 @@ const resetPassword = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).render("resetPassword", { 
-                message: "Invalid or expired token.", 
-                layout: false 
+            return res.status(400).render("resetPassword", {
+                message: "Invalid or expired token.",
+                layout: false
             });
         }
 
@@ -306,15 +327,15 @@ const resetPassword = async (req, res) => {
         user.verificationExpires = null; // Xóa thời hạn của token
         await user.save();
 
-        return res.render("login", { 
-            message: "Password reset successfully. You can now log in.", 
-            layout: false 
+        return res.render("login", {
+            message: "Password reset successfully. You can now log in.",
+            layout: false
         });
     } catch (error) {
         console.error("Error during resetPassword:", error);
-        res.status(500).render("resetPassword", { 
-            message: "An error occurred during the process. Please try again later.", 
-            layout: false 
+        res.status(500).render("resetPassword", {
+            message: "An error occurred during the process. Please try again later.",
+            layout: false
         });
     }
 };
@@ -324,7 +345,7 @@ const isLoggedIn = (req, res) => {
     const token = req.cookies.token;
     if (!token)
         res.status(200).json({ isLoggedIn: false });
-    else 
+    else
         res.status(200).json({ isLoggedIn: true });
 }
 
