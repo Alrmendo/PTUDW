@@ -29,8 +29,6 @@ const loadNotifications = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
-
-
 const addNotification = async (userId, content, notiAvatar, notiName) => {
     try {
         const userNotification = await NotificationModel.findOne({ userId });

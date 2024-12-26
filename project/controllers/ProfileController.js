@@ -6,6 +6,8 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 const upload = multer({ dest: 'temp/' });
 import database from '../database/db.js';
+import NotificationController from './NotificationController.js';
+
 
 const loadUserThreadData = async (req, res, next) => {
     try {
@@ -186,6 +188,8 @@ const follow = async (req, res) => {
 
     await currentUserFollowData.save();
     await targetUserFollowData.save();
+    
+    NotificationController.addNotification(targetUserId, `${targetUser.username} followed you`, targetUser.avatar, targetUser.username);
 
     res.status(200).json({ success: true });
   } catch (error) {
