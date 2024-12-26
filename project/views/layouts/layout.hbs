@@ -115,9 +115,16 @@
           </svg>
         </span>
         <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
-          <span id="loginButton" class="bg-black py-[6px] px-5 border rounded-xl">
-            <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
-          </span>
+            
+            <span class="bg-black py-[6px] px-5 border rounded-xl">
+                {{#if isLogin}}
+                    <a href="/signout" class="text-white no-underline font-normal text-[15px]">Sign out</a>
+
+                {{else}}
+                    <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
+                {{/if}}
+            </span>
+            
         </div>
       </div>
       <div
