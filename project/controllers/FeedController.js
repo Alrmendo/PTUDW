@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 const loadAllThread = async (req, res) => {
   const token = req.cookies.token;
-  console.log(token)
   if (!token) {
     const threads = await threadModel.find({}).populate({
       path: "author",
@@ -13,11 +12,14 @@ const loadAllThread = async (req, res) => {
       foreignField: "username",
       select: "username avatar",
     }).lean();
-    res.render("Thread", { threads: threads, isLogin: false });
+    res.render("Home", { threads: threads, isLogin: false });
   } else {
-    const decode = jwt.verify(token, "22127104_22127247");
+    const decode = jwt.verify(
+      token,
+      "22127104_22127247"
+    );
     try {
-      const userId = decode.id;
+      const userId = decode.userId;
       const user = await userModel.findById(userId);
       const threads = await threadModel
         .find({})
@@ -27,38 +29,26 @@ const loadAllThread = async (req, res) => {
           localField: "author",
           foreignField: "username",
           select: "username avatar",
-        })
-        .lean();
-      // const updatedThreads = threads.map((thread) => {
-      //   const isLike = thread.likes?.some(
-      //     (like) => like.userId.toString() === userId
-      //   );
-      //   return { ...thread, isLike };
-      // });
+        }).lean();
+      threads.reverse();
       const updatedThreads = threads.map((thread) => {
-        const isLike = thread.likes?.some(
-          (like) => like.userId && like.userId.toString() === userId
-        ) || false;
+        const isLike = thread.likes.some(
+          (like) => like.userId.toString() === userId
+        );
         return { ...thread, isLike };
       });
-      
-      console.log(user.username);
-      res.render("Thread", { threads: updatedThreads, user: user, isLogin: true });
+      res.render("Home", { threads: updatedThreads, avatar: user.avatar, isLogin: true });
     } catch (error) {
       console.error("Error fetching threads:", error);
-      res
-        .status(500)
-        .json({ message: "An error occurred while loading the feed" });
+      res.status(500).json({ message: "An error occurred while loading the feed" });
     }
   }
 };
 
 const likeThread = async (req, res) => {
   const token = req.cookies.token;
-  if (!token) {
-    res.redirect("/login");
-    return;
-  }
+  if (!token)
+    return res.redirect("/login");
   const decode = jwt.verify(
     token,
     "22127104_22127247"
@@ -86,18 +76,12 @@ const likeThread = async (req, res) => {
   res.status(200).json({ message: "Thread updated successfully" });
 };
 
-const loadFollowingThread = async (req, res) => {
-}
 
 const addComment = async (req, res) => {
   const {content} = req.body;
-  console.log(content);
-  console.log(req.params.id);
   const token = req.cookies.token;
-  if (!token) {
-    res.redirect("/login");
-    return;
-  }
+  if (!token) 
+    return res.redirect("/login");
   const decode = jwt.verify(
     token,
     "22127104_22127247"
@@ -115,11 +99,12 @@ const addComment = async (req, res) => {
 
 const loadThread = async (req, res) => {
   const token = req.cookies.token;
-  if (!token) {
-    res.redirect("/login");
-    return;
-  }
-  const decode = jwt.verify(token,"22127104_22127247");
+  if (!token) 
+    return res.redirect("/login");
+  const decode = jwt.verify(
+    token,
+    "22127104_22127247"
+  );
   try{
     const thread = await threadModel.findById(req.params.id).populate({
       path: "author",
@@ -139,7 +124,7 @@ const loadThread = async (req, res) => {
     );
     const user = await userModel.findById(decode.userId).lean();
     const updatedThread = { ...thread, isLike };
-    res.render("Post", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar});
+    res.render("Comment", { threads: [updatedThread], comments: updatedThread.comments, avatar: user.avatar});
 } catch (error) {
   console.error("Error fetching thread:", error);
   res.status(500).json({ message: "An error occurred while loading the thread" });
@@ -149,7 +134,6 @@ const loadThread = async (req, res) => {
 const FeedController = {
   loadAllThread: loadAllThread,
   likeThread: likeThread,
-  loadFollowingThread: loadFollowingThread,
   addComment: addComment,
   loadThread: loadThread,
 };

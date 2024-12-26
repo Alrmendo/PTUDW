@@ -4,98 +4,79 @@ import UserModel from '../models/UserModel.js';
 import multer from 'multer';
 import jwt from "jsonwebtoken";
 
-const upload = multer({ dest: 'test/' });
-
-const SECRET_KEY = "22127104_22127247";
-
-const verifyToken = (token) => {
-    try {
-        return jwt.verify(token, SECRET_KEY);
-    } catch (err) {
-        return null;
-    }
-};
-
-const getUserFromToken = async (token) => {
-    const decode = verifyToken(token);
-    if (!decode) return null;
-    return await UserModel.findOne({ _id: decode.userId });
-};
+const upload = multer({ dest: 'temp/' });
+const JWT_SECRET = "22127104_22127247"; 
 
 const newThread = async (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.redirect("/login");
-    }
+  const token = req.cookies.token;
+  if (!token) return res.redirect("/login");
 
-    try {
-        const decode = jwt.verify(token, "22127104_22127247");
-        const userId = decode.id;
-        const findUser = await UserModel.findById(userId);
-        if (!findUser) {
-            return res.status(404).json({ message: "User not found" });
-        }
+  try {
+    const decode = jwt.verify(token, JWT_SECRET);
+    const user = await UserModel.findById(decode.userId).lean();
 
-        const object = {
-            username: findUser.username,
-            avatar: findUser.avatar,
-        };
-        res.render("CreateThread", object);
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: "Internal server error" });
-    }
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.render("CreateThread", {
+      username: user.username,
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 const uploadThread = async (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.redirect("/login");
-    }
+  const token = req.cookies.token;
+  if (!token) return res.redirect("/login");
 
-    const findUser = await getUserFromToken(token);
-    if (!findUser) {
-        return res.status(404).json({ message: "User not found" });
-    }
+  try {
+    const decode = jwt.verify(token, JWT_SECRET);
+    const user = await UserModel.findById(decode.userId);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     upload.single('file')(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ error: 'File upload error' });
-        }
+      if (err) return res.status(400).json({ error: "File upload error" });
 
-        const { content } = req.body;
-        let imageUrl = "";
+      const { content } = req.body;
+      let imageUrl = "";
 
-        if (req.file) {
-            const filePath = req.file.path;
-            try {
-                const result = await database.cloudinary.uploader.upload(filePath);
-                imageUrl = result.secure_url;
-            } catch (uploadErr) {
-                console.error('Error uploading to Cloudinary:', uploadErr);
-                return res.status(500).json({ error: 'Failed to upload image' });
-            }
-        }
-
-        const newThread = new ThreadModel({
-            authorId: findUser._id,
-            author: findUser.username,
-            content: content,
-            image: imageUrl,
-        });
-
+      if (req.file) {
         try {
-            await newThread.save();
-            res.status(201).json({ message: 'Thread created successfully' });
-        } catch (saveErr) {
-            console.error('Error saving thread:', saveErr);
-            res.status(500).json({ error: 'Failed to save thread' });
+          const result = await database.cloudinary.uploader.upload(req.file.path);
+          imageUrl = result.secure_url;
+        } catch (uploadErr) {
+          console.error("Cloudinary upload error:", uploadErr);
+          return res.status(500).json({ error: "Failed to upload image" });
         }
+      }
+
+      const thread = new ThreadModel({
+        authorId: user._id,
+        author: user.username,
+        content,
+        image: imageUrl,
+      });
+
+      try {
+        await thread.save();
+        res.status(201).json({ message: "Thread created successfully" });
+      } catch (saveErr) {
+        console.error("Error saving thread:", saveErr);
+        res.status(500).json({ error: "Failed to save thread" });
+      }
     });
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 const NewThreadController = {
-    newThread,
-    uploadThread
+  newThread,
+  uploadThread,
 };
+
 export default NewThreadController;
