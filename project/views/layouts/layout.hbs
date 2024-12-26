@@ -30,7 +30,7 @@
           class="w-full p-0 flex items-center justify-between sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 sm:absolute sm:top-[45%] sm:left-1/2 sm:flex-col sm:justify-center">
           <!-- HOME ICON -->
           <li class="flex items-center justify-center">
-            <a href="/" id="Thread" onclick="handleLinkClick('Thread')"
+            <a href="/" id="Home" onclick="handleLinkClick('Feed')"
               class="text-[#BEC3C9] flex w-full sm:py-3 sm:px-[18px] sm:mt-3 sm:ml-0 ml-5 hover:bg-[rgba(0,0,0,0.04)] rounded-xl"
               onclick="handleLinkClick('home')" id="home"><svg viewBox="0 0 26 26" width="24" height="24">
                 <path
@@ -114,23 +114,10 @@
             </path>
           </svg>
         </span>
-        {{!-- <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
+        <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
           <span id="loginButton" class="bg-black py-[6px] px-5 border rounded-xl">
             <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
           </span>
-        </div> --}}
-        <div class="hidden flex-col justify-between sm:flex sm:h-full sm:fixed sm:top-6 sm:right-6 z-10">
-            
-            <span class="bg-black py-[6px] px-5 border rounded-xl">
-                {{#if isLogin}}
-                    <a href="/signout" class="text-white no-underline font-normal text-[15px]">Sign out</a>
-
-                    {{!-- <a href="/profile" class="text-white no-underline font-normal text-[15px]">{{user.username}}</a> --}}
-                {{else}}
-                    <a href="/login" class="text-white no-underline font-normal text-[15px]">Log in</a>
-                {{/if}}
-            </span>
-            
         </div>
       </div>
       <div
@@ -144,27 +131,57 @@
   </div>
 
   <script>
-    function toggleTextAndRotate(element) {
-      if (element.textContent === "For you") {
-        element.textContent = "Following";
-      } else {
-        element.textContent = "For you";
-      }
-    }
-
-    window.onload = function () {
-      if (!document.cookie.split(';').some(cookie => cookie.trim().startsWith('token='))) {
+    window.onload = async function () {
+      const response = await fetch('http://localhost:3000/api/islogin', {
+        method: 'GET',
+      });
+      const data = await response.json();
+      if (!data.isLoggedIn) {
         document.getElementById('loginButton').style.display = 'block';
+        document.getElementById('forYou').textContent = 'Home page';
+        document.getElementById('forYou').onclick = null;
       }
       const currentPath = window.location.pathname;
-      document.getElementById('threadContent').focus();
       const navLinks = document.querySelectorAll('a');
       navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
+
           link.classList.add('mainpage__selected');
         }
       });
     };
+    
+    async function handleLike() {
+      try {
+        const postId = event.currentTarget.id;
+        const svg = event.currentTarget.querySelector('svg');
+        const span = event.currentTarget.querySelector('span');
+        let likes = parseInt(span.textContent, 10);
+
+        const response = await fetch(`http://localhost:3000/like/${postId}`, {
+          method: 'PUT',
+        });
+
+        if (!response.ok) {
+          window.location.href = '/login';
+        }
+        else {
+          if (svg) {
+            if (svg.classList.contains('active')) {
+              svg.classList.remove('active');
+              svg.classList.add('nonactive');
+              span.textContent = likes - 1;
+            } else {
+              svg.classList.remove('nonactive');
+              svg.classList.add('active');
+              span.textContent = likes + 1;
+            }
+          }
+        }
+      } catch (error) {
+        console.error('An error occurred:', error.message);
+      }
+    }
   </script>
 </body>
 
