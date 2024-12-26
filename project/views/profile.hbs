@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="px-7 pt-3">
-      <span>{profile note here}</span>
+      <span>{{user.quote}}</span>
     </div>
 
     <!-- FOLLOWER BANNER -->
@@ -51,10 +51,12 @@
   </div>
 
   <div class="edit-btn px-7 py-3 relative">
-    <div class="edit-profile border border-[#BEC3C9] px-4 py-[2px] text-center rounded-xl cursor-pointer"
-      onclick="redirectToSettings()">
-      <span class="font-normal leading-[2rem]">Edit Profile</span>
-    </div>
+    {{!-- <a href="/editProfile"> --}}
+      <div class="edit-profile border border-[#BEC3C9] px-4 py-[2px] text-center rounded-xl cursor-pointer" onclick="toggleModal()">
+        <span class="font-normal leading-[2rem]">Edit Profile</span>
+      </div>
+    {{!-- </a> --}}
+    
   </div>
 
   <div
@@ -78,6 +80,45 @@
   {{> thread}}
   {{/each}}
 
+
+
+<div id="edit-modal" class="hidden fixed inset-0 flex justify-center items-center bg-black/50 z-10">
+    <div class="bg-white flex flex-col w-full h-screen md:w-[600px] md:max-h-[60vh] md:rounded-xl overflow-hidden">
+        <div class="flex justify-between items-center px-6 pt-4 border-b border-gray-200">
+            <button onclick="toggleModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
+            <h1 class="font-bold text-lg">Edit Profile</h1>
+            <div class="w-6"></div>
+        </div>
+
+        <div class="flex-grow p-6 overflow-y-auto">
+            <!-- Profile Picture -->
+            <div class="flex flex-col items-center mb-6">
+                <label for="image-upload" class="relative cursor-pointer flex items-center justify-center w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
+                    <img id="profile-picture-preview" src="{{user.avatar}}" alt="Profile Picture" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 4v16m8-8H4"></path>
+                        </svg>
+                    </div>
+                </label>
+                <input id="image-upload" name="avatar" type="file" accept="image/*" class="hidden" onchange="handleImageSelection(event)">
+                <p class="text-sm text-gray-500 mt-2">Change Profile Picture</p>
+            </div>
+            <div class="mb-4">
+                <label for="usernameEdit" class="block text-lg font-medium text-gray-700">Username</label>
+                <input type="text" id="usernameEdit" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{user.username}}">
+            </div>
+            <div>
+                <label for="quoteEdit" class="block text-lg font-medium text-gray-700">Bio</label>
+                <textarea id="quoteEdit" name="quote" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{user.quote}}</textarea>
+            </div>
+        </div>
+        <div class="flex justify-end items-center px-6 py-4 border-t border-gray-200">
+            <button onclick="saveProfile()" class="px-4 py-2 text-white bg-gray-500 rounded-full hover:bg-gray-600">Save</button>
+        </div>
+    </div>
+</div>
+
   <script>
     const switchTab = (tabName) => {
       const tabs = document.querySelectorAll(".nav-item");
@@ -97,6 +138,63 @@
       });
     };
   </script>
+
+<script>
+  function toggleModal() {
+    const modal = document.getElementById('edit-modal');
+    if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        toggleModal();
+    }
+  });
+
+  function handleImageSelection(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+          document.getElementById("profile-picture-preview").src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+async function saveProfile() {
+    const username = document.getElementById('usernameEdit').value;
+    const quote = document.getElementById('quoteEdit').value;
+    const imageInput = document.getElementById("image-upload");
+    const avatar = imageInput.files ? imageInput.files[0] : null;
+    console.log(avatar);
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('quote', quote);
+    if (avatar) {
+        formData.append('avatar', avatar); // Attach the file if it exists
+    }
+
+    fetch('/profile/updateProfile', {
+        method: 'POST',
+        body: formData, // Use FormData as the body
+    }).then(response => {
+        if (response.ok) {
+            toggleModal();
+            window.location.href = "/profile";
+        } else {
+            alert('Failed to update profile.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update profile.');
+    });
+}
+</script>
 </body>
 
 </html>
