@@ -1,0 +1,13 @@
+<div>
+  {{#if isLogin}}
+  <div class="hidden sm:flex p-5 pb-3 gap-3 items-center border-b border-[#CCD0D5]">
+    <img src="{{avatar}}" class="w-9 h-9 rounded-full" />
+    <span class="mr-auto text-[#BEC3C9]">What's new?</span>
+    <button
+      class="h-9 w-[70px] font-semibold text-black border border-[#CCD0D5] bg-transparent p-0 rounded-lg">Post</button>
+  </div>
+  {{/if}}
+  {{#each threads}}
+  {{> thread}}
+  {{/each}}
+</div>

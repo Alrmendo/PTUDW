@@ -1,25 +1,15 @@
-{{!-- CREAT A NEW THREAD --}}
-<div id="newThreadModal" class="flex justify-center items-center fixed inset-0 bg-[rgb(250,250,250)]">
-    <div class="bg-white text-black rounded-lg sm:w-4/12 p-5 w-11/12 border border-[#CCD0D5]">
-        <div class="flex justify-between items-center mb-4">
-            <button class="text-[#BEC3C9] text-base hover:text-gray-300">Cancel</button>
-            <h2 class="text-lg font-semibold">Create Thread</h2>
-            {{!-- ICON --}}
-            <svg viewBox="0 0 24 24" width="22" height="22">
-                <rect height="15" rx="4.5" stroke="currentColor" stroke-width="2" width="15" x="7" y="7"></rect>
-                <path clip-rule="evenodd"
-                    d="M15.3833 4.50007C15.0018 4.15977 14.5475 3.9045 14.05 3.75672C13.7983 3.68195 13.432 3.6357 12.7078 3.68313C11.9633 3.73189 11.0102 3.86454 9.59538 4.06338C8.18054 4.26222 7.22784 4.39741 6.4987 4.55577C5.78946 4.7098 5.45011 4.85522 5.22879 4.99646C4.51904 5.44941 3.99637 6.14302 3.7566 6.95012C3.68183 7.2018 3.63558 7.56809 3.68301 8.29232C3.73177 9.03686 3.86442 9.98992 4.06326 11.4047C4.23845 12.6513 4.36423 13.5391 4.49997 14.2313V17.5001C4.49997 17.737 4.51175 17.9713 4.53475 18.2022C4.05772 17.8249 3.64282 17.3681 3.31041 16.8473C2.66675 15.8387 2.47208 14.4535 2.08272 11.6831C1.69337 8.91269 1.49869 7.52748 1.83941 6.38057C2.21619 5.11227 3.03754 4.02231 4.15285 3.31053C5.16142 2.66688 6.54662 2.4722 9.31703 2.08284C12.0874 1.69349 13.4726 1.49881 14.6196 1.83953C15.8878 2.21631 16.9778 3.03766 17.6896 4.15297C17.7623 4.26696 17.8294 4.38577 17.8916 4.51084C17.7619 4.50369 17.6314 4.50007 17.5 4.50007H15.3833Z"
-                    fill="currentColor" fill-rule="evenodd"></path>
-                <rect fill="currentColor" height="2" rx="1" width="9" x="10" y="12"></rect>
-                <rect fill="currentColor" height="2" rx="1" width="6" x="10" y="15"></rect>
-            </svg>
+<div class="flex justify-center items-center fixed inset-0 bg-[rgb(250,250,250)]">
+    <div class="bg-white text-black rounded-[20px] sm:w-1/2 p-5 w-11/12 border border-[#CCD0D5]">
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-lg font-semibold mx-auto">Create Thread</h2>
+            <button class="text-black text-normal hover:text-gray-300"
+                onclick="window.location.href='/'">Cancel</button>
         </div>
-
         <form onsubmit="handleSubmit(event)" class="space-y-4" method="post" enctype="multipart/form-data"
             action="/newthread/upload">
             <div class="flex items-center space-x-3">
                 <img src="{{avatar}}" alt="User Icon" class="w-10 h-10 rounded-full" />
-                <span class="font-semibold text-black">{{username}}</span>
+                <span class="text-black text-lg">{{username}}</span>
             </div>
             <textarea id="threadContent" placeholder="Create a thread..."
                 class="w-full text-black p-2 border border-none bg-white rounded-md focus:outline-none hide-scrollbar"
@@ -55,7 +45,7 @@
                 <div id="imagePreview" class="ml-3 flex flex-col space-y-1"></div>
             </div>
             <div class="flex justify-between items-center mt-4">
-                <span class="text-sm text-[#777777]">Anyone can see post</span>
+                <span class="text-sm text-[#BEC3C9]">Anyone can see post</span>
                 <button type="submit"
                     class="bg-blue-500 text-white py-[6px] px-4 rounded font-semibold hover:bg-blue-600">Post</button>
             </div>
@@ -65,48 +55,70 @@
 
 <div id="postList" class="mt-5 space-y-4"></div>
 <script>
+    document.getElementById('threadContent').focus();
     function displayImage() {
         const fileInput = document.getElementById('file');
         const imagePreviewContainer = document.getElementById('imagePreview');
         imagePreviewContainer.innerHTML = '';
 
-        Array.from(fileInput.files).forEach(file => {
-            const fileContainer = document.createElement('div');
-            fileContainer.classList.add('flex', 'items-center', 'justify-between', 'mb-1');
+        const file = fileInput.files[0];
+        if (!file) return;
 
-            const fileName = document.createElement('div');
-            fileName.textContent = file.name;
-            fileName.classList.add('text-white', 'mr-2');
+        const fileReader = new FileReader();
+        fileReader.onload = function (e) {
+            const previewItem = document.createElement('div');
+            previewItem.classList.add(
+                'h-auto',
+                'max-h-[400px]',
+                'max-w-full',
+                'rounded-md',
+                'overflow-hidden',
+                'relative',
+                'bg-[rgb(250,250,250)]'
+            );
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('w-full', 'h-full', 'object-cover');
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'x';
-            deleteButton.classList.add('text-[#777777]', 'ml-2');
+            deleteButton.classList.add(
+                'w-5',
+                'h-5',
+                'flex',
+                'items-center',
+                'justify-center',
+                'absolute',
+                'text-white',
+                'text-[16px]',
+                'right-1',
+                'top-1',
+                'cursor-pointer'
+            );
             deleteButton.onclick = function () {
-                const fileList = Array.from(fileInput.files).filter(f => f !== file);
-                fileInput.files = new FileListItems(fileList);
-                fileContainer.remove();
+                fileInput.value = '';
+                imagePreviewContainer.innerHTML = '';
             };
+            previewItem.appendChild(img);
+            previewItem.appendChild(deleteButton);
+            imagePreviewContainer.appendChild(previewItem);
+        };
 
-            fileContainer.appendChild(fileName);
-            fileContainer.appendChild(deleteButton);
-
-            imagePreviewContainer.appendChild(fileContainer);
-        });
+        fileReader.readAsDataURL(file);
     }
-
     function FileListItems(files) {
         let b = new DataTransfer();
         files.forEach(f => b.items.add(f));
         return b.files;
     }
-
     async function handleSubmit(event) {
         event.preventDefault();
         const content = document.getElementById('threadContent').value;
         const file = document.getElementById('file').files[0];
         const formData = new FormData();
         formData.append('content', content);
-        formData.append('username', 'nhan1');
+        formData.append('username', 'user1');
         if (file) formData.append('file', file);
         const response = await fetch('http://localhost:3000/newthread/upload', {
             method: 'POST',
@@ -117,18 +129,4 @@
         else
             alert(data.message);
     }
-    document.getElementById('threadContent').addEventListener('input', function () {
-        const postButton = document.getElementById('postButton');
-        const content = document.getElementById('threadContent').value;
-
-        if (content.trim() === '') {
-            postButton.disabled = true;
-            postButton.classList.add('opacity-30', 'cursor-not-allowed');
-            postButton.classList.remove('opacity-100');
-        } else {
-            postButton.disabled = false;
-            postButton.classList.add('opacity-100');
-            postButton.classList.remove('opacity-30', 'cursor-not-allowed');
-        }
-    });
 </script>
