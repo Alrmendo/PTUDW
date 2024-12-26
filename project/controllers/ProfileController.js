@@ -75,7 +75,7 @@ const updateProfile = async (req, res) => {
       const { username, quote } = req.body;    
       const existingUser = await UserModel.findOne({ username: username});
       console.log(existingUser._id);
-      console.log(userId);
+      // console.log(userId);
       if (existingUser && existingUser._id.toString() !== userId) 
       {
         return res.status(500).json({ message: "username already exist" });
