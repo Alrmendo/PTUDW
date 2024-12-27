@@ -12,6 +12,8 @@
           <span class="text-black font-semibold">{{notiName}}</span>
           <span class="font-thin text-gray-400">{{formatTime date}}</span>
         </div>
+        <button onclick="deleteNoti('{{_id}}'); event.stopPropagation();" class="ml-auto text-white  rounded-full border bg-black p-2 mr-2">Delete</button>
+
       </div>
       <p class="text-black font-thin pt-4 pb-2">{{content}}</p>
     </div>
@@ -30,6 +32,19 @@ async function markAsRead(notificationId) {
     location.reload();
   } catch (error) {
     console.error('Error marking notification as read:', error);
+  }
+}
+async function deleteNoti(notificationId) {
+  try {
+    await fetch(`/notification/deleteNoti/${notificationId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    location.reload();
+  } catch (error) {
+    console.error('Error deleting notification:', error);
   }
 }
 </script>
