@@ -19,6 +19,10 @@ const Notification = new mongoose.Schema({
         required: true, 
         default: "Admin" 
     },
+    read: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const UserNotification = new mongoose.Schema({

@@ -57,9 +57,57 @@ const addNotification = async (userId, content, notiAvatar, notiName) => {
     }
 };
 
+const markAsRead = async (req, res) => {
+    const token = req.cookies.token;
+    console.log(token);
+
+    if (!token) {
+        res.redirect("/login");
+        return;
+      }
+    const decode = jwt.verify(token, "22127104_22127247");
+    
+    try {
+        const { notificationId } = req.params;
+        console.log(notificationId);
+        await NotificationModel.updateOne(
+            { userId: decode.userId, "notifications._id": notificationId },
+            { $set: { "notifications.$.read": true } }
+        );
+        res.status(200).json({ message: "Notification marked as read" });
+    } catch (error) {
+        console.error("Error marking notification as read:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const deleteNoti = async (req, res) => {
+    const token = req.cookies.token;
+    console.log(token);
+
+    if (!token) {
+        res.redirect("/login");
+        return;
+      }
+    const decode = jwt.verify(token, "22127104_22127247");
+
+    try {
+        const { notificationId } = req.params;
+        await NotificationModel.updateOne(
+            { userId: decode.userId },
+            { $pull: { notifications: { _id: notificationId } } }
+        );
+        res.status(200).json({ message: "Notification deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting notification:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 const NotificationController = {
     loadNotifications,
     addNotification,
+    markAsRead,
+    deleteNoti
 };
 
 export default NotificationController;
