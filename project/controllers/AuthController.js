@@ -10,6 +10,8 @@ import nodemailer from 'nodemailer';
 
 dotenv.config();
 
+const JWT_SECRET = "22127104_22127247";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -53,15 +55,15 @@ const login = async (req, res) => {
             return res.status(404).json({ message: "Incorrect username or password." });
         }
 
-        const token = jwt.sign({ userId: user._id }, "22127104_22127247", {
-            expiresIn: "30d",
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+            expiresIn: "7d"
         });
 
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
             sameSite: "Strict",
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         return res.status(200).json({ message: "Login successful", token });
@@ -75,7 +77,7 @@ const signup = async (req, res) => {
     try {
         const { username, password, email } = req.body;
 
-        
+
         // Validate username
         const usernameRegex = /^[a-zA-Z0-9._-]{1,30}$/;
         if (!usernameRegex.test(username)) {
@@ -100,7 +102,7 @@ const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const verificationToken = crypto.randomBytes(32).toString("hex");
-        const verificationExpires = Date.now() + 500000;
+        const verificationExpires = Date.now() + 7 * 24 * 60 * 60 * 1000;
 
         const newUser = new UserModel({
             username,
@@ -154,7 +156,7 @@ const verifyEmail = async (req, res) => {
         if (Date.now() > user.verificationExpires) {
             // Tạo token mới
             const newVerificationToken = crypto.randomBytes(32).toString("hex");
-            const newVerificationExpires = Date.now() + 3600000;
+            const newVerificationExpires = Date.now() + 7 * 24 * 60 * 60 * 1000;
 
             user.verificationToken = newVerificationToken;
             user.verificationExpires = newVerificationExpires;
@@ -200,7 +202,7 @@ const verifyEmail = async (req, res) => {
 };
 
 
-const requestPasswordReset = async (req, res) => {
+const ChangePasswordLink = async (req, res) => {
     const { email } = req.body;
 
     try {
@@ -214,14 +216,14 @@ const requestPasswordReset = async (req, res) => {
 
         // Tạo token và thiết lập thời hạn
         const resetToken = crypto.randomBytes(32).toString("hex");
-        const resetExpires = Date.now() + 3600000; // 1 giờ
+        const resetExpires = Date.now() + 7 * 24 * 60 * 60 * 1000;
 
         user.verificationToken = resetToken;
         user.verificationExpires = resetExpires;
         await user.save();
 
         // Tạo liên kết đặt lại mật khẩu
-        const resetUrl = `http://localhost:3000/reset-password-form/${resetToken}`;
+        const resetUrl = `http://localhost:3000/reset-password-form?token=${resetToken}`;
 
         // Gửi email
         const transporter = nodemailer.createTransport({
@@ -233,23 +235,19 @@ const requestPasswordReset = async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: 'underwavecontact@gmail.com',
+            from: "underwavecontact@gmail.com",
             to: user.email,
-            subject: "Password Reset Request",
+            subject: "Confirm your email",
             html: `<p>Hello ${user.username},</p>
-                   <p>Click the link below to reset your password:</p>
-                   <a href="${resetUrl}">Reset Password</a>
-                   <p>This link will expire in 1 hour.</p>
-                   <p>If you did not request this, please ignore this email.</p>`,
+                   <p>Click the link below to verify your email:</p>
+                   <a href="${resetUrl}">Verify Email</a>
+                   <p>If you did not sign up for an account, please ignore this email.</p>`,
         });
 
-        res.status(200).json({message: "Password reset link has been sent to your email!" });
+        res.status(200).json({ success: true, message: "Password reset link has been sent to your email!" });
     } catch (error) {
         console.error("Error during forgotPassword:", error);
-        res.status(500).render("forgotPassword", {
-            message: "An error occurred during the process. Please try again later.",
-            layout: false
-        });
+        res.status(500).json({ success: false, message: "An error occurred during the process. Please try again later." });
     }
 };
 
@@ -263,7 +261,7 @@ const getNewPassword = async (req, res) => {
             verificationExpires: { $gt: Date.now() },
         });
         if (!user) {
-            return res.status(400).json({message: "Invalid or expired token." });
+            return res.status(400).json({ message: "Invalid or expired token." });
         }
 
         // Hash mật khẩu mới
@@ -272,10 +270,10 @@ const getNewPassword = async (req, res) => {
         user.verificationToken = null;
         user.verificationExpires = null;
         await user.save();
-        res.status(200).json({message: "Your password has been successfully reset. You can now log in with your new password." });
+        res.status(200).json({ message: "Your password has been successfully reset." });
     } catch (error) {
         console.error(error);
-        res.status(500).json({message: "The system encountered an error! Please try again later." });
+        res.status(500).json({ message: "An error occurred during the process. Please try again later." });
     }
 };
 
@@ -288,23 +286,23 @@ const isLoggedIn = (req, res) => {
         res.status(200).json({ isLoggedIn: true });
 }
 
-const signout = async(req, res) => {
+const signout = async (req, res) => {
     res.clearCookie("token");
     return res.redirect("/");
-  };
+};
 
 const AuthController = {
     showLogin: showLogin,
     showSignup: showSignup,
-    getNewPassword: getNewPassword,
+    resetPassword: resetPassword,
     login: login,
     signup: signup,
     verifyEmail: verifyEmail,
+    ChangePasswordLink: ChangePasswordLink,
+    getNewPassword: getNewPassword,
     resetPasswordForm: resetPasswordForm,
-    resetPassword: resetPassword,
     isLoggedIn: isLoggedIn,
     signout: signout,
-    requestPasswordReset: requestPasswordReset
 }
 
 export default AuthController;
