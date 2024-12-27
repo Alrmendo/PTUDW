@@ -18,8 +18,8 @@ const currentDirname = path.dirname(currentFilename);
 const app = express();
 databaseService.connectDatabase();
 
-const SERVER_PORT = process.env.PORT || 3000;
-const SERVER_HOST = process.env.HOST || "localhost";
+const SERVER_PORT = 3000 || process.env.PORT;
+const SERVER_HOST = "localhost" || process.env.HOST;
 
 // Configure Handlebars
 const hbsConfig = handlebars.create({
