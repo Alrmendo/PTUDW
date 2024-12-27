@@ -1,6 +1,10 @@
-<div class="relative bg-transparent">
-  
-  <div class="flex mt-4 py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5]">
+<div class="relative bg-transparent" >
+  <div class="flex mt-4 py-2 pl-6 gap-3 cursor-pointer text-[#CCD0D5] {{#if read}}
+      bg-white
+    {{else}}
+      bg-gray-200
+    {{/if}}" onclick="markAsRead('{{_id}}')">
+    
     <img class="w-9 h-9 rounded-full" src="{{notiAvatar}}" alt="Avatar" />
     <div class="w-full flex flex-col justify-center border-b border-[#CCD0D5]">
       <div class="flex items-center h-[36px]">
@@ -13,3 +17,19 @@
     </div>
   </div>
 </div>
+
+<script>
+async function markAsRead(notificationId) {
+  try {
+    await fetch(`/notification/markAsRead/${notificationId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    location.reload();
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+  }
+}
+</script>

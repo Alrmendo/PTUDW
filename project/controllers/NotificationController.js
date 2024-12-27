@@ -57,9 +57,33 @@ const addNotification = async (userId, content, notiAvatar, notiName) => {
     }
 };
 
+const markAsRead = async (req, res) => {
+    const token = req.cookies.token;
+    console.log(token);
+
+    if (!token) {
+        res.redirect("/login");
+        return;
+      }
+    const decode = jwt.verify(token, "22127104_22127247");
+    
+    try {
+        const { notificationId } = req.params;
+        console.log(notificationId);
+        await NotificationModel.updateOne(
+            { userId: decode.userId, "notifications._id": notificationId },
+            { $set: { "notifications.$.read": true } }
+        );
+        res.status(200).json({ message: "Notification marked as read" });
+    } catch (error) {
+        console.error("Error marking notification as read:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 const NotificationController = {
     loadNotifications,
     addNotification,
+    markAsRead,
 };
 
 export default NotificationController;
