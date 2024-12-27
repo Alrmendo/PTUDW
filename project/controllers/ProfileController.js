@@ -119,7 +119,6 @@ const updateProfile = async (req, res) => {
   }
 };
   
-// Example using Express.js
 const follow = async (req, res) => {
   const { username } = req.params;
   const token = req.cookies.token;
