@@ -43,8 +43,7 @@
 
             <!-- Nút Đăng ký -->
             <button type="submit" id="submitButton"
-                class="w-full py-3 bg-blue-600 rounded-lg font-semibold text-white hover:bg-blue-500 disabled:bg-blue-500 disabled:cursor-not-allowed disabled:text-[rgba(255,255,255,0.4)]"
-                disabled>
+                class="w-full py-3 bg-blue-600 rounded-lg font-semibold text-white hover:bg-blue-500 disabled:bg-blue-500 disabled:cursor-not-allowed disabled:text-[rgba(255,255,255,0.4)]">
                 Sign up
             </button>
 
@@ -93,8 +92,9 @@
         passwordInput.addEventListener('input', checkButtonState);
 
         function checkButtonState() {
-            submitButton.disabled = !(usernameInput.value && passwordInput.value && emailInput.value);
+            submitButton.disabled = !(usernameInput.value.trim() && passwordInput.value.trim() && emailInput.value.trim());
         }
+
         async function handleRegister(event) {
             event.preventDefault();
 
@@ -113,12 +113,12 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert("Đăng ký thành công! Vui lòng kiểm tra email để xác minh.");
+                    alert("Sign up successful! Please check your email for verification.");
                 } else {
                     alert(data.message || 'Đăng ký thất bại!');
                 }
             } catch (error) {
-                alert('Có lỗi xảy ra. Vui lòng thử lại!');
+                alert('An error occurred. Please try again!');
             }
         }
     </script>
