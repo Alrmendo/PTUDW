@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema({
   },
   verificationExpires: { 
     type: Date, 
-    default: Date.now() + 10000 
+    default: Date.now() + 86400000 
   },
 });
 
